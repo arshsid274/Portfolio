@@ -26,10 +26,10 @@ const socialLinks = {
   return (
     <>
     <div>
-      {/* <MacbookScroll /> */}
-      <div className="scale-50">
+      <MacbookScroll />
+      {/* <div className="scale-50">
          <MacbookDesign />
-      </div>
+      </div> */}
      
     
     <Navbar navItems={navItems} socialLinks={socialLinks} />
