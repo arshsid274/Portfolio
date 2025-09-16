@@ -1,6 +1,9 @@
 import { Navbar } from './Components/Navbar';
 import { MacbookScroll } from './Components/macbookScroll.jsx'
-import { MacbookDesign } from './Components/MacbookDesign.jsx'
+
+import { Globe } from './Components/ui/globe'
+import PortfolioBase from './Components/PortfolioBase.jsx'
+
 
 
 
@@ -27,19 +30,30 @@ const socialLinks = {
     <>
     <div>
       <MacbookScroll />
-      {/* <div className="scale-50">
-         <MacbookDesign />
-      </div> */}
-     
+      {/* */}
+       {/* <Globe /> */}
+     <Navbar navItems={navItems} socialLinks={socialLinks} />
+
+     <div className="relative w-full h-screen ">
+  {/* LetterGlitch as background */}
+  <div className="absolute inset-0 z-0 ">
+    <LetterGlitch 
+      glitchSpeed={50}
+      centerVignette={true}
+      outerVignette={false}
+      smooth={true}
+    />
+  </div>
+
+  {/* PortfolioBase and other content on top */}
+  <div className="relative z-10">
+    <PortfolioBase className="absolute inset-0 z-10" />
+    {/* Add other content here if needed */}
+  </div>
+</div>
     
-    <Navbar navItems={navItems} socialLinks={socialLinks} />
-    
-        <LetterGlitch
-    glitchSpeed={50}
-    centerVignette={true}
-    outerVignette={false}
-    smooth={true}
-  />
+      
+ 
  
 
     </div>
