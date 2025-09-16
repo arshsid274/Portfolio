@@ -53,6 +53,8 @@ export const MacbookScroll = ({
   const rotate = useTransform(scrollYProgress, [0.1, 0.12, 0.3], [-28, -28, 0]);
   const textTransform = useTransform(scrollYProgress, [0, 0.3], [0, 100]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+  const lidOpacity = useTransform(scrollYProgress, [0.8, 1], [1, 0]);
+
 
   return (
     <div
@@ -76,7 +78,9 @@ export const MacbookScroll = ({
         scaleX={scaleX}
         scaleY={scaleY}
         rotate={rotate}
-        translate={translate} />
+        translate={translate}
+        lidOpacity={lidOpacity} // Pass the opacity transform /
+        />
       {/* Base area */}
       <div
         className="relative -z-10 h-[22rem] w-[32rem] overflow-hidden rounded-2xl bg-gray-200 dark:bg-[#272729]">
@@ -113,7 +117,8 @@ export const Lid = ({
   scaleY,
   rotate,
   translate,
-  src
+  src,
+  lidOpacity // Add this prop
 }) => {
   return (
     <div className="relative [perspective:800px]">
@@ -140,6 +145,7 @@ export const Lid = ({
           scaleY: scaleY,
           rotateX: rotate,
           translateY: translate,
+          opacity: lidOpacity, // Add opacity control
           transformStyle: "preserve-3d",
           transformOrigin: "top",
         }}
