@@ -124,3 +124,19 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  @keyframes pulse {
+    0%, 100% {
+      box-shadow: 0 0 0 0 var(--pulse-color);
+    }
+    50% {
+      box-shadow: 0 0 0 8px var(--pulse-color);
+    }
+  }
+
+  .animate-pulse {
+    animation: pulse var(--duration, 1.5s) ease-out infinite;
+  }
+}
+
