@@ -75,7 +75,7 @@ function Home() {
             <div id='Mac' className="order-1 lg:order-2   justify-center items-center w-full lg:w-[600px] xl:w-[700px] 2xl:w-[800px] h-[200px] sm:h-[350px] md:h-[400px] lg:h-[500px] xl:h-[550px] 2xl:h-[600px] mb-8 lg:mb-0 lg:mt-[60px] overflow-hidden" >
                
     <MacbookModel 
-      screenImage="/src/assets/react.svg"
+      screenImage="/react.svg"
       scale={[7, 7, 7]}
     />
 </div>
