@@ -1,6 +1,7 @@
 
 import React from "react";
-import TitleHeader from "../components/TitleHeader";
+import TitleHeader from "../Components/TitleHeader";
+
 
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
