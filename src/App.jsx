@@ -5,6 +5,7 @@ import Home from './Components/Home.jsx'
 import './App.css'
 import About from './Components/About';
 import Experience from './Components/Exprience';
+import Contact from './Components/Contact';
 
 function App() {
   const navItems = [
@@ -27,6 +28,7 @@ function App() {
       <Home />
       <About/>
       <Experience/>
+      <Contact/>
     </div>
     </>
   )

@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { cn } from "../lib/utils";
-import videoSrc from "../assets/src.mp4";
+import videoSrc2 from "../assets/src2.mp4";
 
 import {
   IconBrightnessDown,
@@ -39,17 +39,40 @@ export const MacbookScroll = ({
     offset: ["start start", "end start"],
   });
 
-  const [isMobile, setIsMobile] = useState(false);
+const [isMobile, setIsMobile] = useState(false);
 
-  useEffect(() => {
-    if (window && window.innerWidth < 768) {
-      setIsMobile(true);
-    }
-  }, []);
+useEffect(() => {
+  const checkMobile = () => {
+    setIsMobile(window.innerWidth < 768);
+  };
+  
+  checkMobile();
+  window.addEventListener('resize', checkMobile);
+  
+  return () => window.removeEventListener('resize', checkMobile);
+}, []);
 
-  const scaleX = useTransform(scrollYProgress, [0, 0.3], [1.2, isMobile ? 1 : 2.5]);
-  const scaleY = useTransform(scrollYProgress, [0, 0.3], [0.6, isMobile ? 1 : 1.5]);
-  const translate = useTransform(scrollYProgress, [0, 1], [0, 1500]);
+
+const [isXl, setIsXl] = useState(false);
+
+useEffect(() => {
+  const checkScreenSize = () => {
+    setIsMobile(window.innerWidth < 768);
+    setIsXl(window.innerWidth >= 1280);
+  };
+  
+  checkScreenSize();
+  window.addEventListener('resize', checkScreenSize);
+  
+  return () => window.removeEventListener('resize', checkScreenSize);
+}, []);
+
+
+const scaleX = useTransform(scrollYProgress, [0, 1], [1.2, isMobile ? 3.0 : isXl ? 6 : 5]);
+const scaleY = useTransform(scrollYProgress, [0, 1], [0.6, isMobile ? 2.0 : 3.5]);
+
+const translate = useTransform(scrollYProgress, [0, 1], [0, 2500]);
+
   const rotate = useTransform(scrollYProgress, [0.1, 0.12, 0.3], [-28, -28, 0]);
   const textTransform = useTransform(scrollYProgress, [0, 0.3], [0, 100]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
@@ -152,11 +175,11 @@ export const Lid = ({
         className="absolute inset-0 h-96 w-[32rem] rounded-2xl bg-[#010101] p-2">
         <div className="absolute inset-0 rounded-lg bg-[#272729]" />
         <video
-  src={videoSrc}
+  src={videoSrc2}
   autoPlay
   loop
   muted
-  className="absolute inset-0 h-full w-full rounded-lg object-cover object-left-top"
+  className="absolute inset-0 h-full w-full rounded-lg object-fill object-left-top"
 />
       </motion.div>
     </div>
