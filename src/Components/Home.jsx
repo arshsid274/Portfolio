@@ -91,7 +91,7 @@ function Home() {
                     <div className='flex flex-col sm:flex-row gap-3 sm:gap-4 md:gap-5 mt-6 sm:mt-8 md:mt-10'>
                        <ResumeButton 
     text="Resume" 
-    onClick={() => console.log('clicked')}
+    
     className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl px-2 sm:px-3 md:px-4 lg:px-5 xl:px-6 py-1.5 sm:py-2 md:py-2.5 lg:py-3 xl:py-3.5"
     iconColor="#333"
 />
