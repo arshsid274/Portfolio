@@ -1,12 +1,12 @@
 import React from 'react'
-import ScrollTimeline from './ScrollTimeline'
-import PixelBlast from './PixelBlast'
+import ScrollTimeline from '../src/Components/ScrollTimeline'
+import PixelBlast from '../src/Components/PixelBlast'
 
 const Experience = () => {
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-background">
+    <div className="relative w-screen min-h-screen bg-background">
       {/* PixelBlast as background */}
-      <div className="absolute -inset-8 z-0">
+      <div className="absolute inset-0 z-0">
         <PixelBlast 
           variant="diamond"
           color="#40e6b9"
@@ -25,10 +25,12 @@ const Experience = () => {
       
       {/* ScrollTimeline as foreground content */}
       <div className="relative z-10 w-full">
-        <ScrollTimeline />
+       <ScrollTimeline revealAnimation="slide" parallaxIntensity={0} />
+
       </div>
     </div>
   )
 }
+
 
 export default Experience

@@ -101,7 +101,13 @@ const ScrollTimeline = ({
     restDelta: 0.001,
   });
 
-  const progressHeight = useTransform(smoothProgress, [0, 1], ["0%", "100%"]);
+const progressHeight = useTransform(
+  smoothProgress, 
+  [0, 1], 
+  ["0%", "100%"]
+);
+
+
 
   useEffect(() => {
     const unsubscribe = scrollYProgress.onChange((v) => {
@@ -127,17 +133,10 @@ const ScrollTimeline = ({
 
     const initialStates = {
       fade: { opacity: 0, y: 20 },
-      slide: {
-        x:
-          cardAlignment === "left"
-            ? -100
-            : cardAlignment === "right"
-            ? 100
-            : index % 2 === 0
-            ? -100
-            : 100,
-        opacity: 0,
-      },
+  slide: {
+  x: index % 2 === 0 ? -200 : 200,
+  opacity: 0,
+},
       scale: { scale: 0.8, opacity: 0 },
       flip: { rotateY: 90, opacity: 0 },
       none: { opacity: 1 },
@@ -145,18 +144,17 @@ const ScrollTimeline = ({
 
     return {
       initial: initialStates[revealAnimation],
-      whileInView: {
-        opacity: 1,
-        y: 0,
-        x: 0,
-        scale: 1,
-        rotateY: 0,
-        transition: {
-          duration: 0.7,
-          delay: baseDelay,
-          ease: [0.25, 0.1, 0.25, 1.0],
-        },
-      },
+     whileInView: {
+  opacity: 1,
+  x: 0,
+  scale: 1,
+  rotateY: 0,
+  transition: {
+    duration: 0.7,
+    delay: baseDelay,
+    ease: [0.25, 0.1, 0.25, 1.0],
+  },
+},
       viewport: { once: false, margin: "-100px" },
     };
   };
@@ -321,44 +319,54 @@ const ScrollTimeline = ({
                       "left-1/2 -translate-x-1/2"
                     )}
                   >
-                    <motion.div
-                      className={cn(
-                        "w-6 h-6 rounded-full border-4 bg-background flex items-center justify-center",
-                        index <= activeIndex
-                          ? "border-primary"
-                          : "border bg-card"
-                      )}
-                      animate={
-                        index <= activeIndex
-                          ? {
-                              scale: [1, 1.3, 1],
-                              boxShadow: [
-                                "0 0 0px rgba(64,230,185,0)",
-                                "0 0 12px rgba(64,230,185,0.6)",
-                                "0 0 0px rgba(64,230,185,0)",
-                              ],
-                            }
-                          : {}
-                      }
-                      transition={{
-                        duration: 0.8,
-                        repeat: Infinity,
-                        repeatDelay: 4,
-                        ease: "easeInOut",
-                      }}
-                    />
-                  </div>
                   <motion.div
-                    className={cn(
-                      getCardClasses(index),
-                      "mt-12 lg:mt-0"
-                    )}
-                    variants={getCardVariants(index)}
-                    initial="initial"
-                    whileInView="whileInView"
-                    viewport={{ once: false, margin: "-100px" }}
-                    style={parallaxIntensity > 0 ? { y: yOffset } : undefined}
-                  >
+  className={cn(
+    "w-6 h-6 rounded-full border-4 bg-background flex items-center justify-center",
+    "border-primary"
+  )}
+  initial={{ scale: 1 }}
+  whileInView={{
+    scale: [1, 1.3, 1],
+    boxShadow: [
+      "0 0 0px rgba(64,230,185,0)",
+      "0 0 12px rgba(64,230,185,0.6)",
+      "0 0 0px rgba(64,230,185,0)",
+    ],
+  }}
+  onAnimationStart={() => {
+    // Trigger card animation when beam reaches circle
+    const cardElement = timelineRefs.current[index];
+    if (cardElement) {
+      cardElement.classList.add('animate-in');
+    }
+  }}
+  transition={{
+    duration: 0.3,
+    ease: "easeOut",
+  }}
+  viewport={{ once: true, margin: "-50px" }}
+/>
+
+
+                  </div>
+               <motion.div
+  className={cn(getCardClasses(index), "mt-12 lg:mt-0")}
+  initial={{ 
+    x: index % 2 === 0 ? -200 : 200, 
+    opacity: 0 
+  }}
+  whileInView={{ 
+    x: 0, 
+    opacity: 1 
+  }}
+  transition={{ 
+    duration: 0.6, 
+    delay: 0.2,
+    ease: "easeOut" 
+  }}
+  viewport={{ once: true, margin: "-50px" }}
+>
+
                     <Card className="bg-background border">
                       <CardContent className="p-6">
                         {dateFormat === "badge" ? (

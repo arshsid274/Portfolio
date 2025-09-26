@@ -1,11 +1,11 @@
 import { Navbar } from './Components/Navbar';
 import { MacbookScroll } from './Components/macbookScroll.jsx'
 import { Globe } from './Components/ui/globe'
-import Home from './Components/Home.jsx'
+import Home from '../pages/Home.jsx'
 import './App.css'
-import About from './Components/About';
-import Experience from './Components/Exprience';
-import Contact from './Components/Contact';
+import About from '../pages/About';
+import Experience from '../pages/Exprience';
+import Contact from '../pages/Contact';
 
 function App() {
   const navItems = [

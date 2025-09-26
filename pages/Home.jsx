@@ -1,11 +1,11 @@
-import { MacbookModel } from './MacbookModel.jsx';
-import LetterGlitch from './LetterGlitch';
-import BlurText from './BlurText';
+import { MacbookModel } from '../src/Components/MacbookModel.jsx';
+import LetterGlitch from '../src/Components/LetterGlitch.jsx';
+import BlurText from '../src/Components/BlurText.jsx';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useEffect } from 'react';
-import ResumeButton from './ResumeButton.jsx';
+import ResumeButton from '../src/Components/ResumeButton.jsx';
 
 
 gsap.registerPlugin(ScrollTrigger);
