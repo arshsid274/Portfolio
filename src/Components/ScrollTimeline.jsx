@@ -23,28 +23,50 @@ const CardContent = ({ children, className }) => (
 
 const DEFAULT_EVENTS = [
   {
-    year: "2023",
-    title: "Major Achievement",
-    subtitle: "Organization Name",
-    description: "Description of the achievement or milestone reached during this time period.",
-  },
+  year: "2021",
+  title: "Frontend Intern", 
+  subtitle: "Vasl Ai",
+  description: "Information about this key event in the timeline.",
+  details: [
+    "Developed responsive web applications using React and JavaScript",
+    "Collaborated with design team to implement UI/UX improvements",
+    "Optimized website performance resulting in 30% faster load times",
+    "Participated in code reviews and agile development processes"
+  ]
+},
   {
-    year: "2022", 
-    title: "Important Milestone",
-    subtitle: "Organization Name",
-    description: "Details about this significant milestone and its impact.",
-  },
-  {
-    year: "2021",
-    title: "Key Event", 
-    subtitle: "Organization Name",
-    description: "Information about this key event in the timeline.",
-  },
+  year: "2021",
+  title: "Frontend Intern", 
+  subtitle: "Vasl Ai",
+  description: "Information about this key event in the timeline.",
+  details: [
+    "Developed responsive web applications using React and JavaScript",
+    "Collaborated with design team to implement UI/UX improvements",
+    "Optimized website performance resulting in 30% faster load times",
+    "Participated in code reviews and agile development processes"
+  ]
+},
+{
+  year: "2021",
+  title: "Frontend Intern",
+  subtitle: "Vasl AI • Remote, Hyderabad, India",
+  description: "Developed custom UI components and integrated PubChem API for chemical data visualization",
+  details: [
+    "Designed and developed custom UI components for core website sections (Home, About, Services, Contact) using React.js and Tailwind CSS",
+    "Implemented robust form validation logic for secure username/password authentication, ensuring data accuracy and preventing invalid submissions",
+    "Built a dynamic PubChem search bar and integrated PubChem API data into reusable React components through props drilling",
+    "Developed data tables with PubChem formulas and reference data for advanced chemical information visualization",
+    "Enhanced UI/UX with interactive features including hover effects, scroll-to functionality, sidebar navigation, and responsive layouts",
+    "Performed code optimization, design fixes, and bug resolution to improve maintainability, scalability, and performance",
+    "Collaborated in an Agile environment with version control using Git (branches, merges, stashing, remote pushes)"
+  ]
+}
+
 ];
 
 const ScrollTimeline = ({
   events = DEFAULT_EVENTS,
-  title = "Timeline",
+  title = "Experience Timeline",
   subtitle = "Scroll to explore the journey",
   animationOrder = "sequential",
   cardAlignment = "alternating",
@@ -371,6 +393,13 @@ const ScrollTimeline = ({
                         <p className="text-muted-foreground">
                           {event.description}
                         </p>
+                        {event.details && (
+  <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
+    {event.details.map((detail, idx) => (
+      <li key={idx}>{detail}</li>
+    ))}
+  </ul>
+)}
                       </CardContent>
                     </Card>
                   </motion.div>
