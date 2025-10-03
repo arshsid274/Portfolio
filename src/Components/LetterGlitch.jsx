@@ -9,6 +9,7 @@ const LetterGlitch = ({
   characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$&*()-_+=/[]{};:<>.,0123456789'
 }) => {
   const canvasRef = useRef(null);
+  const containerRef = useRef(null);
   const animationRef = useRef(null);
   const letters = useRef([]);
   const grid = useRef({ columns: 0, rows: 0 });
@@ -73,34 +74,35 @@ const LetterGlitch = ({
 
   const resizeCanvas = () => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
-    const parent = canvas.parentElement;
-    if (!parent) return;
+    const container = containerRef.current;
+    if (!canvas || !container) return;
 
     const dpr = window.devicePixelRatio || 1;
-    const rect = parent.getBoundingClientRect();
+    const containerRect = container.getBoundingClientRect();
 
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
+    canvas.width = containerRect.width * dpr;
+    canvas.height = containerRect.height * dpr;
 
-    canvas.style.width = `${rect.width}px`;
-    canvas.style.height = `${rect.height}px`;
+    canvas.style.width = `${containerRect.width}px`;
+    canvas.style.height = `${containerRect.height}px`;
 
     if (context.current) {
       context.current.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
-    const { columns, rows } = calculateGrid(rect.width, rect.height);
+    const { columns, rows } = calculateGrid(containerRect.width, containerRect.height);
     initializeLetters(columns, rows);
 
     drawLetters();
   };
 
   const drawLetters = () => {
-    if (!context.current || letters.current.length === 0) return;
+    if (!context.current || !canvasRef.current || !containerRef.current || letters.current.length === 0) return;
+    
     const ctx = context.current;
-    const { width, height } = canvasRef.current.getBoundingClientRect();
-    ctx.clearRect(0, 0, width, height);
+    const containerRect = containerRef.current.getBoundingClientRect();
+    
+    ctx.clearRect(0, 0, containerRect.width, containerRect.height);
     ctx.font = `${fontSize}px monospace`;
     ctx.textBaseline = 'top';
 
@@ -194,11 +196,10 @@ const LetterGlitch = ({
       cancelAnimationFrame(animationRef.current);
       window.removeEventListener('resize', handleResize);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [glitchSpeed, smooth]);
 
   return (
-    <div className="relative w-full h-full bg-black overflow-hidden">
+    <div ref={containerRef} className="relative w-full h-full bg-black overflow-hidden">
       <canvas ref={canvasRef} className="block w-full h-full" />
       {outerVignette && (
         <div className="absolute top-0 left-0 w-full h-full pointer-events-none bg-[radial-gradient(circle,_rgba(0,0,0,0)_60%,_rgba(0,0,0,1)_100%)]"></div>

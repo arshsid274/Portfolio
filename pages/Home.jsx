@@ -69,7 +69,8 @@ function Home() {
             />
         </div>
         
-        <div className="relative z-10 my-4 sm:my-8 md:my-12 lg:my-16 xl:my-20 min-w-[90%] sm:min-w-[85%] md:min-w-[80%] xl:min-w-[60%] justify-center items-center min-h-[40vh] sm:min-h-[45vh] md:min-h-[50vh] flex flex-col lg:flex-row rounded-lg shadow-lg bg-white/90 dark:bg-black/90 p-4 sm:p-6 md:p-8">
+       <div className="relative z-10 my-4 sm:my-8 md:my-12 lg:my-16 xl:my-20 min-w-[30%] sm:min-w-[85%] md:min-w-[80%] xl:min-w-[50%] 2xl:min-w-[60%] justify-center items-center min-h-[40vh] sm:min-h-[45vh] md:min-h-[50vh] flex flex-col lg:flex-row rounded-lg shadow-lg bg-white/90 dark:bg-black/90 p-4 sm:p-6 md:p-8">
+
             
             {/* MacBook first on mobile/tablet */}
             <div id='Mac' className="order-1 lg:order-2   justify-center items-center w-full lg:w-[600px] xl:w-[700px] 2xl:w-[800px] h-[200px] sm:h-[350px] md:h-[400px] lg:h-[500px] xl:h-[550px] 2xl:h-[600px] mb-8 lg:mb-0 lg:mt-[60px] overflow-hidden" >

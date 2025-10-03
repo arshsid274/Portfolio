@@ -6,6 +6,7 @@ import './App.css'
 import About from '../pages/About';
 import Experience from '../pages/Exprience';
 import Contact from '../pages/Contact';
+import Work from '../pages/Work';
 
 function App() {
   const navItems = [
@@ -23,9 +24,11 @@ function App() {
   return (
     <>
     <div>
-      <MacbookScroll />
+      <MacbookScroll src="/src2.mp4" />
+
       <Navbar navItems={navItems} socialLinks={socialLinks} />
       <Home />
+      <Work/>
       <About/>
       <Experience/>
       <Contact/>

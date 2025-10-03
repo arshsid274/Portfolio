@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { cn } from "../lib/utils";
-import videoSrc2 from "../assets/src2.mp4";
+
 
 import {
   IconBrightnessDown,
@@ -26,7 +26,6 @@ import { IconCommand } from "@tabler/icons-react";
 import { IconCaretLeftFilled } from "@tabler/icons-react";
 import { IconCaretDownFilled } from "@tabler/icons-react";
 
-
 export const MacbookScroll = ({
   src,
   showGradient,
@@ -39,50 +38,33 @@ export const MacbookScroll = ({
     offset: ["start start", "end start"],
   });
 
-const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isXl, setIsXl] = useState(false);
 
-useEffect(() => {
-  const checkMobile = () => {
-    setIsMobile(window.innerWidth < 768);
-  };
-  
-  checkMobile();
-  window.addEventListener('resize', checkMobile);
-  
-  return () => window.removeEventListener('resize', checkMobile);
-}, []);
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth < 768);
+      setIsXl(window.innerWidth >= 1280);
+    };
+    
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
 
-
-const [isXl, setIsXl] = useState(false);
-
-useEffect(() => {
-  const checkScreenSize = () => {
-    setIsMobile(window.innerWidth < 768);
-    setIsXl(window.innerWidth >= 1280);
-  };
-  
-  checkScreenSize();
-  window.addEventListener('resize', checkScreenSize);
-  
-  return () => window.removeEventListener('resize', checkScreenSize);
-}, []);
-
-
-const scaleX = useTransform(scrollYProgress, [0, 1], [1.2, isMobile ? 3.0 : isXl ? 6 : 5]);
-const scaleY = useTransform(scrollYProgress, [0, 1], [0.6, isMobile ? 2.0 : 3.5]);
-
-const translate = useTransform(scrollYProgress, [0, 1], [0, 2500]);
-
+  const scaleX = useTransform(scrollYProgress, [0, 1], [1.2, isMobile ? 3.0 : isXl ? 6 : 5]);
+  const scaleY = useTransform(scrollYProgress, [0, 1], [0.6, isMobile ? 2.0 : 3.5]);
+  const translate = useTransform(scrollYProgress, [0, 1], [0, 2500]);
   const rotate = useTransform(scrollYProgress, [0.1, 0.12, 0.3], [-28, -28, 0]);
   const textTransform = useTransform(scrollYProgress, [0, 0.3], [0, 100]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
   const lidOpacity = useTransform(scrollYProgress, [0.8, 1], [1, 0]);
 
-
   return (
     <div
       ref={ref}
-      className="flex min-h-[200vh] shrink-0 scale-[0.35] transform flex-col items-center justify-start py-0 [perspective:800px] sm:scale-50 md:scale-100 md:py-40">
+      className="relative flex min-h-[200vh] shrink-0 scale-[0.35] transform flex-col items-center justify-start py-0 [perspective:800px] sm:scale-50 md:scale-100 md:py-40">
       <motion.h2
         style={{
           translateY: textTransform,
@@ -95,19 +77,15 @@ const translate = useTransform(scrollYProgress, [0, 1], [0, 2500]);
           </span>
         )}
       </motion.h2>
-      {/* Lid */}
       <Lid
         src={src}
         scaleX={scaleX}
         scaleY={scaleY}
         rotate={rotate}
         translate={translate}
-        lidOpacity={lidOpacity} // Pass the opacity transform /
-        />
-      {/* Base area */}
-      <div
-        className="relative -z-10 h-[22rem] w-[32rem] overflow-hidden rounded-2xl bg-gray-200 dark:bg-[#272729]">
-        {/* above keyboard bar */}
+        lidOpacity={lidOpacity}
+      />
+      <div className="relative -z-10 h-[22rem] w-[32rem] overflow-hidden rounded-2xl bg-gray-200 dark:bg-[#272729]">
         <div className="relative h-10 w-full">
           <div className="absolute inset-x-0 mx-auto h-4 w-[80%] bg-[#050505]" />
         </div>
@@ -123,11 +101,9 @@ const translate = useTransform(scrollYProgress, [0, 1], [0, 2500]);
           </div>
         </div>
         <Trackpad />
-        <div
-          className="absolute inset-x-0 bottom-0 mx-auto h-2 w-20 rounded-tl-3xl rounded-tr-3xl bg-gradient-to-t from-[#272729] to-[#050505]" />
+        <div className="absolute inset-x-0 bottom-0 mx-auto h-2 w-20 rounded-tl-3xl rounded-tr-3xl bg-gradient-to-t from-[#272729] to-[#050505]" />
         {showGradient && (
-          <div
-            className="absolute inset-x-0 bottom-0 z-50 h-40 w-full bg-gradient-to-t from-white via-white to-transparent dark:from-black dark:via-black"></div>
+          <div className="absolute inset-x-0 bottom-0 z-50 h-40 w-full bg-gradient-to-t from-white via-white to-transparent dark:from-black dark:via-black"></div>
         )}
         {badge && <div className="absolute bottom-4 left-4">{badge}</div>}
       </div>
@@ -141,8 +117,16 @@ export const Lid = ({
   rotate,
   translate,
   src,
-  lidOpacity // Add this prop
+  lidOpacity
 }) => {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    if (videoRef.current && src) {
+      videoRef.current.play().catch(console.error);
+    }
+  }, [src]);
+
   return (
     <div className="relative [perspective:800px]">
       <div
@@ -168,19 +152,29 @@ export const Lid = ({
           scaleY: scaleY,
           rotateX: rotate,
           translateY: translate,
-          opacity: lidOpacity, // Add opacity control
+          opacity: lidOpacity,
           transformStyle: "preserve-3d",
           transformOrigin: "top",
         }}
         className="absolute inset-0 h-96 w-[32rem] rounded-2xl bg-[#010101] p-2">
         <div className="absolute inset-0 rounded-lg bg-[#272729]" />
-        <video
-  src={videoSrc2}
-  autoPlay
-  loop
-  muted
-  className="absolute inset-0 h-full w-full rounded-lg object-fill object-left-top"
-/>
+        <div className="absolute inset-0 h-full w-full rounded-lg overflow-hidden">
+          {src && (
+            <video
+              ref={videoRef}
+              className="h-full w-full object-fill  rounded-lg"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="auto"
+            >
+              <source src={src} type="video/mp4" />
+              <source src={src.replace('.mp4', '.webm')} type="video/webm" />
+              Your browser does not support the video tag.
+            </video>
+          )}
+        </div>
       </motion.div>
     </div>
   );
@@ -200,7 +194,6 @@ export const Keypad = () => {
   return (
     <div
       className="mx-1 h-full [transform:translateZ(0)] rounded-md bg-[#050505] p-1 [will-change:transform]">
-      {/* First Row */}
       <div className="mb-[2px] flex w-full shrink-0 gap-[2px]">
         <KBtn
           className="w-10 items-end justify-start pb-[2px] pl-[4px]"
@@ -262,7 +255,6 @@ export const Keypad = () => {
           </div>
         </KBtn>
       </div>
-      {/* Second row */}
       <div className="mb-[2px] flex w-full shrink-0 gap-[2px]">
         <KBtn>
           <span className="block">~</span>
@@ -322,7 +314,6 @@ export const Keypad = () => {
           delete
         </KBtn>
       </div>
-      {/* Third row */}
       <div className="mb-[2px] flex w-full shrink-0 gap-[2px]">
         <KBtn
           className="w-10 items-end justify-start pb-[2px] pl-[4px]"
@@ -369,10 +360,9 @@ export const Keypad = () => {
         </KBtn>
         <KBtn>
           <span className="block">{`|`}</span>
-          <span className="block">{`\\`}</span>
+          <span className="block">{`\\\\`}</span>
         </KBtn>
       </div>
-      {/* Fourth Row */}
       <div className="mb-[2px] flex w-full shrink-0 gap-[2px]">
         <KBtn
           className="w-[2.8rem] items-end justify-start pb-[2px] pl-[4px]"
@@ -420,7 +410,6 @@ export const Keypad = () => {
           return
         </KBtn>
       </div>
-      {/* Fifth Row */}
       <div className="mb-[2px] flex w-full shrink-0 gap-[2px]">
         <KBtn
           className="w-[3.65rem] items-end justify-start pb-[2px] pl-[4px]"
@@ -466,7 +455,6 @@ export const Keypad = () => {
           shift
         </KBtn>
       </div>
-      {/* sixth Row */}
       <div className="mb-[2px] flex w-full shrink-0 gap-[2px]">
         <KBtn className="" childrenClassName="h-full justify-between py-[4px]">
           <div className="flex w-full justify-end pr-1">
@@ -629,3 +617,5 @@ const AceternityLogo = () => {
     </svg>
   );
 };
+
+export default MacbookScroll;

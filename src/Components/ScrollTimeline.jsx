@@ -110,7 +110,7 @@ const progressHeight = useTransform(
 
 
   useEffect(() => {
-    const unsubscribe = scrollYProgress.onChange((v) => {
+   const unsubscribe = scrollYProgress.on("change", (v) => {
       const newIndex = Math.floor(v * events.length);
       if (
         newIndex !== activeIndex &&

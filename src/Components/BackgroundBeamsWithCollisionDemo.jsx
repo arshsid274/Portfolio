@@ -10,15 +10,16 @@ export const BackgroundBeamsWithCollision = ({
   const containerRef = useRef(null);
   const parentRef = useRef(null);
 
-  const beams = Array.from({ length: 60 }, (_, i) => ({
-    initialX: Math.random() * 1500,
-    translateX: Math.random() * 1500,
-    duration: Math.random() * 8 + 3,
-    repeatDelay: Math.random() * 10 + 2,
-    delay: Math.random() * 6,
-    className: ["h-6", "h-8", "h-10", "h-12", "h-14", "h-16", "h-20"][Math.floor(Math.random() * 7)],
-    midAirExplosion: Math.random() < 0.3 // 30% chance for mid-air explosion
-  }));
+ const beams = Array.from({ length: 60 }, (_, i) => ({
+  initialX: Math.random() * 1500,
+  translateX: Math.random() * 1500,
+  duration: Math.random() * 8 + 3,
+  repeatDelay: Math.random() * 10 + 2,
+  delay: Math.random() * 6,
+  className: ["h-6", "h-8", "h-10", "h-12", "h-14", "h-16", "h-20"][Math.floor(Math.random() * 7)],
+  midAirExplosion: false // Remove mid-air explosions
+}));
+
 
   return (
     <div
