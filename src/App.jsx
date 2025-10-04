@@ -21,20 +21,27 @@ function App() {
     twitter: 'https://twitter.com/username'
   };
 
-  return (
-    <>
-    <div>
+ return (
+  <>
+  <div>
+    <div className="overflow-x-hidden">
       <MacbookScroll src="/src2.mp4" />
-
-      <Navbar navItems={navItems} socialLinks={socialLinks} />
+    </div>
+    <Navbar navItems={navItems} socialLinks={socialLinks} />
+    <div className="overflow-x-hidden">
       <Home />
-      <Work/>
+    </div>
+    <Work/>
+    <div className="overflow-x-hidden">
       <About/>
       <Experience/>
       <Contact/>
     </div>
-    </>
-  )
+  </div>
+  </>
+)
+
+
 }
 
 export default App
