@@ -126,32 +126,33 @@ const Work = () => {
         <div className="work-flex w-full flex h-full -ml-20 pr-[120px] relative will-change-transform">
           {workData.map((project, index) => (
             <div 
-              className={`work-box p-20 flex w-[600px] box-border border-r border-[#363636] flex-shrink-0 gap-[50px] justify-start will-change-transform ${
-                index % 2 === 1 ? 'flex-col-reverse' : 'flex-col'
-              } ${index === 0 ? 'ml-20' : ''}`} 
-              key={project.id}
-            >
-              <div className="work-info">
-                <div className="work-title flex justify-between w-full mb-5">
-                  <h3 className="text-[50px] leading-[50px] m-0 font-semibold text-[#40e6b9]">
-                    0{index + 1}
-                  </h3>
-                  <div className="text-right">
-                    <h4 className="text-lg font-normal m-0 text-white">
-                      {project.title}
-                    </h4>
-                    <p className="font-light text-[#adacac] m-0 mt-1">
-                      {project.category}
-                    </p>
-                  </div>
-                </div>
-                <h4 className="text-lg font-normal m-0 text-white">Tools and features</h4>
-                <p className="font-light text-[#adacac] m-0 mt-1 w-[90%]">
-                  {project.tools}
-                </p>
-              </div>
-              <WorkImage image={project.image} alt={project.title} />
-            </div>
+  className={`work-box p-20 flex w-[600px] box-border border-r border-[#363636] flex-shrink-0 gap-[50px] justify-start will-change-transform ${
+    index % 2 === 1 ? 'flex-col-reverse' : 'flex-col'
+  } ${index === 0 ? 'ml-20' : ''}`} 
+  key={project.id}
+>
+  <div className="work-info">
+    <div className="work-title flex justify-between w-full mb-5">
+      <h3 className="text-[50px] leading-[50px] m-0 font-semibold text-[#40e6b9]">
+        0{index + 1}
+      </h3>
+      <div className="text-right">
+        <h4 className="text-lg font-normal m-0 text-white">
+          {project.title}
+        </h4>
+        <p className="font-light text-[#adacac] m-0 mt-1">
+          {project.category}
+        </p>
+      </div>
+    </div>
+    <h4 className="text-lg font-normal m-0 text-white">Tools and features</h4>
+    <p className="font-light text-[#adacac] m-0 mt-1 w-[90%]">
+      {project.tools}
+    </p>
+  </div>
+  <WorkImage image={project.image} alt={project.title} project={project} index={index} />
+</div>
+
           ))}
         </div>
       </div>
