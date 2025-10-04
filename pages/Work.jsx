@@ -51,14 +51,17 @@ const workData = [
 ];
 
 const Work = () => {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 1024;
+    }
+    return false;
+  });
   const timelineRef = useRef(null);
 
   useEffect(() => {
     const checkMobile = () => {
-      const width = window.innerWidth;
-      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-      setIsMobile(width <= 1024 || isTouchDevice); // Increased breakpoint for tablets/phones
+      setIsMobile(window.innerWidth < 1024);
     };
     
     checkMobile();
@@ -77,51 +80,74 @@ const Work = () => {
       return;
     }
 
-    const setupAnimation = () => {
-      const workSection = document.querySelector(".work-section");
-      const workFlex = document.querySelector(".work-flex");
-      const workBoxes = document.querySelectorAll(".work-box");
+    let translateX = 0;
+
+    function setTranslateX() {
+      const box = document.getElementsByClassName("work-box");
+      if (box.length === 0) return;
       
-      if (!workSection || !workFlex || workBoxes.length === 0) return;
+      const container = document.querySelector(".work-container");
+      if (!container) return;
+      
+      const rectLeft = container.getBoundingClientRect().left;
+      const rect = box[0].getBoundingClientRect();
+      const parentWidth = box[0].parentElement?.getBoundingClientRect().width || 0;
+      
+      const computedStyle = window.getComputedStyle(box[0]);
+      const padding = parseInt(computedStyle.paddingLeft) || 80;
+      
+      translateX = (rect.width * box.length) - (rectLeft + parentWidth) + padding;
+    }
 
-      const totalWidth = Array.from(workBoxes).reduce((acc, box) => acc + box.offsetWidth, 0);
-      const containerWidth = workSection.offsetWidth;
-      const translateX = totalWidth - containerWidth + 200;
+    function setupAnimation() {
+      setTranslateX();
 
-      timelineRef.current = gsap.timeline({
+      let timeline = gsap.timeline({
         scrollTrigger: {
-          trigger: workSection,
+          trigger: ".work-section",
           start: "top top",
           end: `+=${translateX}`,
           scrub: 1,
           pin: true,
+          id: "work",
+          refreshPriority: -1,
           anticipatePin: 1,
-          invalidateOnRefresh: true,
         },
       });
 
-      timelineRef.current.to(workFlex, {
+      timeline.to(".work-flex", {
         x: -translateX,
         ease: "none",
       });
+
+      return timeline;
+    }
+
+    const timeline = setupAnimation();
+
+    let resizeTimeout;
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        timeline.kill();
+        ScrollTrigger.getById("work")?.kill();
+        setupAnimation();
+      }, 250);
     };
 
-    const timer = setTimeout(setupAnimation, 100);
+    window.addEventListener('resize', handleResize);
 
     return () => {
-      clearTimeout(timer);
-      if (timelineRef.current) {
-        timelineRef.current.kill();
-        timelineRef.current = null;
-      }
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      timeline.kill();
+      ScrollTrigger.getById("work")?.kill();
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(resizeTimeout);
     };
   }, [isMobile]);
 
-  // Mobile Layout
   if (isMobile) {
     return (
-      <div className="work-section-mobile relative min-h-screen py-8 px-4 bg-black">
+      <div className="work-section-mobile relative min-h-screen py-8 px-4">
         <h2 className="text-3xl md:text-4xl font-medium text-center text-white mb-8">
           My <span className="text-[#40e6b9]">Work</span>
         </h2>
@@ -151,7 +177,6 @@ const Work = () => {
     );
   }
 
-  // Desktop Layout
   return (
     <div className="work-section relative h-screen box-border will-change-transform overflow-hidden">
       <div className="work-container relative mx-auto flex flex-col h-full max-w-none">
