@@ -59,7 +59,7 @@ function Home() {
     }, []);
 
     return ( 
-    <div className=' justify-center items-center h-screen relative'>
+    <div className=' flex justify-center items-center h-screen relative'>
         <div className="absolute inset-0 z-0">
             <LetterGlitch 
                 glitchSpeed={50}
