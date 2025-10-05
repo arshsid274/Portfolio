@@ -8,6 +8,8 @@ import About from '../pages/About';
 import Experience from '../pages/Exprience';
 import Contact from '../pages/Contact';
 import Work from '../pages/Work';
+import './index.css';
+
 
 function App() {
   const navItems = [
