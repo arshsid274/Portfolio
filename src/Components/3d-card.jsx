@@ -2,7 +2,6 @@
 
 import { cn } from "../lib/utils";
 
-
 import React, {
   createContext,
   useState,
@@ -30,9 +29,23 @@ export const CardContainer = ({
     containerRef.current.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
   };
 
+  const handleTouchMove = (e) => {
+    if (!containerRef.current) return;
+    const touch = e.touches[0];
+    const { left, top, width, height } =
+      containerRef.current.getBoundingClientRect();
+    const x = (touch.clientX - left - width / 2) / 25;
+    const y = (touch.clientY - top - height / 2) / 25;
+    containerRef.current.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+  };
+
   const handleMouseEnter = (e) => {
     setIsMouseEntered(true);
     if (!containerRef.current) return;
+  };
+
+  const handleTouchStart = (e) => {
+    setIsMouseEntered(true);
   };
 
   const handleMouseLeave = (e) => {
@@ -40,6 +53,13 @@ export const CardContainer = ({
     setIsMouseEntered(false);
     containerRef.current.style.transform = `rotateY(0deg) rotateX(0deg)`;
   };
+
+  const handleTouchEnd = (e) => {
+    if (!containerRef.current) return;
+    setIsMouseEntered(false);
+    containerRef.current.style.transform = `rotateY(0deg) rotateX(0deg)`;
+  };
+
   return (
     <MouseEnterContext.Provider value={[isMouseEntered, setIsMouseEntered]}>
       <div
@@ -52,6 +72,9 @@ export const CardContainer = ({
           onMouseEnter={handleMouseEnter}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
           className={cn(
             "flex items-center justify-center relative transition-all duration-200 ease-linear",
             className

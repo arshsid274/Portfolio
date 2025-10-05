@@ -1,3 +1,4 @@
+// Replace your App.jsx with this:
 import { Navbar } from './Components/Navbar';
 import { MacbookScroll } from './Components/macbookScroll.jsx'
 import { Globe } from './Components/ui/globe'
@@ -21,27 +22,17 @@ function App() {
     twitter: 'https://twitter.com/username'
   };
 
- return (
-  <>
-  <div>
+  return (
     <div className="overflow-x-hidden">
       <MacbookScroll src="/src2.mp4" />
-    </div>
-    <Navbar navItems={navItems} socialLinks={socialLinks} />
-    <div className="overflow-x-hidden">
+      <Navbar navItems={navItems} socialLinks={socialLinks} />
       <Home />
-    </div>
-    <Work/>
-    <div className="overflow-x-hidden">
+      <Work/>
       <About/>
       <Experience/>
       <Contact/>
     </div>
-  </div>
-  </>
-)
-
-
+  )
 }
 
 export default App

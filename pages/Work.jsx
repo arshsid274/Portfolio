@@ -77,6 +77,32 @@ const Work = () => {
         timelineRef.current = null;
       }
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      
+      // Mobile scroll animations
+      const cards = document.querySelectorAll('.work-card-mobile');
+      cards.forEach((card, index) => {
+        gsap.fromTo(card,
+          {
+            opacity: 0,
+            y: 50,
+            scale: 0.95
+          },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.6,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 80%",
+              end: "top 50%",
+              toggleActions: "play none none reverse",
+            }
+          }
+        );
+      });
+      
       return;
     }
 
@@ -153,7 +179,7 @@ const Work = () => {
         </h2>
         <div className="max-w-sm mx-auto space-y-6">
           {workData.map((project, index) => (
-            <div key={project.id} className="bg-gray-900/80 rounded-lg p-4 border border-gray-700">
+            <div key={project.id} className="work-card-mobile bg-gray-900/80 rounded-lg p-4 border border-gray-700 opacity-0">
               <div className="flex items-start justify-between mb-3">
                 <span className="text-xl font-semibold text-[#40e6b9]">0{index + 1}</span>
                 <div className="text-right flex-1 ml-4">
