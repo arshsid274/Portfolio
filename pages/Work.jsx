@@ -9,51 +9,72 @@ const workData = [
   {
     id: 1,
     title: "Apple Website Clone",
-    category: "Web Development",
-    tools: "React, Node.js, MongoDB, Stripe",
+    category: "3D Product Website (Frontend)",
+    tools: "React, Three.js, Gsap, Tailwind css",
     image: "/assets/Apple-Clone.png"
   },
   {
     id: 2,
     title: "Vasl Ai", 
-    category: "Frontend",
-    tools: "React, Three.js, GSAP, Tailwind",
+    category: "Data Analyst Website (Frontend)",
+    tools: "Vue, Nuxt, PrimeVue,Tailwind css,Headless Ui,HeroIcon",
     image: "/assets/Vasl_Ai.png"
   },
   {
     id: 3,
     title: "Dirt Off",
-    category: "React Native", 
-    tools: "React Native, Firebase, Redux",
+    category: "Business management  app for Laundery (Full Stack App)", 
+    tools: "React,Tailwind css,Firebase,Node js ,express js",
     image: "/assets/Dirt_Off.png"
   },
   {
     id: 4,
-    title: "Dashboard Analytics",
-    category: "Data Visualization",
-    tools: "D3.js, React, Chart.js", 
+    title: "Buddha Avenue",
+    category: "Banquet Management app for Hotels (Full Stack App)",
+    tools: "React,Tailwind css, Axios, DaisyUi,React Router DOM,Node js ,Express js,MongoDB", 
     image: "/assets/Buddha_Avenue.png"
   },
   {
     id: 5,
-    title: "AI Chatbot",
-    category: "Machine Learning",
-    tools: "Python, TensorFlow, Flask",
+    title: "Dirt Off ",
+    category: "Static Website for Laundery (Frontend)",
+    tools: "HTML ,CSS ,Javascript,jQuery,Bootstrap",
     image: "/assets/Dirt_Off_Website.png"
   },
   {
     id: 6,
-    title: "Blockchain DApp",
-    category: "Web3",
-    tools: "Solidity, Web3.js, React",
+    title: "Shine Travels",
+    category: "Static Website for Travel Agency (Frontend)",
+    tools: "HTML ,CSS ,Javascript,jQuery,Gsap,Bootstrap",
     image: "/assets/Shine_Travels.png"
   },
    {
     id: 7,
+    title: "Regalia Banquet",
+    category: "Static website for Banquet Hall (Frontend)",
+    tools: "HTML ,CSS ,Javascript,jQuery,Bootstrap",
+    image: "/assets/Regalia.png"
+  },
+  {
+    id: 8,
+    title: "Design Orient Arcitect",
+    category: "Architecture Portfolio Website (Figma to Code)",
+    tools: "react, Tailwind css,React Router,FontAwesome ,Lucid React",
+    image: "/assets/Design Orient.png"
+  },
+    {
+    id: 9,
     title: "Blockchain DApp",
     category: "Web3",
     tools: "Solidity, Web3.js, React",
-    image: "/assets/Shine_Travels.png"
+    image: "/assets/Ishan_Travels.png"
+  },
+    {
+    id: 10,
+    title: "Blockchain DApp",
+    category: "Web3",
+    tools: "Solidity, Web3.js, React",
+    image: "/assets/Raj_Villas.png"
   }
 ];
 
