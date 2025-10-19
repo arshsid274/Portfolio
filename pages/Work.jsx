@@ -11,70 +11,80 @@ const workData = [
     title: "Apple Website Clone",
     category: "3D Product Website (Frontend)",
     tools: "React, Three.js, Gsap, Tailwind css",
-    image: "/assets/Apple-Clone.png"
+    image: "/assets/Apple-Clone.png",
+    link: "https://apple-website-clone-psi.vercel.app/"
   },
   {
     id: 2,
     title: "Vasl Ai", 
     category: "Data Analyst Website (Frontend)",
     tools: "Vue, Nuxt, PrimeVue,Tailwind css,Headless Ui,HeroIcon",
-    image: "/assets/Vasl_Ai.png"
+    image: "/assets/Vasl_Ai.png",
+    link: "https://www.vaslai.com/"
   },
   {
     id: 3,
     title: "Dirt Off",
     category: "Business management  app for Laundery (Full Stack App)", 
     tools: "React,Tailwind css,Firebase,Node js ,express js",
-    image: "/assets/Dirt_Off.png"
+    image: "/assets/Dirt_Off.png",
+    link: "https://dirt-off-frontend.vercel.app/"
   },
   {
     id: 4,
     title: "Buddha Avenue",
     category: "Banquet Management app for Hotels (Full Stack App)",
     tools: "React,Tailwind css, Axios, DaisyUi,React Router DOM,Node js ,Express js,MongoDB", 
-    image: "/assets/Buddha_Avenue.png"
+    image: "/assets/Buddha_Avenue.png",
+    link: "https://budha-avenue-frontend.vercel.app/"
   },
   {
     id: 5,
     title: "Dirt Off ",
     category: "Static Website for Laundery (Frontend)",
     tools: "HTML ,CSS ,Javascript,jQuery,Bootstrap",
-    image: "/assets/Dirt_Off_Website.png"
+    image: "/assets/Dirt_Off_Website.png",
+    link: "https://www.dirtoff.in/"
   },
   {
     id: 6,
     title: "Shine Travels",
     category: "Static Website for Travel Agency (Frontend)",
     tools: "HTML ,CSS ,Javascript,jQuery,Gsap,Bootstrap",
-    image: "/assets/Shine_Travels.png"
+    image: "/assets/Shine_Travels.png",
+    link: "https://www.shinetravels.co.in/"
   },
    {
     id: 7,
     title: "Regalia Banquet",
     category: "Static website for Banquet Hall (Frontend)",
     tools: "HTML ,CSS ,Javascript,jQuery,Bootstrap",
-    image: "/assets/Regalia.png"
+    image: "/assets/Regalia.png",
+    link: "https://www.theregaliaresort.in/"
   },
   {
     id: 8,
     title: "Design Orient Arcitect",
     category: "Architecture Portfolio Website (Figma to Code)",
-    tools: "react, Tailwind css,React Router,FontAwesome ,Lucid React",
-    image: "/assets/Design Orient.png"
+    tools: "React, Tailwind css,React Router,FontAwesome ,Lucid React",
+    image: "/assets/Design Orient.png",
+    link: "https://www.architectsdo.com/"
   },
     {
     id: 9,
     title: "Blockchain DApp",
     category: "Web3",
     tools: "Solidity, Web3.js, React",
-    image: "/assets/Ishan_Travels.png"
+    image: "/assets/Ishan_Travels.png",
+    link: "https://ishan-travel.vercel.app/"
   },
     {
     id: 10,
     title: "Blockchain DApp",
     category: "Web3",
     tools: "Solidity, Web3.js, React",
-    image: "/assets/Raj_Villas.png"
+    image: "/assets/Raj_Villas.png",
+    link: "https://rajvillas-final.vercel.app/"
   }
 ];
 
