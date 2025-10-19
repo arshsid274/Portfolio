@@ -8,45 +8,52 @@ gsap.registerPlugin(ScrollTrigger);
 const workData = [
   {
     id: 1,
-    title: "E-Commerce Platform",
+    title: "Apple Website Clone",
     category: "Web Development",
     tools: "React, Node.js, MongoDB, Stripe",
-    image: "/assets/Design Orient.png"
+    image: "/assets/Apple-Clone.png"
   },
   {
     id: 2,
-    title: "Portfolio Website", 
+    title: "Vasl Ai", 
     category: "Frontend",
     tools: "React, Three.js, GSAP, Tailwind",
-    image: "/assets/Design Orient.png"
+    image: "/assets/Vasl_Ai.png"
   },
   {
     id: 3,
-    title: "Mobile App",
+    title: "Dirt Off",
     category: "React Native", 
     tools: "React Native, Firebase, Redux",
-    image: "/assets/Design Orient.png"
+    image: "/assets/Dirt_Off.png"
   },
   {
     id: 4,
     title: "Dashboard Analytics",
     category: "Data Visualization",
     tools: "D3.js, React, Chart.js", 
-    image: "/assets/Design Orient.png"
+    image: "/assets/Buddha_Avenue.png"
   },
   {
     id: 5,
     title: "AI Chatbot",
     category: "Machine Learning",
     tools: "Python, TensorFlow, Flask",
-    image: "/assets/Design Orient.png"
+    image: "/assets/Dirt_Off_Website.png"
   },
   {
     id: 6,
     title: "Blockchain DApp",
     category: "Web3",
     tools: "Solidity, Web3.js, React",
-    image: "/assets/Design Orient.png"
+    image: "/assets/Shine_Travels.png"
+  },
+   {
+    id: 7,
+    title: "Blockchain DApp",
+    category: "Web3",
+    tools: "Solidity, Web3.js, React",
+    image: "/assets/Shine_Travels.png"
   }
 ];
 
