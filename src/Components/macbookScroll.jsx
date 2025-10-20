@@ -53,6 +53,57 @@ export const MacbookScroll = ({
     return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
 
+  useEffect(() => {
+  let lastScroll = window.scrollY;
+  let isScrolling = false;
+  
+  const smoothScrollTo = (target, duration = 2000) => {
+    const start = window.scrollY;
+    const distance = target - start;
+    const startTime = performance.now();
+    
+    const scroll = (currentTime) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const easeProgress = progress * (2 - progress); // ease out
+      
+      window.scrollTo(0, start + distance * easeProgress);
+      
+      if (progress < 1) {
+        requestAnimationFrame(scroll);
+      } else {
+        isScrolling = false;
+      }
+    };
+    
+    requestAnimationFrame(scroll);
+  };
+  
+  const handleScroll = () => {
+    if (isScrolling) return;
+    
+    const scrolled = window.scrollY;
+    const macbookHeight = ref.current?.offsetHeight || 0;
+    const scrollingDown = scrolled > lastScroll;
+    
+    if (scrolled > 100 && scrolled < macbookHeight - 100) {
+      isScrolling = true;
+      
+      if (scrollingDown) {
+        smoothScrollTo(macbookHeight, 3000);
+      } else {
+        smoothScrollTo(0, 3000);
+      }
+    }
+    
+    lastScroll = scrolled;
+  };
+
+  window.addEventListener('scroll', handleScroll);
+  return () => window.removeEventListener('scroll', handleScroll);
+}, []);
+
+
   const scaleX = useTransform(scrollYProgress, [0, 1], [1.2, isMobile ? 3.0 : isXl ? 6 : 5]);
   const scaleY = useTransform(scrollYProgress, [0, 1], [0.6, isMobile ? 2.0 : 3.5]);
   const translate = useTransform(scrollYProgress, [0, 1], [0, 2500]);
