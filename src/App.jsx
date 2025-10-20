@@ -26,7 +26,7 @@ function App() {
 
   return (
     <div className="overflow-x-hidden">
-      <MacbookScroll src="/src2.mp4" />
+      <MacbookScroll src="https://res.cloudinary.com/dgpzvkjki/video/upload/v1760959660/src2_cmjedk.mp4" />
       <Navbar navItems={navItems} socialLinks={socialLinks} />
       <Home />
       <Work/>

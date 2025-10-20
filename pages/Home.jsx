@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -11,24 +11,28 @@ import ResumeButton from "../src/Components/ResumeButton.jsx";
 gsap.registerPlugin(ScrollTrigger);
 
 function Home() {
+  const [isMobile, setIsMobile] = useState(false);
+
   useEffect(() => {
-    // Force dark mode on initial load for consistent visuals
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
     document.documentElement.classList.add("dark");
 
-    // Refresh ScrollTrigger once layout is stable
     const refreshTimeout = setTimeout(() => {
       ScrollTrigger.refresh(true);
     }, 500);
 
-    // Cleanup all ScrollTriggers on unmount
     return () => {
+      window.removeEventListener('resize', checkMobile);
       clearTimeout(refreshTimeout);
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
   }, []);
 
-  useGSAP(() => {
-    // Animate text section
+useGSAP(() => {
+  if (!isMobile) {
     gsap.fromTo(
       "#Animated-details",
       { y: 100, opacity: 0 },
@@ -47,12 +51,10 @@ function Home() {
       }
     );
 
-    // Animate Macbook section
     gsap.fromTo(
       "#Mac",
-      { y: 200, opacity: 0 },
+      { opacity: 0 },
       {
-        y: 0,
         opacity: 1,
         duration: 1.5,
         delay: 0.5,
@@ -66,11 +68,16 @@ function Home() {
         },
       }
     );
-  }, []);
+  } else {
+    gsap.set("#Animated-details", { opacity: 1, y: 0 });
+    gsap.set("#Mac", { opacity: 1, y: 0 });
+  }
+}, [isMobile]);
+
+
 
   return (
     <div className="flex justify-center items-center h-screen relative bg-black text-white">
-      {/* Background Glitch Effect */}
       <div className="absolute inset-0 z-0">
         <LetterGlitch
           glitchSpeed={50}
@@ -80,18 +87,21 @@ function Home() {
         />
       </div>
 
-      {/* Main Content Container */}
       <div className="relative z-10 my-4 sm:my-8 md:my-12 lg:my-16 xl:my-20 min-w-[30%] sm:min-w-[85%] md:min-w-[80%] xl:min-w-[50%] 2xl:min-w-[60%] max-w-[90vw] flex flex-col lg:flex-row justify-center items-center rounded-lg shadow-lg bg-white/90 dark:bg-black/90 p-4 sm:p-6 md:p-8">
 
-        {/* MacBook Section */}
-        <div
-          id="Mac"
-          className="order-1 lg:order-2 w-full lg:w-[600px] xl:w-[700px] 2xl:w-[800px] h-[200px] sm:h-[350px] md:h-[400px] lg:h-[500px] xl:h-[550px] 2xl:h-[600px] mb-8 lg:mb-0 lg:mt-[60px] flex justify-center items-center overflow-hidden"
-        >
-          <MacbookModel screenImage="/react.svg" scale={[7, 7, 7]} />
-        </div>
+       <div
+  id="Mac"
+  className="order-1 lg:order-2 w-full lg:w-[600px] xl:w-[700px] 2xl:w-[800px] h-[300px] sm:h-[350px] md:h-[400px] lg:h-[500px] xl:h-[550px] 2xl:h-[600px] mb-8 lg:mb-0 lg:mt-[60px] flex justify-center items-center overflow-hidden rounded-lg"
+>
 
-        {/* Details Section */}
+  {isMobile ? (
+  <MacbookModel screenImage="/react.svg" scale={[6, 6, 6]} />
+) : (
+  <MacbookModel screenImage="/react.svg" scale={[7, 7, 7]} />
+)}
+
+</div>
+
         <div className="order-2 lg:order-1 flex flex-col items-center justify-center gap-2 sm:gap-3 md:gap-4 mx-4 sm:mx-8 md:mx-12 lg:mx-20">
           <div
             id="Animated-details"
@@ -99,34 +109,33 @@ function Home() {
           >
             <BlurText
               text="Hello, I am"
-              delay={150}
+              delay={isMobile ? 0 : 150}
               animateBy="words"
               direction="top"
               className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold"
             />
             <BlurText
               text="Arsh Siddiqui"
-              delay={300}
+              delay={isMobile ? 0 : 300}
               animateBy="words"
               direction="top"
               className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold text-[#40e6b9]"
             />
             <BlurText
               text="I Craft Premium Web Experiences"
-              delay={450}
+              delay={isMobile ? 0 : 450}
               animateBy="words"
               direction="top"
               className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold"
             />
             <BlurText
               text="That Impress."
-              delay={600}
+              delay={isMobile ? 0 : 600}
               animateBy="words"
               direction="top"
               className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-bold text-[#40e6b9]"
             />
 
-            {/* Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 md:gap-5 mt-6 sm:mt-8 md:mt-10">
               <ResumeButton
                 text="Resume"

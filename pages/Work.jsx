@@ -11,23 +11,26 @@ const workData = [
     title: "Apple Website Clone",
     category: "3D Product Website (Frontend)",
     tools: "React, Three.js, Gsap, Tailwind css",
-    image: "/assets/Apple-Clone.png",
-    link: "https://apple-website-clone-psi.vercel.app/"
+    image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760945223/AppleClone_zm4el3.mp4",
+    website: "https://apple-website-clone-psi.vercel.app/",
+   
   },
   {
     id: 2,
     title: "Vasl Ai", 
     category: "Data Analyst Website (Frontend)",
     tools: "Vue, Nuxt, PrimeVue,Tailwind css,Headless Ui,HeroIcon",
-    image: "/assets/Vasl_Ai.png",
-    link: "https://www.vaslai.com/"
+    image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760945266/VaslAi_ctcj4d.mp4",
+    website: "https://www.vaslai.com/",
+    
+
   },
   {
     id: 3,
     title: "Dirt Off",
     category: "Business management  app for Laundery (Full Stack App)", 
     tools: "React,Tailwind css,Firebase,Node js ,express js",
-    image: "/assets/Dirt_Off.png",
+    image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760960157/Untitled_video_-_Made_with_Clipchamp_2_jtieou.mp4",
     link: "https://dirt-off-frontend.vercel.app/"
   },
   {
@@ -35,7 +38,7 @@ const workData = [
     title: "Buddha Avenue",
     category: "Banquet Management app for Hotels (Full Stack App)",
     tools: "React,Tailwind css, Axios, DaisyUi,React Router DOM,Node js ,Express js,MongoDB", 
-    image: "/assets/Buddha_Avenue.png",
+    image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760959919/Untitled_video_-_Made_with_Clipchamp_1_ehziug.mp4",
     link: "https://budha-avenue-frontend.vercel.app/"
   },
   {
@@ -43,48 +46,54 @@ const workData = [
     title: "Dirt Off ",
     category: "Static Website for Laundery (Frontend)",
     tools: "HTML ,CSS ,Javascript,jQuery,Bootstrap",
-    image: "/assets/Dirt_Off_Website.png",
-    link: "https://www.dirtoff.in/"
+    image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760945298/DirtOffStatic_yav2v9.mp4",
+    website: "https://www.dirtoff.in/",
+    
   },
   {
     id: 6,
     title: "Shine Travels",
     category: "Static Website for Travel Agency (Frontend)",
     tools: "HTML ,CSS ,Javascript,jQuery,Gsap,Bootstrap",
-    image: "/assets/Shine_Travels.png",
-    link: "https://www.shinetravels.co.in/"
+    image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760945296/ShineTravels_du9lst.mp4",
+    website: "https://www.shinetravels.co.in/",
+    
   },
    {
     id: 7,
     title: "Regalia Banquet",
     category: "Static website for Banquet Hall (Frontend)",
     tools: "HTML ,CSS ,Javascript,jQuery,Bootstrap",
-    image: "/assets/Regalia.png",
-    link: "https://www.theregaliaresort.in/"
+    image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760945290/RegaliaBanquet_acnza9.mp4",
+    website: "https://www.theregaliaresort.in/",
+    
   },
   {
     id: 8,
     title: "Design Orient Arcitect",
     category: "Architecture Portfolio Website (Figma to Code)",
     tools: "React, Tailwind css,React Router,FontAwesome ,Lucid React",
-    image: "/assets/Design Orient.png",
-    link: "https://www.architectsdo.com/"
+    image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760945282/DesignOrientArchitect_llaalf.mp4",
+    website: "https://www.architectsdo.com/",
+    
   },
     {
     id: 9,
-    title: "Blockchain DApp",
-    category: "Web3",
-    tools: "Solidity, Web3.js, React",
-    image: "/assets/Ishan_Travels.png",
-    link: "https://ishan-travel.vercel.app/"
+    title: "Ishan Travels",
+    category: "static  website for travels agency (Frontend)",
+    tools: "HTML ,CSS ,Javascript,jQuery,Bootstrap",
+    image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760945247/IshanTravels_ztijt0.mp4",
+    website: "https://ishan-travel.vercel.app/",
+     
   },
     {
     id: 10,
-    title: "Blockchain DApp",
-    category: "Web3",
-    tools: "Solidity, Web3.js, React",
-    image: "/assets/Raj_Villas.png",
-    link: "https://rajvillas-final.vercel.app/"
+    title: "Rajvillas",
+    category: "Static website for Hotel (Frontend)",
+    tools: "HTML ,CSS ,Javascript,jQuery,Bootstrap",
+    image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760945271/RajVillas_tgzs0z.mp4",
+    website: "https://rajvillas-final.vercel.app/",
+    
   }
 ];
 
@@ -209,37 +218,23 @@ const Work = () => {
     };
   }, [isMobile]);
 
-  if (isMobile) {
-    return (
-      <div className="work-section-mobile relative min-h-screen py-8 px-4">
-        <h2 className="text-3xl md:text-4xl font-medium text-center text-white mb-8">
-          My <span className="text-[#40e6b9]">Work</span>
-        </h2>
-        <div className="max-w-sm mx-auto space-y-6">
-          {workData.map((project, index) => (
-            <div key={project.id} className="work-card-mobile bg-gray-900/80 rounded-lg p-4 border border-gray-700 opacity-0">
-              <div className="flex items-start justify-between mb-3">
-                <span className="text-xl font-semibold text-[#40e6b9]">0{index + 1}</span>
-                <div className="text-right flex-1 ml-4">
-                  <h4 className="text-base font-medium text-white leading-tight">{project.title}</h4>
-                  <p className="text-xs text-[#adacac] mt-1">{project.category}</p>
-                </div>
-              </div>
-              
-              <div className="mb-3">
-                <WorkImage image={project.image} alt={project.title} project={project} index={index} />
-              </div>
-              
-              <div>
-                <h4 className="text-sm font-medium text-white mb-1">Tools & Features</h4>
-                <p className="text-xs text-[#adacac] leading-relaxed">{project.tools}</p>
-              </div>
-            </div>
-          ))}
-        </div>
+if (isMobile) {
+  return (
+    <div className="work-section-mobile bg-black min-h-screen py-8 px-4">
+      <h2 className="text-3xl font-medium text-center text-white mb-8">
+        My <span className="text-[#40e6b9]">Work</span>
+      </h2>
+      <div className="max-w-md mx-auto space-y-6">
+        {workData.map((project, index) => (
+          <div key={project.id} className="work-card-mobile">
+            <WorkImage image={project.image} alt={project.title} project={project} index={index} />
+          </div>
+        ))}
       </div>
-    );
-  }
+    </div>
+  );
+}
+
 
   return (
     <div className="work-section relative h-screen box-border will-change-transform overflow-hidden">
