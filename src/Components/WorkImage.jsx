@@ -75,7 +75,8 @@ const WorkImage = ({ image, alt, project, index }) => {
   return (
     <div className="" ref={cardRef}>
       <CardContainer className="inter-var" containerClassName="py-0">
-<CardBody className={`bg-gray-50 relative group/card dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-full lg:w-[700px] h-[550px] rounded-xl py-6 px-12 border flex flex-col cursor-pointer transition-shadow duration-300 ${isInView ? 'dark:shadow-2xl dark:shadow-emerald-500/[0.5]' : ''} lg:dark:shadow-none lg:dark:hover:shadow-2xl lg:dark:hover:shadow-emerald-500/[0.5]`}>
+<CardBody className={`bg-gray-50 relative group/card dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-full lg:w-[700px] h-auto lg:h-[550px] rounded-xl py-6 px-4 lg:px-12 border flex flex-col cursor-pointer transition-shadow duration-300 ${isInView ? 'dark:shadow-2xl dark:shadow-emerald-500/[0.5]' : ''} lg:dark:shadow-none lg:dark:hover:shadow-2xl lg:dark:hover:shadow-emerald-500/[0.5]`}>
+
 
 
 
@@ -96,7 +97,7 @@ const WorkImage = ({ image, alt, project, index }) => {
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             onTouchStart={handleTouch}>
-  <div className={`h-60 lg:h-80 w-full rounded-xl overflow-hidden transition-all duration-300 ${isHovered ? 'p-2' : 'p-0'}`}>
+  <div className={`h-60 lg:h-80 w-full rounded-xl overflow-hidden transition-all duration-300 ${isHovered ? 'lg:p-2' : 'p-0'}`}>
 
 
               <video

@@ -117,6 +117,33 @@ const Work = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // Mobile scroll animations
+const cards = document.querySelectorAll('.work-card-mobile');
+cards.forEach((card, index) => {
+  gsap.fromTo(card,
+    {
+      opacity: 0,
+      y: 50,
+      scale: 0.95
+    },
+    {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      duration: 0.6,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: card,
+        start: "top 85%",
+        end: "top 60%",
+        toggleActions: "play none none reverse",
+        markers: false
+      }
+    }
+  );
+});
+
+
   useEffect(() => {
     if (isMobile) {
       if (timelineRef.current) {
@@ -220,7 +247,8 @@ const Work = () => {
 
 if (isMobile) {
   return (
-    <div className="work-section-mobile bg-black min-h-screen py-8 px-4">
+   <div className="work-section-mobile bg-black min-h-screen py-4 ">
+
       <h2 className="text-3xl font-medium text-center text-white mb-8">
         My <span className="text-[#40e6b9]">Work</span>
       </h2>

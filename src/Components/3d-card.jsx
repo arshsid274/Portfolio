@@ -24,20 +24,22 @@ export const CardContainer = ({
     if (!containerRef.current) return;
     const { left, top, width, height } =
       containerRef.current.getBoundingClientRect();
-    const x = (e.clientX - left - width / 2) / 25;
-    const y = (e.clientY - top - height / 2) / 25;
+const x = (e.clientX - left - width / 2) / 15;
+const y = (e.clientY - top - height / 2) / 15;
+
     containerRef.current.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
   };
 
-  const handleTouchMove = (e) => {
-    if (!containerRef.current) return;
-    const touch = e.touches[0];
-    const { left, top, width, height } =
-      containerRef.current.getBoundingClientRect();
-    const x = (touch.clientX - left - width / 2) / 25;
-    const y = (touch.clientY - top - height / 2) / 25;
-    containerRef.current.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
-  };
+const handleTouchMove = (e) => {
+  if (!containerRef.current) return;
+  const touch = e.touches[0];
+  const { left, top, width, height } =
+    containerRef.current.getBoundingClientRect();
+  const x = (touch.clientX - left - width / 2) / 15;
+  const y = (touch.clientY - top - height / 2) / 15;
+  containerRef.current.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+};
+
 
   const handleMouseEnter = (e) => {
     setIsMouseEntered(true);
