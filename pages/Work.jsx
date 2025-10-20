@@ -30,7 +30,7 @@ const workData = [
     title: "Dirt Off",
     category: "Business management  app for Laundery (Full Stack App)", 
     tools: "React,Tailwind css,Firebase,Node js ,express js",
-    image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760960157/Untitled_video_-_Made_with_Clipchamp_2_jtieou.mp4",
+    image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760963986/DirtOffFullStack_wsr9bl.mp4",
     link: "https://dirt-off-frontend.vercel.app/"
   },
   {
@@ -38,7 +38,7 @@ const workData = [
     title: "Buddha Avenue",
     category: "Banquet Management app for Hotels (Full Stack App)",
     tools: "React,Tailwind css, Axios, DaisyUi,React Router DOM,Node js ,Express js,MongoDB", 
-    image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760959919/Untitled_video_-_Made_with_Clipchamp_1_ehziug.mp4",
+    image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760963994/BuddhaAvenue_fvf4zy.mp4",
     link: "https://budha-avenue-frontend.vercel.app/"
   },
   {
@@ -245,7 +245,7 @@ if (isMobile) {
         <div className="work-flex w-full flex h-full -ml-20 pr-[120px] relative will-change-transform">
           {workData.map((project, index) => (
             <div 
-              className={`work-box p-20 flex w-[600px] box-border border-r border-[#363636] flex-shrink-0 gap-[50px] justify-start will-change-transform ${
+              className={`work-box p-20 flex w-[800px] box-border border-r border-[#363636] flex-shrink-0 gap-[50px] justify-start will-change-transform ${
                 index % 2 === 1 ? 'flex-col-reverse' : 'flex-col'
               } ${index === 0 ? 'ml-20' : ''}`} 
               key={project.id}
