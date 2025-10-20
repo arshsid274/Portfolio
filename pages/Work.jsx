@@ -247,7 +247,7 @@ cards.forEach((card, index) => {
 
 if (isMobile) {
   return (
-   <div className="work-section-mobile bg-black min-h-screen py-4 ">
+   <div className="work-section-mobile bg-black min-h-screen py-4 px-2">
 
       <h2 className="text-3xl font-medium text-center text-white mb-8">
         My <span className="text-[#40e6b9]">Work</span>
@@ -281,8 +281,9 @@ if (isMobile) {
               <div className="work-info">
                 <div className="work-title flex justify-between w-full mb-5">
                   <h3 className="text-[50px] leading-[50px] m-0 font-semibold text-[#40e6b9]">
-                    0{index + 1}
-                  </h3>
+  {index + 1 < 10 ? `0${index + 1}` : index + 1}
+</h3>
+
                   <div className="text-right">
                     <h4 className="text-lg font-normal m-0 text-white">
                       {project.title}

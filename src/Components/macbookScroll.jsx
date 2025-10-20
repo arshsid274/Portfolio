@@ -133,10 +133,12 @@ const MobileScroll = ({ src, title }) => {
   }, []);
   
   const rotate = useTransform(scrollYProgress, [0, 0.1, 0.3], [-25, -25, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], [0.5, 2.8]);
+const scale = useTransform(scrollYProgress, [0, 0.7], [0.5, 1.5]);
   const translateY = useTransform(scrollYProgress, [0, 1], [0, 1500]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
-  const phoneOpacity = useTransform(scrollYProgress, [0.85, 1], [1, 0]);
+const phoneOpacity = useTransform(scrollYProgress, [0.6, 0.75], [1, 0]);
+
+
 
   return (
     <div className="relative min-h-[200vh]" ref={containerRef}>
