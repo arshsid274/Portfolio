@@ -8,6 +8,7 @@ import About from '../pages/About';
 import Experience from '../pages/Exprience';
 import Contact from '../pages/Contact';
 import Work from '../pages/Work';
+import Skills from '../pages/Skills';
 import './index.css';
 
 
@@ -16,7 +17,9 @@ function App() {
     { label: 'Home', href: '/' },
     { label: 'About', href: '/about' },
     { label: 'Services', href: '/services' },
-    { label: 'Contact', href: '/contact' }
+    { label: 'Contact', href: '/contact' },{
+      label: 'Skills', href: '/skills'
+    }
   ];
 
   const socialLinks = {
@@ -30,6 +33,8 @@ function App() {
       <Navbar navItems={navItems} socialLinks={socialLinks} />
       <Home />
       <Work/>
+      <Skills/>
+      
       <About/>
       <Experience/>
       <Contact/>

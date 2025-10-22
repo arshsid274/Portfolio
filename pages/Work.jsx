@@ -8,6 +8,15 @@ gsap.registerPlugin(ScrollTrigger);
 const workData = [
   {
     id: 1,
+    title: "Macbook Landing Page Clone Clone",
+    category: "3D Product Website (Frontend)",
+    tools: "React, Three.js, Gsap, Tailwind css",
+    image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1761135569/Macbookfinal_updated_ew7hzf.mp4",
+    website: "https://apple-website-clone-psi.vercel.app/",
+   
+  },
+  {
+    id: 2,
     title: "Apple Website Clone",
     category: "3D Product Website (Frontend)",
     tools: "React, Three.js, Gsap, Tailwind css",
@@ -16,7 +25,7 @@ const workData = [
    
   },
   {
-    id: 2,
+    id: 3,
     title: "Vasl Ai", 
     category: "Data Analyst Website (Frontend)",
     tools: "Vue, Nuxt, PrimeVue,Tailwind css,Headless Ui,HeroIcon",
@@ -26,7 +35,7 @@ const workData = [
 
   },
   {
-    id: 3,
+    id: 4,
     title: "Dirt Off",
     category: "Business management  app for Laundery (Full Stack App)", 
     tools: "React,Tailwind css,Firebase,Node js ,express js",
@@ -34,7 +43,7 @@ const workData = [
     link: "https://dirt-off-frontend.vercel.app/"
   },
   {
-    id: 4,
+    id: 5,
     title: "Buddha Avenue",
     category: "Banquet Management app for Hotels (Full Stack App)",
     tools: "React,Tailwind css, Axios, DaisyUi,React Router DOM,Node js ,Express js,MongoDB", 
@@ -42,7 +51,7 @@ const workData = [
     link: "https://budha-avenue-frontend.vercel.app/"
   },
   {
-    id: 5,
+    id: 6,
     title: "Dirt Off ",
     category: "Static Website for Laundery (Frontend)",
     tools: "HTML ,CSS ,Javascript,jQuery,Bootstrap",
@@ -51,7 +60,7 @@ const workData = [
     
   },
   {
-    id: 6,
+    id: 7,
     title: "Shine Travels",
     category: "Static Website for Travel Agency (Frontend)",
     tools: "HTML ,CSS ,Javascript,jQuery,Gsap,Bootstrap",
@@ -60,7 +69,7 @@ const workData = [
     
   },
    {
-    id: 7,
+    id: 8,
     title: "Regalia Banquet",
     category: "Static website for Banquet Hall (Frontend)",
     tools: "HTML ,CSS ,Javascript,jQuery,Bootstrap",
@@ -69,7 +78,7 @@ const workData = [
     
   },
   {
-    id: 8,
+    id: 9,
     title: "Design Orient Arcitect",
     category: "Architecture Portfolio Website (Figma to Code)",
     tools: "React, Tailwind css,React Router,FontAwesome ,Lucid React",
@@ -78,7 +87,7 @@ const workData = [
     
   },
     {
-    id: 9,
+    id: 10,
     title: "Ishan Travels",
     category: "static  website for travels agency (Frontend)",
     tools: "HTML ,CSS ,Javascript,jQuery,Bootstrap",
@@ -87,7 +96,7 @@ const workData = [
      
   },
     {
-    id: 10,
+    id: 11,
     title: "Rajvillas",
     category: "Static website for Hotel (Frontend)",
     tools: "HTML ,CSS ,Javascript,jQuery,Bootstrap",
