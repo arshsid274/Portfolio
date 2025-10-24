@@ -3,19 +3,48 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-   <meta name="viewport" content="width=1920, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-
+    <meta name="viewport" content="width=1920, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>Vite + React</title>
+    <script>
+      // Force viewport override before any rendering
+      (function() {
+        const forceViewport = () => {
+          const viewport = document.querySelector('meta[name="viewport"]');
+          if (viewport) {
+            viewport.setAttribute('content', 'width=1920, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
+          }
+          
+          // Force document dimensions
+          document.documentElement.style.width = '1920px';
+          document.documentElement.style.minWidth = '1920px';
+          document.body.style.width = '1920px';
+          document.body.style.minWidth = '1920px';
+          
+          // Calculate scale to fit viewport
+          const scale = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+          document.documentElement.style.transform = `scale(${scale})`;
+          document.documentElement.style.transformOrigin = 'top left';
+        };
+        
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', forceViewport);
+        } else {
+          forceViewport();
+        }
+        
+        window.addEventListener('resize', forceViewport);
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
     <script>
-  if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-    document.documentElement.classList.add('dark')
-  } else {
-    document.documentElement.classList.remove('dark')
-  }
-</script>
+      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark')
+      } else {
+        document.documentElement.classList.remove('dark')
+      }
+    </script>
   </body>
 </html>
