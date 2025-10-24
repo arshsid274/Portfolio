@@ -6,35 +6,42 @@
     <meta name="viewport" content="width=1920, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>Vite + React</title>
     <script>
-      // Force viewport override before any rendering
-      (function() {
-        const forceViewport = () => {
-          const viewport = document.querySelector('meta[name="viewport"]');
-          if (viewport) {
-            viewport.setAttribute('content', 'width=1920, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
-          }
-          
-          // Force document dimensions
-          document.documentElement.style.width = '1920px';
-          document.documentElement.style.minWidth = '1920px';
-          document.body.style.width = '1920px';
-          document.body.style.minWidth = '1920px';
-          
-          // Calculate scale to fit viewport
-          const scale = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
-          document.documentElement.style.transform = `scale(${scale})`;
-          document.documentElement.style.transformOrigin = 'top left';
-        };
-        
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', forceViewport);
-        } else {
-          forceViewport();
-        }
-        
-        window.addEventListener('resize', forceViewport);
-      })();
-    </script>
+  // Force viewport override before any rendering
+  (function() {
+    const forceViewport = () => {
+      const viewport = document.querySelector('meta[name="viewport"]');
+      if (viewport) {
+        viewport.setAttribute('content', 'width=1920, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
+      }
+      
+      // Force document dimensions
+      document.documentElement.style.width = '1920px';
+      document.documentElement.style.minWidth = '1920px';
+      document.body.style.width = '1920px';
+      document.body.style.minWidth = '1920px';
+      
+      // Calculate scale to fit viewport
+      const scale = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+      const scaledWidth = 1920 * scale;
+      const offsetX = (window.innerWidth - scaledWidth) / 2;
+      
+      document.documentElement.style.transform = `translateX(${offsetX}px) scale(${scale})`;
+      document.documentElement.style.transformOrigin = 'top left';
+      
+      // Prevent horizontal scroll
+      document.body.style.overflow = 'hidden';
+    };
+    
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', forceViewport);
+    } else {
+      forceViewport();
+    }
+    
+    window.addEventListener('resize', forceViewport);
+  })();
+</script>
+
   </head>
   <body>
     <div id="root"></div>
