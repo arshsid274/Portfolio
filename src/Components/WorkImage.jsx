@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { CardBody, CardContainer, CardItem } from './3d-card';
 
-const WorkImage = ({ image, alt, project, index }) => {
+const WorkImage = ({ image, project }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isInView, setIsInView] = useState(false);
   const videoRef = useRef(null);
@@ -75,34 +75,41 @@ const WorkImage = ({ image, alt, project, index }) => {
   return (
     <div className="" ref={cardRef}>
       <CardContainer className="inter-var" containerClassName="py-0">
-<CardBody className={`bg-gray-50 relative group/card dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-full lg:w-[700px] h-auto lg:h-[550px] rounded-xl py-6 px-4 lg:px-12 border flex flex-col cursor-pointer transition-shadow duration-300 ${isInView ? 'dark:shadow-2xl dark:shadow-emerald-500/[0.5]' : ''} lg:dark:shadow-none lg:dark:hover:shadow-2xl lg:dark:hover:shadow-emerald-500/[0.5]`}>
+<CardBody 
+          className={`bg-gray-50 relative group/card dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-full h-full rounded-xl py-3 px-4 border flex flex-col cursor-pointer transition-shadow duration-300 ${isInView ? 'dark:shadow-2xl dark:shadow-teal-400/[0.5]' : ''} lg:dark:shadow-none lg:dark:hover:shadow-2xl lg:dark:hover:shadow-teal-400/[0.5]`}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onTouchStart={handleTouch}>
+
 
 
 
 
           <CardItem
             translateZ="50"
-            className="text-xl font-bold text-neutral-600 dark:text-white">
+            className={`text-lg font-bold flex-shrink-0 transition-all duration-300 ${
+              isHovered || isInView 
+                ? 'bg-gradient-to-r from-[#00d4aa] to-[#0099cc] bg-clip-text text-transparent' 
+                : 'text-neutral-600 dark:text-white'
+            }`}>
             {project.title}
           </CardItem>
           <CardItem
             as="p"
             translateZ="60"
-            className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300">
+            className="text-neutral-500 text-sm max-w-sm mt-1 dark:text-neutral-300 flex-shrink-0">
             {project.category}
           </CardItem>
           <CardItem 
             translateZ="100" 
-            className="w-full mt-4 flex-1"
+            className="w-full mt-3 flex-1 min-h-0"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             onTouchStart={handleTouch}>
-  <div className={`h-60 lg:h-80 w-full rounded-xl overflow-hidden transition-all duration-300 ${isHovered ? 'lg:p-2' : 'p-0'}`}>
-
-
+            <div className={`h-full w-full rounded-xl overflow-hidden transition-all duration-300 ${isHovered ? 'lg:p-2' : 'p-0'}`}>
               <video
                 ref={videoRef}
-                className="h-full w-full object-fill group-hover/card:shadow-xl"
+                className="h-full w-full object-cover group-hover/card:shadow-xl"
                 muted
                 loop
                 playsInline
@@ -112,10 +119,10 @@ const WorkImage = ({ image, alt, project, index }) => {
               </video>
             </div>
           </CardItem>
-          <div className="flex justify-between items-end mt-auto min-h-[60px]">
+          <div className="flex justify-between items-center mt-3 flex-shrink-0">
             <CardItem
               translateZ={20}
-              className="px-4 py-2 rounded-xl text-xs font-normal dark:text-white flex-1 max-w-[60%] break-words">
+              className="px-3 py-1 rounded-xl text-xs font-normal dark:text-white flex-1 max-w-[60%] break-words">
               {project.tools}
             </CardItem>
             <CardItem
@@ -124,12 +131,11 @@ const WorkImage = ({ image, alt, project, index }) => {
               onClick={handleViewProject}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
-              className={`px-4 py-2 rounded-xl bg-black dark:bg-white dark:text-black text-white text-xs font-bold transition-all duration-300 flex items-center gap-2 flex-shrink-0 cursor-pointer ${
-  isHovered ? 'lg:scale-110 lg:px-6' : ''
-}`}>
-
+              className={`px-3 py-2 rounded-xl bg-black dark:bg-white dark:text-black text-white text-xs font-bold transition-all duration-300 flex items-center gap-2 flex-shrink-0 cursor-pointer ${
+                isHovered ? 'lg:scale-110 lg:px-4' : ''
+              }`}>
               View Project
-              <span className={`text-[#40e6b9] text-base font-black transition-all duration-300 ${
+              <span className={`text-[#00d4aa] text-sm font-black transition-all duration-300 ${
                 isHovered ? 'translate-x-1 opacity-100' : 'translate-x-0 opacity-0'
               }`}>
                 →

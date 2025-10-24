@@ -1,12 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense, lazy } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import { MacbookModel } from "../src/Components/MacbookModel.jsx";
 import LetterGlitch from "../src/Components/LetterGlitch.jsx";
 import BlurText from "../src/Components/BlurText.jsx";
 import ResumeButton from "../src/Components/ResumeButton.jsx";
+import ThreeJSErrorBoundary from "../src/Components/ThreeJSErrorBoundary.jsx";
+import { ThreeJSLoadingFallback } from "../src/Components/LoadingFallback.jsx";
+
+// Lazy load the 3D component
+const MacbookModel = lazy(() => import("../src/Components/MacbookModel.jsx").then(module => ({ default: module.MacbookModel })));
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -78,7 +82,7 @@ useGSAP(() => {
 
   return (
     <div className="flex justify-center items-center h-screen relative bg-black text-white">
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0" style={{ filter: 'blur(2px)' }}>
         <LetterGlitch
           glitchSpeed={50}
           centerVignette={true}
@@ -94,11 +98,15 @@ useGSAP(() => {
   className="order-1 lg:order-2 w-full lg:w-[600px] xl:w-[700px] 2xl:w-[800px] h-[300px] sm:h-[350px] md:h-[400px] lg:h-[500px] xl:h-[550px] 2xl:h-[600px] mb-8 lg:mb-0 lg:mt-[60px] flex justify-center items-center overflow-hidden rounded-lg"
 >
 
-  {isMobile ? (
-  <MacbookModel screenImage="/react.svg" scale={[6, 6, 6]} />
-) : (
-  <MacbookModel screenImage="/react.svg" scale={[7, 7, 7]} />
-)}
+  <ThreeJSErrorBoundary fallbackMessage="Unable to load the 3D MacBook model. The content is still available.">
+    <Suspense fallback={<ThreeJSLoadingFallback />}>
+      {isMobile ? (
+        <MacbookModel screenImage="/react.svg" scale={[6, 6, 6]} />
+      ) : (
+        <MacbookModel screenImage="/react.svg" scale={[7, 7, 7]} />
+      )}
+    </Suspense>
+  </ThreeJSErrorBoundary>
 
 </div>
 
