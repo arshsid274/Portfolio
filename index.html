@@ -4,11 +4,46 @@
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-  <meta name="viewport" content="width=1920, initial-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=1920, height=827, initial-scale=1.0, user-scalable=no" />
   <title>Vite + React</title>
   <script>
-    // Force viewport to 1920px width
-    document.querySelector('meta[name="viewport"]').content = 'width=1920, initial-scale=1.0, user-scalable=no';
+    // Force viewport to exact 1920x827 resolution
+    (function() {
+      const forceViewport = () => {
+        const viewport = document.querySelector('meta[name="viewport"]');
+        if (viewport) {
+          viewport.setAttribute('content', 'width=1920, height=827, initial-scale=1.0, user-scalable=no');
+        }
+        
+        // Force exact dimensions
+        document.documentElement.style.width = '1920px';
+        document.documentElement.style.height = '827px';
+        document.documentElement.style.minWidth = '1920px';
+        document.documentElement.style.minHeight = '827px';
+        document.documentElement.style.maxWidth = '1920px';
+        document.documentElement.style.maxHeight = '827px';
+        
+        if (document.body) {
+          document.body.style.width = '1920px';
+          document.body.style.height = '827px';
+          document.body.style.minWidth = '1920px';
+          document.body.style.minHeight = '827px';
+          document.body.style.maxWidth = '1920px';
+          document.body.style.maxHeight = '827px';
+        }
+      };
+      
+      // Apply immediately
+      forceViewport();
+      
+      // Apply when DOM is ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', forceViewport);
+      }
+      
+      // Reapply on resize (prevent any changes)
+      window.addEventListener('resize', forceViewport);
+    })();
   </script>
 
 </head>

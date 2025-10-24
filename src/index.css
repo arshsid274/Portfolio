@@ -124,22 +124,27 @@
   html {
     width: 1920px !important;
     min-width: 1920px !important;
-    height: auto !important;
+    height: 827px !important;
+    min-height: 827px !important;
     overflow-x: visible !important;
+    overflow-y: auto !important;
   }
   
   body {
     @apply bg-background text-foreground;
     width: 1920px !important;
     min-width: 1920px !important;
-    min-height: 100vh;
+    height: 827px !important;
+    min-height: 827px !important;
     overflow-x: visible !important;
+    overflow-y: auto !important;
   }
   
   #root {
     width: 1920px !important;
     min-width: 1920px !important;
-    min-height: 100vh;
+    height: auto !important;
+    min-height: 827px !important;
   }
 }
 
