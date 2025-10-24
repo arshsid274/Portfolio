@@ -147,16 +147,7 @@
     min-height: 100vh;
   }
   
-  /* Prevent browser zoom and ensure consistent scaling */
-  @media screen {
-    html {
-      zoom: 1 !important;
-      -webkit-transform: scale(1) !important;
-      -moz-transform: scale(1) !important;
-      -ms-transform: scale(1) !important;
-      transform: scale(1) !important;
-    }
-  }
+
   
   /* Ensure consistent viewport behavior across environments */
   @media screen and (min-width: 1280px) {
