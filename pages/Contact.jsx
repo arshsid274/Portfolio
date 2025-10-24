@@ -1,5 +1,5 @@
 import React from "react";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
 import { MdArrowOutward, MdCopyright } from "react-icons/md";
 
 const Contact = () => {
