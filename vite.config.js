@@ -10,13 +10,14 @@ export default defineConfig({
   ],
   server: {
     host: true,
-    port: 3001,
+    port: process.env.PORT ? parseInt(process.env.PORT) : 3001,
   },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  assetsInclude: ['**/*.html'],
   build: {
     rollupOptions: {
       external: [],

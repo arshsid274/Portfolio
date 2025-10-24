@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { cn } from "../lib/utils";
+import scrollConfig from "../utils/ScrollConfig.js";
 
 import {
   IconBrightnessDown,
@@ -193,6 +194,16 @@ export const MacbookScroll = ({
     checkScreenSize();
     window.addEventListener('resize', checkScreenSize);
 
+    // Log animation initialization for diagnostics
+    if (import.meta.env.DEV || window.location.hostname.includes('vercel')) {
+      console.log('🎬 MacbookScroll component initialized', {
+        isMobile: window.innerWidth < 768,
+        isXl: window.innerWidth >= 1280,
+        viewport: { width: window.innerWidth, height: window.innerHeight },
+        scrollYProgress: scrollYProgress.get()
+      });
+    }
+
     return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
 
@@ -202,7 +213,10 @@ export const MacbookScroll = ({
     let lastScroll = window.scrollY;
     let isScrolling = false;
 
-    const smoothScrollTo = (target, duration = 3000) => {
+    // Use environment-aware smooth scroll configuration
+    const smoothScrollSettings = scrollConfig.getSmoothScrollConfig();
+    
+    const smoothScrollTo = (target, duration = smoothScrollSettings.duration) => {
       const start = window.scrollY;
       const distance = target - start;
       const startTime = performance.now();
@@ -231,13 +245,13 @@ export const MacbookScroll = ({
       const macbookHeight = ref.current?.offsetHeight || 0;
       const scrollingDown = scrolled > lastScroll;
 
-      if (scrolled > 100 && scrolled < macbookHeight - 100) {
+      if (scrolled > smoothScrollSettings.threshold && scrolled < macbookHeight - smoothScrollSettings.threshold) {
         isScrolling = true;
 
         if (scrollingDown) {
-          smoothScrollTo(macbookHeight, 3000);
+          smoothScrollTo(macbookHeight, smoothScrollSettings.duration);
         } else {
-          smoothScrollTo(0, 3000);
+          smoothScrollTo(0, smoothScrollSettings.duration);
         }
       }
 
@@ -248,13 +262,41 @@ export const MacbookScroll = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isMobile]);
 
-  const scaleX = useTransform(scrollYProgress, [0, 1], [1.2, isMobile ? 3.0 : isXl ? 6 : 5]);
-  const scaleY = useTransform(scrollYProgress, [0, 1], [0.6, isMobile ? 2.0 : 3.5]);
+  // Use environment-aware scroll configuration
+  const scaleXValues = scrollConfig.getScaleXValues(isMobile, isXl);
+  const scaleYValues = scrollConfig.getScaleYValues(isMobile);
+  const rotateConfig = scrollConfig.getMacbookRotateConfig();
+  
+  const scaleX = useTransform(scrollYProgress, [0, 1], scaleXValues);
+  const scaleY = useTransform(scrollYProgress, [0, 1], scaleYValues);
   const translate = useTransform(scrollYProgress, [0, 1], [0, 2500]);
-  const rotate = useTransform(scrollYProgress, [0.1, 0.12, 0.3], [-28, -28, 0]);
+  const rotate = useTransform(scrollYProgress, rotateConfig.range, rotateConfig.values);
   const textTransform = useTransform(scrollYProgress, [0, 0.3], [0, 100]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
   const lidOpacity = useTransform(scrollYProgress, [0.8, 1], [1, 0]);
+
+  // Debug logging for scroll transforms
+  useEffect(() => {
+    if (import.meta.env.DEV || window.location.hostname.includes('vercel')) {
+      const unsubscribe = scrollYProgress.onChange((progress) => {
+        if (window.scrollDiagnostics) {
+          window.scrollDiagnostics.logAnimationFrame('MacbookScroll', {
+            scrollYProgress: progress,
+            scaleX: scaleX.get(),
+            scaleY: scaleY.get(),
+            translate: translate.get(),
+            rotate: rotate.get(),
+            textOpacity: textOpacity.get(),
+            lidOpacity: lidOpacity.get(),
+            isMobile,
+            isXl
+          });
+        }
+      });
+      
+      return unsubscribe;
+    }
+  }, [scrollYProgress, scaleX, scaleY, translate, rotate, textOpacity, lidOpacity, isMobile, isXl]);
 
   if (isMobile) {
     return <MobileScroll src="https://res.cloudinary.com/dgpzvkjki/video/upload/v1760972230/Mobile_view_iwhclu.mp4" title={title} />;

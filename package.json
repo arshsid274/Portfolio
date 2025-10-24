@@ -15,7 +15,10 @@
     "test:prod": "npm run build:prod && npm run preview",
     "test:assets": "node scripts/test-assets.js",
     "test:build": "npm run build:prod && node scripts/verify-build.js",
-    "diagnose": "node scripts/diagnose.js"
+    "diagnose": "node scripts/diagnose.js",
+    "vercel:dev": "vercel dev",
+    "vercel:test": "npm run test:assets && vercel dev",
+    "compare:env": "node scripts/compare-environments.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.0.1",
