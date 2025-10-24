@@ -2,7 +2,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { cn } from "../lib/utils";
-import scrollConfig from "../utils/ScrollConfig.js";
 
 import {
   IconBrightnessDown,
@@ -43,7 +42,7 @@ const Iphone = ({ videoSrc }) => {
   const RADIUS_V = (SCREEN_RADIUS / SCREEN_HEIGHT) * 100;
 
   return (
-    <div
+    <div 
       className="relative inline-block w-full align-middle"
       style={{ aspectRatio: `${PHONE_WIDTH}/${PHONE_HEIGHT}` }}>
       <div className="pointer-events-none absolute z-0 overflow-hidden" style={{ left: `${LEFT_PCT}%`, top: `${TOP_PCT}%`, width: `${WIDTH_PCT}%`, height: `${HEIGHT_PCT}%`, borderRadius: `${RADIUS_H}% / ${RADIUS_V}%` }}>
@@ -78,7 +77,7 @@ const Iphone = ({ videoSrc }) => {
 
 const MobileScroll = ({ src, title }) => {
   const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({
+  const { scrollYProgress } = useScroll({ 
     target: containerRef,
     offset: ["start start", "end start"]
   });
@@ -86,58 +85,58 @@ const MobileScroll = ({ src, title }) => {
   useEffect(() => {
     let lastScroll = window.scrollY;
     let isScrolling = false;
-
+    
     const smoothScrollTo = (target, duration = 2000) => {
       const start = window.scrollY;
       const distance = target - start;
       const startTime = performance.now();
-
+      
       const scroll = (currentTime) => {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
         const easeProgress = progress * (2 - progress);
-
+        
         window.scrollTo(0, start + distance * easeProgress);
-
+        
         if (progress < 1) {
           requestAnimationFrame(scroll);
         } else {
           isScrolling = false;
         }
       };
-
+      
       requestAnimationFrame(scroll);
     };
-
+    
     const handleScroll = () => {
       if (isScrolling) return;
-
+      
       const scrolled = window.scrollY;
       const mobileHeight = containerRef.current?.offsetHeight || 0;
       const scrollingDown = scrolled > lastScroll;
-
+      
       if (scrolled > 50 && scrolled < mobileHeight - 50) {
         isScrolling = true;
-
+        
         if (scrollingDown) {
           smoothScrollTo(mobileHeight, 2000);
         } else {
           smoothScrollTo(0, 2000);
         }
       }
-
+      
       lastScroll = scrolled;
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
+  
   const rotate = useTransform(scrollYProgress, [0, 0.1, 0.3], [-25, -25, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.7], [0.5, 1.5]);
+const scale = useTransform(scrollYProgress, [0, 0.7], [0.5, 1.5]);
   const translateY = useTransform(scrollYProgress, [0, 1], [0, 1500]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
-  const phoneOpacity = useTransform(scrollYProgress, [0.6, 0.75], [1, 0]);
+const phoneOpacity = useTransform(scrollYProgress, [0.6, 0.75], [1, 0]);
 
 
 
@@ -150,9 +149,9 @@ const MobileScroll = ({ src, title }) => {
           </h2>
         </motion.div>
         <div style={{ perspective: "1000px" }} className="w-full max-w-xs">
-          <motion.div
-            style={{
-              scale,
+          <motion.div 
+            style={{ 
+              scale, 
               rotateX: rotate,
               translateY,
               opacity: phoneOpacity,
@@ -187,74 +186,79 @@ export const MacbookScroll = ({
 
   useEffect(() => {
     const checkScreenSize = () => {
-      setIsMobile(window.innerWidth < 768);
-      setIsXl(window.innerWidth >= 1280);
+      // Use more reliable viewport detection
+      const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+      setIsMobile(vw < 768);
+      setIsXl(vw >= 1280);
     };
-
-    checkScreenSize();
-    window.addEventListener('resize', checkScreenSize);
-
-    // Log animation initialization for diagnostics
-    if (import.meta.env.DEV || window.location.hostname.includes('vercel')) {
-      console.log('🎬 MacbookScroll component initialized', {
-        isMobile: window.innerWidth < 768,
-        isXl: window.innerWidth >= 1280,
-        viewport: { width: window.innerWidth, height: window.innerHeight },
-        scrollYProgress: scrollYProgress.get()
-      });
-    }
-
-    return () => window.removeEventListener('resize', checkScreenSize);
+    
+    // Initial check with a small delay to ensure DOM is ready
+    setTimeout(checkScreenSize, 100);
+    
+    const debouncedResize = (() => {
+      let timeoutId;
+      return () => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(checkScreenSize, 150);
+      };
+    })();
+    
+    window.addEventListener('resize', debouncedResize);
+    window.addEventListener('orientationchange', () => {
+      setTimeout(checkScreenSize, 500);
+    });
+    
+    return () => {
+      window.removeEventListener('resize', debouncedResize);
+      window.removeEventListener('orientationchange', checkScreenSize);
+    };
   }, []);
 
   useEffect(() => {
     if (isMobile) return;
-
+    
     let lastScroll = window.scrollY;
     let isScrolling = false;
-
-    // Use environment-aware smooth scroll configuration
-    const smoothScrollSettings = scrollConfig.getSmoothScrollConfig();
     
-    const smoothScrollTo = (target, duration = smoothScrollSettings.duration) => {
+    const smoothScrollTo = (target, duration = 3000) => {
       const start = window.scrollY;
       const distance = target - start;
       const startTime = performance.now();
-
+      
       const scroll = (currentTime) => {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
         const easeProgress = progress * (2 - progress);
-
+        
         window.scrollTo(0, start + distance * easeProgress);
-
+        
         if (progress < 1) {
           requestAnimationFrame(scroll);
         } else {
           isScrolling = false;
         }
       };
-
+      
       requestAnimationFrame(scroll);
     };
-
+    
     const handleScroll = () => {
       if (isScrolling) return;
-
+      
       const scrolled = window.scrollY;
       const macbookHeight = ref.current?.offsetHeight || 0;
       const scrollingDown = scrolled > lastScroll;
-
-      if (scrolled > smoothScrollSettings.threshold && scrolled < macbookHeight - smoothScrollSettings.threshold) {
+      
+      if (scrolled > 100 && scrolled < macbookHeight - 100) {
         isScrolling = true;
-
+        
         if (scrollingDown) {
-          smoothScrollTo(macbookHeight, smoothScrollSettings.duration);
+          smoothScrollTo(macbookHeight, 3000);
         } else {
-          smoothScrollTo(0, smoothScrollSettings.duration);
+          smoothScrollTo(0, 3000);
         }
       }
-
+      
       lastScroll = scrolled;
     };
 
@@ -262,50 +266,27 @@ export const MacbookScroll = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isMobile]);
 
-  // Use environment-aware scroll configuration
-  const scaleXValues = scrollConfig.getScaleXValues(isMobile, isXl);
-  const scaleYValues = scrollConfig.getScaleYValues(isMobile);
-  const rotateConfig = scrollConfig.getMacbookRotateConfig();
-  
-  const scaleX = useTransform(scrollYProgress, [0, 1], scaleXValues);
-  const scaleY = useTransform(scrollYProgress, [0, 1], scaleYValues);
+  const scaleX = useTransform(scrollYProgress, [0, 1], [1.2, isMobile ? 3.0 : isXl ? 5.5 : 4.8]);
+  const scaleY = useTransform(scrollYProgress, [0, 1], [0.6, isMobile ? 2.0 : 3.2]);
   const translate = useTransform(scrollYProgress, [0, 1], [0, 2500]);
-  const rotate = useTransform(scrollYProgress, rotateConfig.range, rotateConfig.values);
+  const rotate = useTransform(scrollYProgress, [0.1, 0.12, 0.3], [-28, -28, 0]);
   const textTransform = useTransform(scrollYProgress, [0, 0.3], [0, 100]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
   const lidOpacity = useTransform(scrollYProgress, [0.8, 1], [1, 0]);
 
-  // Debug logging for scroll transforms
-  useEffect(() => {
-    if (import.meta.env.DEV || window.location.hostname.includes('vercel')) {
-      const unsubscribe = scrollYProgress.onChange((progress) => {
-        if (window.scrollDiagnostics) {
-          window.scrollDiagnostics.logAnimationFrame('MacbookScroll', {
-            scrollYProgress: progress,
-            scaleX: scaleX.get(),
-            scaleY: scaleY.get(),
-            translate: translate.get(),
-            rotate: rotate.get(),
-            textOpacity: textOpacity.get(),
-            lidOpacity: lidOpacity.get(),
-            isMobile,
-            isXl
-          });
-        }
-      });
-      
-      return unsubscribe;
-    }
-  }, [scrollYProgress, scaleX, scaleY, translate, rotate, textOpacity, lidOpacity, isMobile, isXl]);
-
-  if (isMobile) {
-    return <MobileScroll src="https://res.cloudinary.com/dgpzvkjki/video/upload/v1760972230/Mobile_view_iwhclu.mp4" title={title} />;
-  }
+if (isMobile) {
+  return <MobileScroll src="https://res.cloudinary.com/dgpzvkjki/video/upload/v1760972230/Mobile_view_iwhclu.mp4" title={title} />;
+}
 
   return (
     <div
       ref={ref}
-      className="relative flex min-h-[200vh] shrink-0 transform flex-col items-center justify-start py-0 [perspective:800px] scale-100 md:py-40">
+      className="relative flex min-h-[200vh] shrink-0 scale-[0.35] transform flex-col items-center justify-start py-0 [perspective:800px] sm:scale-50 md:scale-100 md:py-40"
+      style={{
+        width: '100vw',
+        maxWidth: '100%',
+        overflow: 'hidden'
+      }}>
       <motion.h2
         style={{
           translateY: textTransform,

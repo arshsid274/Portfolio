@@ -47,37 +47,6 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
-/* Viewport and scaling fixes */
-html {
-  -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
-  text-size-adjust: 100%;
-}
-
-body {
-  width: 100vw;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Prevent zoom on input focus (iOS) */
-input, select, textarea, button {
-  font-size: 16px !important;
-}
-
-/* Ensure consistent box-sizing */
-*, *::before, *::after {
-  box-sizing: border-box;
-}
-
-/* Fix for high-DPI displays */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-  html {
-    font-size: 16px;
-  }
-}
-
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -153,21 +122,62 @@ input, select, textarea, button {
   }
   
   html {
+    /* Prevent zoom on mobile devices */
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
-    overflow-y: scroll;
-    box-sizing: border-box;
     text-size-adjust: 100%;
+    /* Ensure consistent viewport behavior */
+    width: 100%;
+    height: 100%;
   }
   
   body {
     @apply bg-background text-foreground;
-    -webkit-text-size-adjust: 100%;
-    -ms-text-size-adjust: 100%;
-    text-size-adjust: 100%;
+    /* Prevent horizontal scroll and ensure full viewport usage */
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+    /* Prevent zoom and scaling issues */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  #root {
+    width: 100%;
+    min-height: 100vh;
+  }
+  
+  /* Prevent browser zoom and ensure consistent scaling */
+  @media screen {
+    html {
+      zoom: 1 !important;
+      -webkit-transform: scale(1) !important;
+      -moz-transform: scale(1) !important;
+      -ms-transform: scale(1) !important;
+      transform: scale(1) !important;
+    }
+  }
+  
+  /* Ensure consistent viewport behavior across environments */
+  @media screen and (min-width: 1280px) {
+    html {
+      font-size: 16px;
+    }
+  }
+  
+  @media screen and (max-width: 1279px) and (min-width: 768px) {
+    html {
+      font-size: 16px;
+    }
+  }
+  
+  /* Force consistent container sizing */
+  .macbook-container {
+    width: 100vw !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
   }
 }
-
 
 @layer utilities {
   @keyframes pulse {
@@ -182,20 +192,6 @@ input, select, textarea, button {
   .animate-pulse {
     animation: pulse var(--duration, 1.5s) ease-out infinite;
   }
-  
-  .viewport-stable {
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    -webkit-perspective: 1000;
-    perspective: 1000;
-  }
-  
- .responsive-container {
-  width: 100%;
-  max-width: 1920px;
-  margin: 0 auto;
 }
 
-}
+
