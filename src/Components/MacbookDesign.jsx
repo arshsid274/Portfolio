@@ -57,7 +57,7 @@ export const MacbookDesign = ({
   return (
     <div
       ref={ref}
-      className="flex min-h-[200vh] shrink-0 transform flex-col items-center justify-start py-0 [perspective:800px] scale-[0.4] sm:scale-[0.6] md:scale-[0.8] lg:scale-100 md:py-40 viewport-stable">
+      className="flex min-h-[200vh] shrink-0 transform flex-col items-center justify-start py-0 [perspective:800px] scale-100 md:py-40 viewport-stable">
       <motion.h2
         style={{
           // translateY: textTransform,

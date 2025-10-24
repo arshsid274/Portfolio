@@ -166,7 +166,7 @@ function App() {
   };
 
   return (
-    <div className="overflow-x-hidden min-h-screen viewport-stable">
+    <div className="min-h-screen viewport-stable force-desktop-viewport">
       <ScreenSizeHelper />
       <ThreeJSErrorBoundary fallbackMessage="Unable to load the interactive MacBook display. The portfolio content is still available below.">
         <Suspense fallback={<ThreeJSLoadingFallback />}>
