@@ -185,12 +185,13 @@ export const MacbookScroll = ({
   const [isXl, setIsXl] = useState(false);
 
   useEffect(() => {
-    const checkScreenSize = () => {
-      // Use more reliable viewport detection
-      const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-      setIsMobile(vw < 768);
-      setIsXl(vw >= 1280);
-    };
+   const checkScreenSize = () => {
+  // Force consistent viewport detection
+  const vw = window.innerWidth || document.documentElement.clientWidth || 1920;
+  setIsMobile(vw < 768);
+  setIsXl(vw >= 1920); // Changed from 1280 to 1920
+};
+
     
     // Initial check with a small delay to ensure DOM is ready
     setTimeout(checkScreenSize, 100);
@@ -266,8 +267,11 @@ export const MacbookScroll = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isMobile]);
 
-  const scaleX = useTransform(scrollYProgress, [0, 1], [1.2, isMobile ? 3.0 : isXl ? 5.5 : 4.8]);
-  const scaleY = useTransform(scrollYProgress, [0, 1], [0.6, isMobile ? 2.0 : 3.2]);
+  // const scaleX = useTransform(scrollYProgress, [0, 1], [1.2, isMobile ? 3.0 : isXl ? 5.5 : 4.8]);
+  // const scaleY = useTransform(scrollYProgress, [0, 1], [0.6, isMobile ? 2.0 : 3.2]);
+  const scaleX = useTransform(scrollYProgress, [0, 1], [1.2, 5.5]); // Force XL scale
+const scaleY = useTransform(scrollYProgress, [0, 1], [0.6, 3.2]); // Force XL scale
+
   const translate = useTransform(scrollYProgress, [0, 1], [0, 2500]);
   const rotate = useTransform(scrollYProgress, [0.1, 0.12, 0.3], [-28, -28, 0]);
   const textTransform = useTransform(scrollYProgress, [0, 0.3], [0, 100]);
