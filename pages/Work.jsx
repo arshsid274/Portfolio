@@ -139,7 +139,7 @@ const Work = () => {
 
       // Mobile scroll animations
       const cards = document.querySelectorAll('.work-card-mobile');
-      cards.forEach((card, index) => {
+      cards.forEach((card) => {
         gsap.fromTo(card,
           {
             opacity: 0,
@@ -168,65 +168,91 @@ const Work = () => {
     let translateX = 0;
 
     function setTranslateX() {
-      const box = document.getElementsByClassName("work-box");
-      if (box.length === 0) return;
+      const boxes = document.getElementsByClassName("work-box");
+      if (boxes.length === 0) return;
 
-      const container = document.querySelector(".work-container");
+      const container = document.querySelector(".work-flex");
       if (!container) return;
 
-      const rectLeft = container.getBoundingClientRect().left;
-      const rect = box[0].getBoundingClientRect();
-      const parentWidth = box[0].parentElement?.getBoundingClientRect().width || 0;
+      // Calculate the total width of all work boxes
+      const boxWidth = 600; // Each box is 600px wide
+      const totalBoxesWidth = boxWidth * boxes.length;
 
-      const computedStyle = window.getComputedStyle(box[0]);
-      const padding = parseInt(computedStyle.paddingLeft) || 80;
+      // Get the viewport width
+      const viewportWidth = window.innerWidth;
 
-      translateX = (rect.width * box.length) - (rectLeft + parentWidth) + padding;
+      // Calculate how much we need to translate to show all content
+      // We want to scroll until the last box is visible
+      translateX = Math.max(0, totalBoxesWidth - viewportWidth + 200); // 200px buffer
     }
 
     function setupAnimation() {
       setTranslateX();
 
+      // Only create animation if we have content to scroll
+      if (translateX <= 0) {
+        return null;
+      }
+
       let timeline = gsap.timeline({
         scrollTrigger: {
           trigger: ".work-section",
           start: "top top",
-          end: `+=${translateX}`,
+          end: () => `+=${translateX * 3}`, // Slower, more controlled scroll
           scrub: 1,
           pin: true,
           id: "work",
           refreshPriority: -1,
           anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            // Clamp the progress to prevent over-scrolling
+            const clampedProgress = Math.min(self.progress, 1);
+            gsap.set(".work-flex", {
+              x: -translateX * clampedProgress,
+              force3D: true
+            });
+          }
         },
-      });
-
-      timeline.to(".work-flex", {
-        x: -translateX,
-        ease: "none",
       });
 
       return timeline;
     }
 
     const timeline = setupAnimation();
+    timelineRef.current = timeline;
 
     let resizeTimeout;
     const handleResize = () => {
       clearTimeout(resizeTimeout);
       resizeTimeout = setTimeout(() => {
-        timeline.kill();
+        // Clean up existing animation
+        if (timelineRef.current) {
+          timelineRef.current.kill();
+        }
         ScrollTrigger.getById("work")?.kill();
-        setupAnimation();
+
+        // Reset transform
+        gsap.set(".work-flex", { x: 0 });
+
+        // Create new animation
+        const newTimeline = setupAnimation();
+        timelineRef.current = newTimeline;
       }, 250);
     };
 
     window.addEventListener('resize', handleResize);
 
     return () => {
-      timeline.kill();
+      if (timelineRef.current) {
+        timelineRef.current.kill();
+      }
       ScrollTrigger.getById("work")?.kill();
       window.removeEventListener('resize', handleResize);
       clearTimeout(resizeTimeout);
+
+      // Reset transform on cleanup
+      gsap.set(".work-flex", { x: 0 });
     };
   }, [isMobile]);
 
@@ -250,16 +276,16 @@ const Work = () => {
 
 
   return (
-    <div className="work-section relative h-screen box-border will-change-transform overflow-hidden">
+    <div className="work-section relative h-screen box-border will-change-transform overflow-hidden bg-black">
       <div className="work-container relative mx-auto flex flex-col h-full max-w-none">
-        <h2 className="text-[70px] font-medium text-center text-white py-8 flex-shrink-0">
+        <h2 className="text-[70px] font-medium text-center text-white py-8 flex-shrink-0 z-10">
           My <span className="text-[#40e6b9]">Work</span>
         </h2>
-        <div className="work-flex w-full flex flex-1 relative will-change-transform">
+        <div className="work-flex w-full flex flex-1 relative will-change-transform" style={{ transform: 'translateX(0px)' }}>
           {workData.map((project, index) => (
             <div
-              className={`work-box px-12 py-6 flex w-[600px] h-full box-border border-r border-[#363636] flex-shrink-0 gap-6 justify-center will-change-transform ${index % 2 === 1 ? 'flex-col-reverse' : 'flex-col'
-                } ${index === 0 ? 'ml-12' : ''}`}
+              className={`work-box px-8 py-6 flex w-[600px] h-full box-border border-r border-[#363636] flex-shrink-0 gap-6 justify-center will-change-transform ${index % 2 === 1 ? 'flex-col-reverse' : 'flex-col'
+                } ${index === 0 ? 'pl-12' : ''} ${index === workData.length - 1 ? 'pr-12' : ''}`}
               key={project.id}
             >
               <div className="work-info flex-shrink-0">

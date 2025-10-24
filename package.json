@@ -10,7 +10,12 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build:prod": "vite build --mode production",
+    "test:prod": "npm run build:prod && npm run preview",
+    "test:assets": "node scripts/test-assets.js",
+    "test:build": "npm run build:prod && node scripts/verify-build.js",
+    "diagnose": "node scripts/diagnose.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.0.1",
