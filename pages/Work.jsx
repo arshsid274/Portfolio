@@ -170,18 +170,18 @@ const Work = () => {
 
     // Define breakpoints and corresponding card configurations
     const breakpoints = [
-      { minWidth: 2560, cardWidth: 520, cardsVisible: 4.5, fontSize: 1.1 }, // 4K+ displays
-      { minWidth: 1920, cardWidth: 480, cardsVisible: 3.5, fontSize: 1.0 }, // Standard 1920px
-      { minWidth: 1600, cardWidth: 420, cardsVisible: 3.2, fontSize: 0.95 }, // 1600px displays
-      { minWidth: 1440, cardWidth: 380, cardsVisible: 3.0, fontSize: 0.9 }, // 1440px displays
-      { minWidth: 1366, cardWidth: 360, cardsVisible: 2.8, fontSize: 0.85 }, // 1366px displays
-      { minWidth: 1280, cardWidth: 340, cardsVisible: 2.5, fontSize: 0.8 }, // 1280px displays
-      { minWidth: 1024, cardWidth: 320, cardsVisible: 2.2, fontSize: 0.75 }, // Tablets
+      { minWidth: 2560, cardWidth: 600, cardsVisible: 4.0, fontSize: 1.1 }, // 4K+ displays
+      { minWidth: 1920, cardWidth: 550, cardsVisible: 3.2, fontSize: 1.0 }, // Standard 1920px
+      { minWidth: 1600, cardWidth: 480, cardsVisible: 3.0, fontSize: 0.95 }, // 1600px displays
+      { minWidth: 1440, cardWidth: 440, cardsVisible: 2.8, fontSize: 0.9 }, // 1440px displays
+      { minWidth: 1366, cardWidth: 420, cardsVisible: 2.6, fontSize: 0.85 }, // 1366px displays
+      { minWidth: 1280, cardWidth: 400, cardsVisible: 2.4, fontSize: 0.8 }, // 1280px displays
+      { minWidth: 1024, cardWidth: 380, cardsVisible: 2.0, fontSize: 0.75 }, // Tablets
     ];
 
     // Find the appropriate configuration
     const config = breakpoints.find(bp => viewportWidth >= bp.minWidth) ||
-      { cardWidth: 300, cardsVisible: 2.0, fontSize: 0.7 }; // Fallback
+      { cardWidth: 360, cardsVisible: 1.8, fontSize: 0.7 }; // Fallback
 
     // Adjust for device pixel ratio and zoom
     const dprAdjustment = Math.max(0.9, Math.min(1.1, 1 / devicePixelRatio));
@@ -274,21 +274,23 @@ const Work = () => {
         return null; // No animation needed if all cards fit
       }
 
+      // Clean up any existing ScrollTrigger instances
+      ScrollTrigger.getById("work")?.kill();
+
       let timeline = gsap.timeline({
         scrollTrigger: {
           trigger: ".work-section",
           start: "top top",
-          end: `+=${translateX}`, // Scroll distance matches exactly what we need
+          end: () => `+=${Math.max(translateX * 2, window.innerHeight)}`, // More generous end point
           scrub: 1,
           pin: true,
           id: "work",
           refreshPriority: -1,
           anticipatePin: 1,
-          onUpdate: (self) => {
-            // Clamp the scroll to prevent over-scrolling
-            const maxScroll = -translateX;
-            const currentScroll = maxScroll * self.progress;
-            gsap.set(".work-flex", { x: Math.max(currentScroll, maxScroll) });
+          invalidateOnRefresh: true,
+          onRefresh: () => {
+            // Recalculate on refresh
+            setTranslateX();
           }
         },
       });
@@ -301,27 +303,49 @@ const Work = () => {
       return timeline;
     }
 
-    const timeline = setupAnimation();
+    // Store timeline reference
+    timelineRef.current = setupAnimation();
 
     let resizeTimeout;
     const handleResize = () => {
       clearTimeout(resizeTimeout);
       resizeTimeout = setTimeout(() => {
-        if (timeline) timeline.kill();
+        // Kill existing timeline and ScrollTrigger
+        if (timelineRef.current) {
+          timelineRef.current.kill();
+          timelineRef.current = null;
+        }
         ScrollTrigger.getById("work")?.kill();
-        setupAnimation();
-      }, 250);
+
+        // Refresh ScrollTrigger and recreate animation
+        ScrollTrigger.refresh();
+        timelineRef.current = setupAnimation();
+      }, 300);
     };
 
     window.addEventListener('resize', handleResize);
 
     return () => {
-      if (timeline) timeline.kill();
+      if (timelineRef.current) {
+        timelineRef.current.kill();
+        timelineRef.current = null;
+      }
       ScrollTrigger.getById("work")?.kill();
       window.removeEventListener('resize', handleResize);
       clearTimeout(resizeTimeout);
     };
   }, [isMobile, layout, effectiveViewport]);
+
+  // Add a separate effect to refresh ScrollTrigger when layout changes
+  useEffect(() => {
+    if (!isMobile) {
+      const refreshTimeout = setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 100);
+
+      return () => clearTimeout(refreshTimeout);
+    }
+  }, [layout, isMobile]);
 
   if (isMobile) {
     return (
