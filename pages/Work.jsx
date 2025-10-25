@@ -112,6 +112,7 @@ const Work = () => {
 
   useEffect(() => {
     const checkScreenSize = () => {
+      // Use natural viewport detection like MacbookScroll for Vercel consistency
       const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
       setViewportWidth(vw);
     };
@@ -144,6 +145,9 @@ const Work = () => {
   };
 
   const gridConfig = getGridConfig();
+
+  // Calculate scale based on viewport width with 1920px as reference (like Home.jsx)
+  const scale = Math.min(viewportWidth / 1920, 1);
 
   useEffect(() => {
     // Clean up any existing ScrollTriggers
@@ -185,7 +189,13 @@ const Work = () => {
       ref={containerRef}
       className="work-section bg-black min-h-screen py-12 px-4 sm:px-6 lg:px-8"
     >
-      <div className="max-w-7xl mx-auto">
+      <div 
+        className="max-w-7xl mx-auto"
+        style={{
+          transform: `scale(${scale})`,
+          transformOrigin: 'top center'
+        }}
+      >
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4">
@@ -196,14 +206,15 @@ const Work = () => {
           </p>
         </div>
 
-        {/* Responsive Grid with Enhanced Gaps */}
+        {/* Fixed Grid with Consistent Dimensions */}
         <div
-          className={`grid ${gridConfig.cols === 1 ? 'grid-cols-1' :
-            gridConfig.cols === 2 ? 'grid-cols-1 md:grid-cols-2' :
-              'grid-cols-1 md:grid-cols-2 2xl:grid-cols-3'
-            }`}
+          className="grid"
           style={{
-            gap: `${gridConfig.gap * 4}px` // Enhanced gap spacing in pixels
+            gridTemplateColumns: `repeat(${gridConfig.cols}, 1fr)`,
+            gap: `${gridConfig.gap * 4}px`,
+            width: '100%',
+            maxWidth: '1400px',
+            margin: '0 auto'
           }}
         >
           {workData.map((project, index) => (
