@@ -114,7 +114,7 @@ function Skills() {
   const scale = Math.min(viewportWidth / 1920, 1);
 
   return (
-    <section className="min-h-screen overflow-hidden">
+    <section id="skills" className="min-h-screen overflow-hidden">
       <Vortex
         backgroundColor="#000000"
         baseHue={120}

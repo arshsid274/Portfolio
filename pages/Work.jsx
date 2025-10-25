@@ -186,6 +186,7 @@ const Work = () => {
 
   return (
     <div
+      id="work"
       ref={containerRef}
       className="work-section bg-black py-12 px-4 sm:px-6 lg:px-8"
     >

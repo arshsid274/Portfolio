@@ -24,11 +24,11 @@ export const Navbar = ({ navItems = [], socialLinks = {} }) => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <a href="/" className="flex items-center space-x-2">
-              <div className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xs sm:text-sm md:text-base">L</span>
+            <a href="#home-section" className="flex items-center space-x-2">
+              <div className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 bg-gradient-to-r from-[#00d4aa] to-[#40e6b9] rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-xs sm:text-sm md:text-base">A</span>
               </div>
-              <span className="font-bold text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl 2xl:text-3xl text-gray-900 dark:text-white">Logo</span>
+              <span className="font-bold text-lg sm:text-xl md:text-xl lg:text-2xl xl:text-2xl 2xl:text-3xl text-gray-900 dark:text-white">Arsh</span>
             </a>
           </div>
 

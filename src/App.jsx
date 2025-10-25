@@ -79,16 +79,16 @@ function App() {
   }, [isMainLoading]);
 
   const navItems = [
-    { label: 'Home', href: '/' },
-    { label: 'About', href: '/about' },
-    { label: 'Services', href: '/services' },
-    { label: 'Contact', href: '/contact' },
-    { label: 'Skills', href: '/skills' }
+    { label: 'Home', href: '#home-section' },
+    { label: 'Work', href: '#work' },
+    { label: 'Skills', href: '#skills' },
+    { label: 'Experience', href: '#experience' },
+    { label: 'Contact', href: '#contact' }
   ];
 
   const socialLinks = {
     github: 'https://github.com/arshsid274',
-    twitter: 'https://twitter.com/username'
+    twitter: 'https://twitter.com/arshsid274'
   };
 
   return (

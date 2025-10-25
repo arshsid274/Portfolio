@@ -99,7 +99,7 @@ const Experience = () => {
   // const scale = Math.min(viewportWidth / 1920, 1);
 
   return (
-    <div className="career-section section-container">
+    <div id="experience" className="career-section section-container">
       <div className="career-container">
         <h2>
           My career <span>&</span>
