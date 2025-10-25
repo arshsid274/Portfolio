@@ -1,8 +1,32 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./styles/Experience.css";
 import { initializeExperienceAnimation } from "../src/utils/experienceAnimation.js";
 
 const Experience = () => {
+  const [viewportWidth, setViewportWidth] = useState(1920);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      // Use natural viewport detection for Vercel consistency
+      const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+      setViewportWidth(vw);
+    };
+
+    checkScreenSize();
+    
+    const debouncedResize = () => {
+      setTimeout(checkScreenSize, 150);
+    };
+
+    window.addEventListener('resize', debouncedResize);
+    window.addEventListener('orientationchange', debouncedResize);
+
+    return () => {
+      window.removeEventListener('resize', debouncedResize);
+      window.removeEventListener('orientationchange', debouncedResize);
+    };
+  }, []);
+
   useEffect(() => {
     try {
       initializeExperienceAnimation();
@@ -22,9 +46,19 @@ const Experience = () => {
       });
     }
   }, []);
+
+  // Calculate scale based on viewport width with 1920px as reference
+  const scale = Math.min(viewportWidth / 1920, 1);
+
   return (
     <div className="career-section section-container">
-      <div className="career-container">
+      <div 
+        className="career-container"
+        style={{
+          transform: `scale(${scale})`,
+          transformOrigin: 'top center'
+        }}
+      >
         <h2>
           My career <span>&</span>
           <br /> experience

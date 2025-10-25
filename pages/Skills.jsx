@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Vortex } from "../src/Components/Vortex";
 
@@ -68,6 +68,33 @@ const technologies = [
 ];
 
 function Skills() {
+  const [viewportWidth, setViewportWidth] = useState(1920);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      // Use natural viewport detection for Vercel consistency
+      const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+      setViewportWidth(vw);
+    };
+
+    checkScreenSize();
+    
+    const debouncedResize = () => {
+      setTimeout(checkScreenSize, 150);
+    };
+
+    window.addEventListener('resize', debouncedResize);
+    window.addEventListener('orientationchange', debouncedResize);
+
+    return () => {
+      window.removeEventListener('resize', debouncedResize);
+      window.removeEventListener('orientationchange', debouncedResize);
+    };
+  }, []);
+
+  // Calculate scale based on viewport width with 1920px as reference
+  const scale = Math.min(viewportWidth / 1920, 1);
+
   return (
     <section className="min-h-screen overflow-hidden">
       <Vortex
@@ -81,7 +108,13 @@ function Skills() {
         rangeY={400}
         containerClassName="min-h-screen"
       >
-        <div className="max-w-7xl mx-auto py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8">
+        <div 
+          className="max-w-7xl mx-auto py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8"
+          style={{
+            transform: `scale(${scale})`,
+            transformOrigin: 'top center'
+          }}
+        >
           <motion.div 
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
