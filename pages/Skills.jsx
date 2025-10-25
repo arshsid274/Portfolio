@@ -11,16 +11,16 @@ const SkillItem = ({ name, icon, index }) => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768 || 'ontouchstart' in window);
     };
-    
+
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    
+
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   const onMouseMove = (e) => {
     if (isMobile) return; // Disable mouse move on mobile
-    
+
     const { clientX, clientY } = e;
     const { width, height, left, top } = ref.current.getBoundingClientRect();
     const x = clientX - (left + width / 2);
@@ -36,16 +36,16 @@ const SkillItem = ({ name, icon, index }) => {
   const { x, y } = position;
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, x: -50 }}
       whileInView={{ opacity: 1, x: 0 }}
       transition={{ delay: index * 0.1, duration: 0.5 }}
       viewport={{ once: true }}
     >
-      <motion.div 
-        ref={ref} 
-        onMouseMove={onMouseMove} 
-        onMouseLeave={onMouseLeave} 
+      <motion.div
+        ref={ref}
+        onMouseMove={onMouseMove}
+        onMouseLeave={onMouseLeave}
         animate={isMobile ? {} : { x, y }}
         transition={{
           type: 'spring',
@@ -57,7 +57,7 @@ const SkillItem = ({ name, icon, index }) => {
         whileTap={isMobile ? { scale: 0.95 } : {}}
         className="skill-item-container"
       >
-        <img 
+        <img
           title={name}
           alt={name}
           className="cursor-pointer object-cover w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 transition-all duration-200 hover:brightness-110"
@@ -96,7 +96,7 @@ function Skills() {
     };
 
     checkScreenSize();
-    
+
     const debouncedResize = () => {
       setTimeout(checkScreenSize, 150);
     };
@@ -127,7 +127,7 @@ function Skills() {
         containerClassName="min-h-screen"
       >
         <div className="max-w-7xl mx-auto py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -139,15 +139,15 @@ function Skills() {
           </motion.div>
 
           <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-8 sm:gap-10 md:gap-12 lg:gap-14 xl:gap-16 place-items-center px-4 sm:px-2">
-  {technologies.map((technology, index) => (
-    <SkillItem 
-      key={technology.name}
-      name={technology.name} 
-      icon={technology.icon} 
-      index={index} 
-    />
-  ))}
-</div>
+            {technologies.map((technology, index) => (
+              <SkillItem
+                key={technology.name}
+                name={technology.name}
+                icon={technology.icon}
+                index={index}
+              />
+            ))}
+          </div>
 
         </div>
       </Vortex>

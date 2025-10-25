@@ -5,7 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import LetterGlitch from "../src/Components/LetterGlitch.jsx";
 import BlurText from "../src/Components/BlurText.jsx";
-import ResumeButton from "../src/Components/ResumeButton.jsx";
+import DownloadButton from "../src/Components/DownloadButton.jsx";
 import ThreeJSErrorBoundary from "../src/Components/ThreeJSErrorBoundary.jsx";
 import { ThreeJSLoadingFallback } from "../src/Components/LoadingFallback.jsx";
 
@@ -230,10 +230,9 @@ function Home({ onReady }) {
             />
 
             <div className={`flex gap-3 ${isMobile ? 'flex-col mt-6' : 'flex-col sm:flex-row gap-5 mt-10'}`}>
-              <ResumeButton
-                text="Resume"
-                className={`${isMobile ? 'text-lg px-4 py-2' : 'text-xl px-6 py-3'}`}
-                iconColor="#333"
+              <DownloadButton
+                tooltip="Resume PDF"
+                className={isMobile ? 'mobile-size' : 'desktop-size'}
               />
               <button className={`${isMobile ? 'text-lg px-4 py-2' : 'text-xl px-6 py-3'} bg-gray-200 dark:bg-gray-700 rounded-full`}>
                 Contact Me
