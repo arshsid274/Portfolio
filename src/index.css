@@ -119,32 +119,14 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
-  }
-  
-  html {
-    width: 1920px !important;
-    min-width: 1920px !important;
-    height: 827px !important;
-    min-height: 827px !important;
-    overflow-x: visible !important;
-    overflow-y: auto !important;
+    /* BONUS: Animation performance optimizations */
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth;
   }
   
   body {
     @apply bg-background text-foreground;
-    width: 1920px !important;
-    min-width: 1920px !important;
-    height: 827px !important;
-    min-height: 827px !important;
-    overflow-x: visible !important;
-    overflow-y: auto !important;
-  }
-  
-  #root {
-    width: 1920px !important;
-    min-width: 1920px !important;
-    height: auto !important;
-    min-height: 827px !important;
   }
 }
 
@@ -152,9 +134,12 @@
 
 @layer utilities {
   @keyframes pulse {
-    0%, 100% {
+
+    0%,
+    100% {
       box-shadow: 0 0 0 0 var(--pulse-color);
     }
+
     50% {
       box-shadow: 0 0 0 8px var(--pulse-color);
     }
@@ -164,5 +149,3 @@
     animation: pulse var(--duration, 1.5s) ease-out infinite;
   }
 }
-
-
