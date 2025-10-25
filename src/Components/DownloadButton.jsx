@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import clarityService from '../services/clarity.js';
 import './DownloadButton.css';
 
 const DownloadButton = ({ tooltip = "Size: 20Mb", className = "" }) => {
@@ -7,6 +8,11 @@ const DownloadButton = ({ tooltip = "Size: 20Mb", className = "" }) => {
   const handleDownload = () => {
     // Set clicked state to true (permanent gradient)
     setIsClicked(true);
+    
+    // Track resume download in Clarity
+    clarityService.event('resume_download');
+    clarityService.setTag('user_action', 'downloaded_resume');
+    clarityService.upgrade('resume_download'); // Prioritize this session
     
     // Add your resume download logic here
     // For example: window.open('/path/to/resume.pdf', '_blank');

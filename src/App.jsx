@@ -2,6 +2,8 @@ import { Suspense, lazy, useEffect, useState } from 'react';
 import { Navbar } from './Components/Navbar';
 import ScreenSizeHelper from './Components/ScreenSizeHelper';
 import MainLoader from './Components/MainLoader.jsx';
+import clarityService from './services/clarity.js';
+import { useScrollTracking } from './hooks/useClarityTracking.js';
 import './App.css'
 import ThreeJSErrorBoundary from './Components/ThreeJSErrorBoundary.jsx';
 import { PageLoadingFallback, ThreeJSLoadingFallback } from './Components/LoadingFallback.jsx';
@@ -23,6 +25,22 @@ function App() {
 
   // Check if all critical 3D components are ready
   const allComponentsReady = Object.values(componentsReady).every(ready => ready);
+
+  // Enable scroll tracking
+  useScrollTracking();
+
+  // Initialize Microsoft Clarity
+  useEffect(() => {
+    // Initialize Clarity when the app loads
+    clarityService.init();
+    
+    // Set initial tags for portfolio tracking
+    clarityService.setTag('page_type', 'portfolio');
+    clarityService.setTag('user_type', 'visitor');
+    
+    // Track page load event
+    clarityService.event('portfolio_loaded');
+  }, []);
 
   useEffect(() => {
     // Minimum loading time
