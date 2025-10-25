@@ -228,3 +228,24 @@
   color: transparent !important;
   background-size: 200% 200% !important;
 }
+
+/* Cyan Glow Animation for Navbar */
+.cyan-glow-animated {
+  background: linear-gradient(135deg, #00ffff 0%, #00e6e6 25%, #00cccc 50%, #00b3b3 75%, #009999 100%) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  animation: cyan-pulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes cyan-pulse {
+  0% {
+    text-shadow: 0 0 20px rgba(0, 255, 255, 0.5), 0 0 40px rgba(0, 255, 255, 0.3), 0 0 60px rgba(0, 255, 255, 0.2);
+    filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.4));
+  }
+  100% {
+    text-shadow: 0 0 30px rgba(0, 255, 255, 0.8), 0 0 60px rgba(0, 255, 255, 0.5), 0 0 90px rgba(0, 255, 255, 0.3);
+    filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.7));
+  }
+}

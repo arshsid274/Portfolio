@@ -5,8 +5,8 @@
   --tooltip-height: 35px;
   --tooltip-width: 100px;
   --gap-between-tooltip-to-button: 18px;
-  --button-color: #155dfc;
-  --button-hover-color: #3b7bff;
+  --button-color: rgba(21, 93, 252, 0.8);
+  --button-hover-color: rgba(59, 123, 255, 0.9);
   --gradient-color: linear-gradient(135deg, #00d4aa 0%, #40e6b9 50%, #ffffff 100%);
   --tooltip-color: #fff;
   
@@ -62,6 +62,7 @@
   justify-content: center;
   font-weight: 600;
   font-size: 1rem;
+  color: #fff;
 }
 
 .download-button .button-wrapper,
@@ -97,20 +98,37 @@
   height: 24px;
 }
 
-.download-button:hover {
+.download-button:hover:not(.cyan-glow-button-static):not(.cyan-glow-button-animated) {
   background: var(--button-hover-color);
 }
 
-/* Clicked state - permanent gradient */
-.download-button.clicked {
-  background: var(--gradient-color);
-  background-size: 200% 200%;
-  animation: gradientShift 3s ease-in-out infinite;
+/* Clicked state - enhanced cyan glow */
+.download-button.clicked.cyan-glow-button-static {
+  border: 2px solid rgba(0, 255, 255, 0.8);
+  box-shadow: 
+    0 0 30px rgba(0, 255, 255, 0.6),
+    0 0 60px rgba(0, 255, 255, 0.4),
+    0 0 90px rgba(0, 255, 255, 0.2),
+    inset 0 0 30px rgba(0, 255, 255, 0.2);
+  background: linear-gradient(135deg, rgba(0, 255, 255, 0.15) 0%, rgba(0, 230, 230, 0.1) 50%, rgba(0, 204, 204, 0.15) 100%);
+  animation: cyan-button-success 1.5s ease-in-out infinite alternate;
 }
 
-.download-button.clicked:hover {
-  background: var(--gradient-color);
-  background-size: 200% 200%;
+@keyframes cyan-button-success {
+  0% {
+    box-shadow: 
+      0 0 25px rgba(0, 255, 255, 0.5),
+      0 0 50px rgba(0, 255, 255, 0.3),
+      0 0 75px rgba(0, 255, 255, 0.15),
+      inset 0 0 25px rgba(0, 255, 255, 0.15);
+  }
+  100% {
+    box-shadow: 
+      0 0 35px rgba(0, 255, 255, 0.7),
+      0 0 70px rgba(0, 255, 255, 0.5),
+      0 0 105px rgba(0, 255, 255, 0.3),
+      inset 0 0 35px rgba(0, 255, 255, 0.25);
+  }
 }
 
 @keyframes gradientShift {
@@ -201,4 +219,38 @@
 .download-button.desktop-size .icon svg {
   width: 26px;
   height: 26px;
+}
+
+/* Cyan Glow Effects for Download Button Background */
+.download-button.cyan-glow-button-static {
+  border: 2px solid rgba(0, 255, 255, 0.6);
+  box-shadow: 
+    0 0 20px rgba(0, 255, 255, 0.4),
+    0 0 40px rgba(0, 255, 255, 0.2),
+    inset 0 0 20px rgba(0, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(0, 255, 255, 0.1) 0%, rgba(0, 230, 230, 0.05) 50%, rgba(0, 204, 204, 0.1) 100%);
+}
+
+.download-button.cyan-glow-button-animated {
+  border: 2px solid rgba(0, 255, 255, 0.4);
+  animation: cyan-button-pulse 2s ease-in-out infinite alternate;
+  background: linear-gradient(135deg, rgba(0, 255, 255, 0.05) 0%, rgba(0, 230, 230, 0.02) 50%, rgba(0, 204, 204, 0.05) 100%);
+}
+
+@keyframes cyan-button-pulse {
+  0% {
+    box-shadow: 
+      0 0 15px rgba(0, 255, 255, 0.3),
+      0 0 30px rgba(0, 255, 255, 0.15),
+      inset 0 0 15px rgba(0, 255, 255, 0.05);
+    border-color: rgba(0, 255, 255, 0.4);
+  }
+  100% {
+    box-shadow: 
+      0 0 25px rgba(0, 255, 255, 0.5),
+      0 0 50px rgba(0, 255, 255, 0.3),
+      0 0 75px rgba(0, 255, 255, 0.1),
+      inset 0 0 25px rgba(0, 255, 255, 0.15);
+    border-color: rgba(0, 255, 255, 0.7);
+  }
 }

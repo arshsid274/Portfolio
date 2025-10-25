@@ -3,6 +3,7 @@ import './DownloadButton.css';
 
 const DownloadButton = ({ tooltip = "Size: 20Mb", className = "" }) => {
   const [isClicked, setIsClicked] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleDownload = () => {
     // Set clicked state to true (permanent gradient)
@@ -15,11 +16,21 @@ const DownloadButton = ({ tooltip = "Size: 20Mb", className = "" }) => {
 
   const displayTooltip = isClicked ? "Downloaded!" : tooltip;
 
+  // Determine which glow class to use for the button
+  const getButtonGlowClass = () => {
+    if (isClicked || isHovered) {
+      return 'cyan-glow-button-static';
+    }
+    return 'cyan-glow-button-animated';
+  };
+
   return (
     <div 
-      className={`download-button ${className} ${isClicked ? 'clicked' : ''}`} 
+      className={`download-button ${className} ${isClicked ? 'clicked' : ''} ${getButtonGlowClass()}`} 
       data-tooltip={displayTooltip}
       onClick={handleDownload}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       <div className="button-wrapper">
         <div className="text">Download</div>

@@ -1,8 +1,9 @@
-import { useState,useEffect  } from 'react';
+import { useState, useEffect } from 'react';
 
 export const Navbar = ({ navItems = [], socialLinks = {} }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [activeSection, setActiveSection] = useState('');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,6 +22,44 @@ export const Navbar = ({ navItems = [], socialLinks = {} }) => {
         
         setIsVisible(shouldShow);
       }
+
+      // Detect active section for glow effect with priority for Contact
+      const sections = ['home-section', 'work', 'skills', 'experience', 'contact'];
+      const scrollPos = window.scrollY + 100; // Offset for better detection
+      const windowHeight = window.innerHeight;
+      
+      let currentSection = '';
+      
+      // Check if Contact section is visible (prioritize it over Experience)
+      const contactElement = document.getElementById('contact');
+      if (contactElement) {
+        const contactTop = contactElement.offsetTop;
+        const contactBottom = contactTop + contactElement.offsetHeight;
+        
+        // If Contact section is visible in viewport, make it active
+        if (scrollPos >= contactTop - windowHeight * 0.3) {
+          currentSection = 'contact';
+        }
+      }
+      
+      // If Contact is not active, check other sections normally
+      if (!currentSection) {
+        sections.forEach(sectionId => {
+          if (sectionId === 'contact') return; // Skip contact as we handled it above
+          
+          const element = document.getElementById(sectionId);
+          if (element) {
+            const offsetTop = element.offsetTop;
+            const offsetHeight = element.offsetHeight;
+            
+            if (scrollPos >= offsetTop && scrollPos < offsetTop + offsetHeight) {
+              currentSection = sectionId;
+            }
+          }
+        });
+      }
+      
+      setActiveSection(currentSection);
     };
 
     // Initial check
@@ -58,15 +97,25 @@ export const Navbar = ({ navItems = [], socialLinks = {} }) => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-4 lg:space-x-6 xl:space-x-8">
-            {navItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="text-sm md:text-base lg:text-lg xl:text-lg 2xl:text-xl text-white/90 hover:text-[#00d4aa] transition-colors duration-300"
-              >
-                {item.label}
-              </a>
-            ))}
+            {navItems.map((item) => {
+              // Map href to section ID for comparison
+              const sectionId = item.href.replace('#', '');
+              const isActive = activeSection === sectionId;
+              
+              return (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className={`text-sm md:text-base lg:text-lg xl:text-lg 2xl:text-xl transition-all duration-300 ${
+                    isActive 
+                      ? 'cyan-glow-animated font-medium' 
+                      : 'text-white/90 hover:text-[#00d4aa]'
+                  }`}
+                >
+                  {item.label}
+                </a>
+              );
+            })}
           </div>
 
           {/* Right side - Theme switch and social links */}
@@ -128,16 +177,26 @@ export const Navbar = ({ navItems = [], socialLinks = {} }) => {
         {isMenuOpen && (
           <div className="md:hidden bg-black/30 backdrop-blur-md border-t border-white/10">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-              {navItems.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className="block px-3 py-2 text-sm sm:text-base font-medium text-white/90 hover:text-[#00d4aa] transition-colors duration-300"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.label}
-                </a>
-              ))}
+              {navItems.map((item) => {
+                // Map href to section ID for comparison
+                const sectionId = item.href.replace('#', '');
+                const isActive = activeSection === sectionId;
+                
+                return (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    className={`block px-3 py-2 text-sm sm:text-base font-medium transition-all duration-300 ${
+                      isActive 
+                        ? 'cyan-glow-animated' 
+                        : 'text-white/90 hover:text-[#00d4aa]'
+                    }`}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item.label}
+                  </a>
+                );
+              })}
             </div>
           </div>
         )}

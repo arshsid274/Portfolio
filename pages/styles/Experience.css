@@ -131,6 +131,49 @@
       0px 0px 110px 20px #99f0e6;
   }
 }
+
+/* Cyan Glow Gradient - Apple Style */
+.cyan-glow-text {
+  background: linear-gradient(135deg, #00ffff 0%, #00e6e6 25%, #00cccc 50%, #00b3b3 75%, #009999 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  text-shadow: 0 0 20px rgba(0, 255, 255, 0.5), 0 0 40px rgba(0, 255, 255, 0.3), 0 0 60px rgba(0, 255, 255, 0.2);
+  filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.4));
+}
+
+/* Alternative with more vibrant glow */
+.cyan-glow-vibrant {
+  background: linear-gradient(135deg, #00ffff 0%, #1affff 20%, #33ffff 40%, #00e6ff 60%, #00ccff 80%, #0099ff 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  text-shadow: 0 0 30px rgba(0, 255, 255, 0.8), 0 0 60px rgba(0, 255, 255, 0.5), 0 0 90px rgba(0, 255, 255, 0.3);
+  filter: drop-shadow(0 0 15px rgba(0, 255, 255, 0.6));
+}
+
+/* Animated version with pulsing glow */
+.cyan-glow-animated {
+  background: linear-gradient(135deg, #00ffff 0%, #00e6e6 25%, #00cccc 50%, #00b3b3 75%, #009999 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: cyan-pulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes cyan-pulse {
+  0% {
+    text-shadow: 0 0 20px rgba(0, 255, 255, 0.5), 0 0 40px rgba(0, 255, 255, 0.3), 0 0 60px rgba(0, 255, 255, 0.2);
+    filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.4));
+  }
+  100% {
+    text-shadow: 0 0 30px rgba(0, 255, 255, 0.8), 0 0 60px rgba(0, 255, 255, 0.5), 0 0 90px rgba(0, 255, 255, 0.3);
+    filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.7));
+  }
+}
 @media only screen and (max-width: 1400px) {
   .career-section h2 {
     font-size: 50px;

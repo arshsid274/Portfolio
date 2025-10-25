@@ -237,6 +237,15 @@ function Home({ onReady }) {
               <button className={`${isMobile ? 'text-lg px-4 py-2' : 'text-xl px-6 py-3'} bg-gray-200 dark:bg-gray-700 rounded-full`}>
                 Contact Me
               </button>
+
+
+              {/* <h1 className="cyan-glow-text">Apple Website Clone</h1>
+
+// Vibrant glow
+<h1 className="cyan-glow-vibrant">Apple Website Clone</h1>
+
+// Animated glow
+<h1 className="cyan-glow-animated">Apple Website Clone</h1> */}
             </div>
           </div>
         </div>
