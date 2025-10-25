@@ -139,7 +139,7 @@ const Work = () => {
 
       // Mobile scroll animations
       const cards = document.querySelectorAll('.work-card-mobile');
-      cards.forEach((card, index) => {
+      cards.forEach((card) => {
         gsap.fromTo(card,
           {
             opacity: 0,
@@ -171,17 +171,25 @@ const Work = () => {
       const box = document.getElementsByClassName("work-box");
       if (box.length === 0) return;
 
-      const container = document.querySelector(".work-container");
-      if (!container) return;
+      // Calculate for all 11 cards with proper spacing
+      const cardWidth = 480; // Base card width
+      const cardScale = 0.85; // Scale factor
+      const cardPadding = 96; // 48px padding * 2 sides (px-12)
+      const firstCardMargin = 48; // ml-12 for first card
 
-      const rectLeft = container.getBoundingClientRect().left;
-      const rect = box[0].getBoundingClientRect();
-      const parentWidth = box[0].parentElement?.getBoundingClientRect().width || 0;
+      // Effective width per card including padding
+      const effectiveCardWidth = (cardWidth * cardScale) + cardPadding;
 
-      const computedStyle = window.getComputedStyle(box[0]);
-      const padding = parseInt(computedStyle.paddingLeft) || 80;
+      // Total width needed for all cards
+      const totalCardsWidth = effectiveCardWidth * box.length;
+      const totalWidthWithMargin = totalCardsWidth + firstCardMargin;
 
-      translateX = (rect.width * box.length) - (rectLeft + parentWidth) + padding;
+      // Viewport width
+      const viewportWidth = window.innerWidth;
+
+      // Calculate translateX to show all cards
+      // Add extra buffer to ensure last card is fully visible
+      translateX = Math.max(0, totalWidthWithMargin - viewportWidth + 200);
     }
 
     function setupAnimation() {
@@ -238,7 +246,7 @@ const Work = () => {
           My <span className="text-[#40e6b9]">Work</span>
         </h2>
         <div className="max-w-md mx-auto space-y-6">
-          {workData.map((project, index) => (
+          {workData.map((project) => (
             <div key={project.id} className="work-card-mobile">
               <WorkImage image={project.image} project={project} />
             </div>
@@ -250,38 +258,74 @@ const Work = () => {
 
 
   return (
-    <div className="work-section relative h-screen box-border will-change-transform overflow-hidden">
+    <div
+      className="work-section relative h-screen box-border will-change-transform overflow-hidden"
+      style={{
+        // Override any inherited zoom/transform from viewport fixes
+        zoom: 1,
+        transform: 'scale(1)',
+        transformOrigin: 'top left',
+        // Ensure no horizontal scrollbar appears
+        overflowX: 'hidden',
+        overflowY: 'hidden'
+      }}
+    >
       <div className="work-container relative mx-auto flex flex-col h-full max-w-none">
         <h2 className="text-[70px] font-medium text-center text-white py-8 flex-shrink-0">
           My <span className="text-[#40e6b9]">Work</span>
         </h2>
-        <div className="work-flex w-full flex flex-1 relative will-change-transform">
+        <div
+          className="work-flex w-full flex flex-1 relative will-change-transform"
+          style={{
+            // Remove overflow properties - let GSAP handle all scrolling
+            width: '100vw'
+          }}
+        >
           {workData.map((project, index) => (
             <div
-              className={`work-box px-12 py-6 flex w-[600px] h-full box-border border-r border-[#363636] flex-shrink-0 gap-6 justify-center will-change-transform ${index % 2 === 1 ? 'flex-col-reverse' : 'flex-col'
+              className={`work-box px-12 py-6 flex box-border border-r border-[#363636] flex-shrink-0 gap-6 justify-center will-change-transform ${index % 2 === 1 ? 'flex-col-reverse' : 'flex-col'
                 } ${index === 0 ? 'ml-12' : ''}`}
               key={project.id}
+              style={{
+                // Fixed card dimensions to prevent scaling issues
+                width: '480px', // Reduced from 600px for better Vercel compatibility
+                height: '100%',
+                minWidth: '480px',
+                maxWidth: '480px',
+                // Override any inherited scaling
+                transform: 'scale(0.85)', // Slightly smaller for Vercel
+                transformOrigin: 'center center',
+                // Reset zoom inheritance
+                zoom: 1
+              }}
             >
               <div className="work-info flex-shrink-0">
                 <div className="work-title flex justify-between w-full mb-4">
-                  <h3 className="text-[40px] leading-[40px] m-0 font-semibold text-[#40e6b9]">
+                  <h3 className="text-[32px] leading-[32px] m-0 font-semibold text-[#40e6b9]">
                     {index + 1 < 10 ? `0${index + 1}` : index + 1}
                   </h3>
                   <div className="text-right">
-                    <h4 className="text-base font-normal m-0 text-white">
+                    <h4 className="text-sm font-normal m-0 text-white">
                       {project.title}
                     </h4>
-                    <p className="font-light text-[#adacac] m-0 mt-1 text-sm">
+                    <p className="font-light text-[#adacac] m-0 mt-1 text-xs">
                       {project.category}
                     </p>
                   </div>
                 </div>
-                <h4 className="text-base font-normal m-0 text-white">Tools and features</h4>
-                <p className="font-light text-[#adacac] m-0 mt-1 w-[90%] text-sm">
+                <h4 className="text-sm font-normal m-0 text-white">Tools and features</h4>
+                <p className="font-light text-[#adacac] m-0 mt-1 w-[90%] text-xs">
                   {project.tools}
                 </p>
               </div>
-              <div className="work-image-container flex-1 min-h-0">
+              <div
+                className="work-image-container flex-1 min-h-0"
+                style={{
+                  // Ensure image container doesn't inherit scaling issues
+                  transform: 'scale(1)',
+                  transformOrigin: 'center center'
+                }}
+              >
                 <WorkImage image={project.image} project={project} />
               </div>
             </div>
