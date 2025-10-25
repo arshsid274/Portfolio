@@ -42,7 +42,7 @@ const Iphone = ({ videoSrc }) => {
   const RADIUS_V = (SCREEN_RADIUS / SCREEN_HEIGHT) * 100;
 
   return (
-    <div 
+    <div
       className="relative inline-block w-full align-middle"
       style={{ aspectRatio: `${PHONE_WIDTH}/${PHONE_HEIGHT}` }}>
       <div className="pointer-events-none absolute z-0 overflow-hidden" style={{ left: `${LEFT_PCT}%`, top: `${TOP_PCT}%`, width: `${WIDTH_PCT}%`, height: `${HEIGHT_PCT}%`, borderRadius: `${RADIUS_H}% / ${RADIUS_V}%` }}>
@@ -77,7 +77,7 @@ const Iphone = ({ videoSrc }) => {
 
 const MobileScroll = ({ src, title }) => {
   const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({ 
+  const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"]
   });
@@ -85,14 +85,14 @@ const MobileScroll = ({ src, title }) => {
   useEffect(() => {
     // Disable auto-scroll for mobile to prevent infinite loop
     // The scroll animations are handled by Framer Motion transforms
-    return () => {};
+    return () => { };
   }, []);
-  
+
   const rotate = useTransform(scrollYProgress, [0, 0.1, 0.3], [-25, -25, 0]);
-const scale = useTransform(scrollYProgress, [0, 0.7], [0.5, 1.5]);
+  const scale = useTransform(scrollYProgress, [0, 0.7], [0.5, 1.5]);
   const translateY = useTransform(scrollYProgress, [0, 1], [0, 1500]);
   const textOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
-const phoneOpacity = useTransform(scrollYProgress, [0.6, 0.75], [1, 0]);
+  const phoneOpacity = useTransform(scrollYProgress, [0.6, 0.75], [1, 0]);
 
 
 
@@ -105,9 +105,9 @@ const phoneOpacity = useTransform(scrollYProgress, [0.6, 0.75], [1, 0]);
           </h2>
         </motion.div>
         <div style={{ perspective: "1000px" }} className="w-full max-w-xs">
-          <motion.div 
-            style={{ 
-              scale, 
+          <motion.div
+            style={{
+              scale,
               rotateX: rotate,
               translateY,
               opacity: phoneOpacity,
@@ -150,24 +150,24 @@ export const MacbookScroll = ({
 
     // Initial check with delay to ensure DOM is ready
     const initialTimeout = setTimeout(checkScreenSize, 100);
-    
+
     // Improved debouncing with longer delay to prevent rapid changes
     let resizeTimeout;
     const debouncedResize = () => {
       clearTimeout(resizeTimeout);
       resizeTimeout = setTimeout(checkScreenSize, 300); // Increased from 150ms
     };
-    
+
     // Orientation change with longer delay for device rotation
     let orientationTimeout;
     const handleOrientationChange = () => {
       clearTimeout(orientationTimeout);
       orientationTimeout = setTimeout(checkScreenSize, 800); // Increased from 500ms
     };
-    
+
     window.addEventListener('resize', debouncedResize, { passive: true });
     window.addEventListener('orientationchange', handleOrientationChange, { passive: true });
-    
+
     return () => {
       clearTimeout(initialTimeout);
       clearTimeout(resizeTimeout);
@@ -179,14 +179,14 @@ export const MacbookScroll = ({
 
   useEffect(() => {
     if (isMobile) return;
-    
+
     // Disable auto-scroll behavior to prevent infinite loop
     // The scroll animations are handled by Framer Motion useScroll and useTransform
     // This prevents the component from hijacking natural scroll behavior
-    
+
     let scrollTimeout;
     let lastScroll = window.scrollY;
-    
+
     // Debounced scroll handler for performance optimization only
     const handleScroll = () => {
       clearTimeout(scrollTimeout);
@@ -211,9 +211,9 @@ export const MacbookScroll = ({
   const textOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
   const lidOpacity = useTransform(scrollYProgress, [0.8, 1], [1, 0]);
 
-if (isMobile) {
-  return <MobileScroll src="https://res.cloudinary.com/dgpzvkjki/video/upload/v1760972230/Mobile_view_iwhclu.mp4" title={title} />;
-}
+  if (isMobile) {
+    return <MobileScroll src="https://res.cloudinary.com/dgpzvkjki/video/upload/v1760972230/Mobile_view_iwhclu.mp4" title={title} />;
+  }
 
   return (
     <div

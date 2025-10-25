@@ -20,38 +20,43 @@ function Home() {
 
   useEffect(() => {
     const checkScreenSize = () => {
-      // Use natural viewport detection like MacbookScroll
+      // Use consistent viewport detection for Vercel compatibility
       const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
       setViewportWidth(vw);
       setIsMobile(vw < 768);
     };
     
-    // Initial check with a small delay to ensure DOM is ready
-    setTimeout(checkScreenSize, 100);
+    // Initial check with delay to ensure DOM is ready
+    const initialTimeout = setTimeout(checkScreenSize, 100);
     
-    const debouncedResize = (() => {
-      let timeoutId;
-      return () => {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(checkScreenSize, 150);
-      };
-    })();
+    let resizeTimeout;
+    const debouncedResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(checkScreenSize, 200); // Increased debounce for stability
+    };
     
-    window.addEventListener('resize', debouncedResize);
-    window.addEventListener('orientationchange', () => {
-      setTimeout(checkScreenSize, 500);
-    });
+    let orientationTimeout;
+    const handleOrientationChange = () => {
+      clearTimeout(orientationTimeout);
+      orientationTimeout = setTimeout(checkScreenSize, 600);
+    };
+    
+    window.addEventListener('resize', debouncedResize, { passive: true });
+    window.addEventListener('orientationchange', handleOrientationChange, { passive: true });
     
     document.documentElement.classList.add("dark");
 
     const refreshTimeout = setTimeout(() => {
       ScrollTrigger.refresh(true);
-    }, 500);
+    }, 800); // Increased timeout for Vercel
 
     return () => {
-      window.removeEventListener('resize', debouncedResize);
-      window.removeEventListener('orientationchange', checkScreenSize);
+      clearTimeout(initialTimeout);
+      clearTimeout(resizeTimeout);
+      clearTimeout(orientationTimeout);
       clearTimeout(refreshTimeout);
+      window.removeEventListener('resize', debouncedResize);
+      window.removeEventListener('orientationchange', handleOrientationChange);
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
   }, []);
@@ -100,10 +105,18 @@ useGSAP(() => {
 }, [isMobile]);
 
   // Calculate scale based on viewport width with 1920px as reference
-  const scale = Math.min(viewportWidth / 1920, 1);
+  // Ensure minimum scale for better Vercel compatibility
+  const scale = Math.max(Math.min(viewportWidth / 1920, 1), 0.6);
 
   return (
-    <div className="flex justify-center items-center h-screen relative bg-black text-white">
+    <div 
+      className="flex justify-center items-center relative bg-black text-white"
+      style={{ 
+        minHeight: '100vh',
+        height: '100vh',
+        overflow: 'hidden'
+      }}
+    >
       <div className="absolute inset-0 z-0" style={{ filter: 'blur(2px)' }}>
         <LetterGlitch
           glitchSpeed={50}
@@ -114,16 +127,16 @@ useGSAP(() => {
       </div>
 
       <div 
-        className="relative z-10 my-20 w-[1200px] max-w-[90vw] flex flex-col lg:flex-row justify-center items-center rounded-lg shadow-lg bg-white/90 dark:bg-black/90 p-8"
+        className="relative z-10 w-[1200px] max-w-[90vw] flex flex-col lg:flex-row justify-center items-center rounded-lg shadow-lg bg-white/90 dark:bg-black/90 p-8"
         style={{
           transform: `scale(${scale})`,
-          transformOrigin: 'top center'
+          transformOrigin: 'center center'
         }}
       >
 
        <div
   id="Mac"
-  className="order-1 lg:order-2 w-[700px] h-[500px] mb-8 lg:mb-0 lg:mt-[60px] flex justify-center items-center overflow-hidden rounded-lg"
+  className="order-1 lg:order-2 w-[700px] h-[500px] mb-8 lg:mb-0 flex justify-center items-center overflow-hidden rounded-lg"
 >
 
   <ThreeJSErrorBoundary fallbackMessage="Unable to load the 3D MacBook model. The content is still available.">
