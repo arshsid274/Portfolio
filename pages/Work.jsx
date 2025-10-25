@@ -8,8 +8,8 @@ gsap.registerPlugin(ScrollTrigger);
 const workData = [
   {
     id: 1,
-    title: "Macbook Landing Page Clone Clone",
-    category: "3D Product Website (Frontend)",
+    title: "Macbook Landing Page Clone ",
+    category: "3D Product Website ",
     tools: "React, Three.js, Gsap, Tailwind css",
     image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1761135569/Macbookfinal_updated_ew7hzf.mp4",
     website: "https://apple-website-clone-psi.vercel.app/",
@@ -18,7 +18,7 @@ const workData = [
   {
     id: 2,
     title: "Apple Website Clone",
-    category: "3D Product Website (Frontend)",
+    category: "3D Product Website ",
     tools: "React, Three.js, Gsap, Tailwind css",
     image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760945223/AppleClone_zm4el3.mp4",
     website: "https://apple-website-clone-psi.vercel.app/",
@@ -27,7 +27,7 @@ const workData = [
   {
     id: 3,
     title: "Vasl Ai",
-    category: "Data Analyst Website (Frontend)",
+    category: "Data Analyst Website ",
     tools: "Vue, Nuxt, PrimeVue,Tailwind css,Headless Ui,HeroIcon",
     image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760945266/VaslAi_ctcj4d.mp4",
     website: "https://www.vaslai.com/",
@@ -37,7 +37,7 @@ const workData = [
   {
     id: 4,
     title: "Dirt Off",
-    category: "Business management  app for Laundery (Full Stack App)",
+    category: "Business management  app for Laundery ",
     tools: "React,Tailwind css,Firebase,Node js ,express js",
     image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760963986/DirtOffFullStack_wsr9bl.mp4",
     link: "https://dirt-off-frontend.vercel.app/"
@@ -45,7 +45,7 @@ const workData = [
   {
     id: 5,
     title: "Buddha Avenue",
-    category: "Banquet Management app for Hotels (Full Stack App)",
+    category: "Banquet Management app for Hotels ",
     tools: "React,Tailwind css, Axios, DaisyUi,React Router DOM,Node js ,Express js,MongoDB",
     image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760963994/BuddhaAvenue_fvf4zy.mp4",
     link: "https://budha-avenue-frontend.vercel.app/"
@@ -53,7 +53,7 @@ const workData = [
   {
     id: 6,
     title: "Dirt Off ",
-    category: "Static Website for Laundery (Frontend)",
+    category: "Static Website for Laundery ",
     tools: "HTML ,CSS ,Javascript,jQuery,Bootstrap",
     image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760945298/DirtOffStatic_yav2v9.mp4",
     website: "https://www.dirtoff.in/",
@@ -62,7 +62,7 @@ const workData = [
   {
     id: 7,
     title: "Shine Travels",
-    category: "Static Website for Travel Agency (Frontend)",
+    category: "Static Website for Travel Agency ",
     tools: "HTML ,CSS ,Javascript,jQuery,Gsap,Bootstrap",
     image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760945296/ShineTravels_du9lst.mp4",
     website: "https://www.shinetravels.co.in/",
@@ -71,7 +71,7 @@ const workData = [
   {
     id: 8,
     title: "Regalia Banquet",
-    category: "Static website for Banquet Hall (Frontend)",
+    category: "Static website for Banquet Hall ",
     tools: "HTML ,CSS ,Javascript,jQuery,Bootstrap",
     image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760945290/RegaliaBanquet_acnza9.mp4",
     website: "https://www.theregaliaresort.in/",
@@ -80,7 +80,7 @@ const workData = [
   {
     id: 9,
     title: "Design Orient Arcitect",
-    category: "Architecture Portfolio Website (Figma to Code)",
+    category: "Architecture Portfolio Website ",
     tools: "React, Tailwind css,React Router,FontAwesome ,Lucid React",
     image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760945282/DesignOrientArchitect_llaalf.mp4",
     website: "https://www.architectsdo.com/",
@@ -89,7 +89,7 @@ const workData = [
   {
     id: 10,
     title: "Ishan Travels",
-    category: "static  website for travels agency (Frontend)",
+    category: "static  website for travels agency ",
     tools: "HTML ,CSS ,Javascript,jQuery,Bootstrap",
     image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760945247/IshanTravels_ztijt0.mp4",
     website: "https://ishan-travel.vercel.app/",
@@ -98,7 +98,7 @@ const workData = [
   {
     id: 11,
     title: "Rajvillas",
-    category: "Static website for Hotel (Frontend)",
+    category: "Static website for Hotel ",
     tools: "HTML ,CSS ,Javascript,jQuery,Bootstrap",
     image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760945271/RajVillas_tgzs0z.mp4",
     website: "https://rajvillas-final.vercel.app/",
@@ -107,55 +107,25 @@ const workData = [
 ];
 
 const Work = () => {
-  const [isMobile, setIsMobile] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return window.innerWidth < 1024;
-    }
-    return false;
-  });
-  const [devicePixelRatio, setDevicePixelRatio] = useState(1);
-  const [browserZoom, setBrowserZoom] = useState(1);
-  const [effectiveViewport, setEffectiveViewport] = useState({ width: 1920, height: 1080 });
-  const timelineRef = useRef(null);
+  const [viewportWidth, setViewportWidth] = useState(1920);
+  const containerRef = useRef(null);
 
   useEffect(() => {
     const checkScreenSize = () => {
-      // Get actual viewport dimensions
       const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-      const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
-
-      // Detect device pixel ratio for high-DPI displays
-      const dpr = window.devicePixelRatio || 1;
-
-      // Calculate browser zoom level (with fallback for edge cases)
-      const zoom = window.outerWidth && window.innerWidth
-        ? Math.round((window.outerWidth / window.innerWidth) * 100) / 100
-        : 1;
-
-      // Calculate effective viewport considering zoom and DPI
-      const effectiveWidth = vw * zoom;
-      const effectiveHeight = vh * zoom;
-
-      setDevicePixelRatio(dpr);
-      setBrowserZoom(zoom);
-      setEffectiveViewport({ width: effectiveWidth, height: effectiveHeight });
-      setIsMobile(effectiveWidth < 1024);
+      setViewportWidth(vw);
     };
 
-    const initialTimeout = setTimeout(checkScreenSize, 100);
+    checkScreenSize();
 
-    let resizeTimeout;
     const debouncedResize = () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(checkScreenSize, 200);
+      setTimeout(checkScreenSize, 150);
     };
 
-    window.addEventListener('resize', debouncedResize, { passive: true });
-    window.addEventListener('orientationchange', debouncedResize, { passive: true });
+    window.addEventListener('resize', debouncedResize);
+    window.addEventListener('orientationchange', debouncedResize);
 
     return () => {
-      clearTimeout(initialTimeout);
-      clearTimeout(resizeTimeout);
       window.removeEventListener('resize', debouncedResize);
       window.removeEventListener('orientationchange', debouncedResize);
     };
@@ -164,300 +134,166 @@ const Work = () => {
 
 
 
-  // Calculate responsive card dimensions and layout
-  const calculateResponsiveLayout = () => {
-    const viewportWidth = effectiveViewport.width;
-
-    // Define breakpoints and corresponding card configurations
-    const breakpoints = [
-      { minWidth: 2560, cardWidth: 600, cardsVisible: 4.0, fontSize: 1.1 }, // 4K+ displays
-      { minWidth: 1920, cardWidth: 550, cardsVisible: 3.2, fontSize: 1.0 }, // Standard 1920px
-      { minWidth: 1600, cardWidth: 480, cardsVisible: 3.0, fontSize: 0.95 }, // 1600px displays
-      { minWidth: 1440, cardWidth: 440, cardsVisible: 2.8, fontSize: 0.9 }, // 1440px displays
-      { minWidth: 1366, cardWidth: 420, cardsVisible: 2.6, fontSize: 0.85 }, // 1366px displays
-      { minWidth: 1280, cardWidth: 400, cardsVisible: 2.4, fontSize: 0.8 }, // 1280px displays
-      { minWidth: 1024, cardWidth: 380, cardsVisible: 2.0, fontSize: 0.75 }, // Tablets
-    ];
-
-    // Find the appropriate configuration
-    const config = breakpoints.find(bp => viewportWidth >= bp.minWidth) ||
-      { cardWidth: 360, cardsVisible: 1.8, fontSize: 0.7 }; // Fallback
-
-    // Adjust for device pixel ratio and zoom
-    const dprAdjustment = Math.max(0.9, Math.min(1.1, 1 / devicePixelRatio));
-    const zoomAdjustment = Math.max(0.9, Math.min(1.1, browserZoom));
-
-    return {
-      cardWidth: Math.round(config.cardWidth * dprAdjustment * zoomAdjustment),
-      cardsVisible: config.cardsVisible,
-      fontSize: config.fontSize * dprAdjustment,
-      padding: Math.round(48 * config.fontSize),
-      headerSize: Math.round(70 * config.fontSize)
-    };
+  // Calculate responsive grid layout with wider cards (fewer columns)
+  const getGridConfig = () => {
+    if (viewportWidth >= 1536) return { cols: 3, gap: 10 }; // 2xl: 3 columns (wider cards)
+    if (viewportWidth >= 1280) return { cols: 2, gap: 8 };  // xl: 2 columns (wider cards)
+    if (viewportWidth >= 1024) return { cols: 2, gap: 6 };  // lg: 2 columns (wider cards)
+    if (viewportWidth >= 768) return { cols: 2, gap: 6 };   // md: 2 columns
+    return { cols: 1, gap: 6 }; // sm: 1 column
   };
 
-  const layout = calculateResponsiveLayout();
+  const gridConfig = getGridConfig();
 
   useEffect(() => {
-    if (isMobile) {
-      if (timelineRef.current) {
-        timelineRef.current.kill();
-        timelineRef.current = null;
-      }
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    // Clean up any existing ScrollTriggers
+    ScrollTrigger.getAll().forEach(trigger => trigger.kill());
 
-      // Mobile scroll animations
-      const cards = document.querySelectorAll('.work-card-mobile');
-      cards.forEach((card) => {
-        gsap.fromTo(card,
-          {
-            opacity: 0,
-            y: 50,
-            scale: 0.95
-          },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.6,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: card,
-              start: "top 80%",
-              end: "top 50%",
-              toggleActions: "play none none reverse",
-            }
-          }
-        );
-      });
-
-      return;
-    }
-
-    let translateX = 0;
-
-    function setTranslateX() {
-      const box = document.getElementsByClassName("work-box");
-      if (box.length === 0) return;
-
-      // Use responsive layout calculations
-      const cardWidth = layout.cardWidth;
-      const cardPadding = layout.padding * 2; // paddingLeft + paddingRight
-      const firstCardMargin = layout.padding; // marginLeft for first card
-
-      // Calculate total width needed for all cards
-      const effectiveCardWidth = cardWidth + cardPadding;
-      const totalCardsWidth = effectiveCardWidth * box.length;
-      const totalWidthWithFirstMargin = totalCardsWidth + firstCardMargin;
-
-      // Calculate the exact amount needed to scroll to show the last card completely
-      const viewportWidth = effectiveViewport.width;
-
-      // Only scroll if total width exceeds viewport
-      if (totalWidthWithFirstMargin > viewportWidth) {
-        // Calculate exact translateX to show last card completely
-        translateX = totalWidthWithFirstMargin - viewportWidth;
-      } else {
-        // If all cards fit in viewport, no scrolling needed
-        translateX = 0;
-      }
-
-      // Ensure we don't scroll more than necessary
-      translateX = Math.max(0, translateX);
-    }
-
-    function setupAnimation() {
-      setTranslateX();
-
-      // Only create animation if there's actual scrolling needed
-      if (translateX <= 0) {
-        return null; // No animation needed if all cards fit
-      }
-
-      // Clean up any existing ScrollTrigger instances
-      ScrollTrigger.getById("work")?.kill();
-
-      let timeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: ".work-section",
-          start: "top top",
-          end: () => `+=${Math.max(translateX * 2, window.innerHeight)}`, // More generous end point
-          scrub: 1,
-          pin: true,
-          id: "work",
-          refreshPriority: -1,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-          onRefresh: () => {
-            // Recalculate on refresh
-            setTranslateX();
-          }
+    // Animate cards from below as they come into view
+    const cards = document.querySelectorAll('.work-card');
+    cards.forEach((card, index) => {
+      gsap.fromTo(card,
+        {
+          opacity: 0,
+          y: 80,
+          scale: 0.9
         },
-      });
-
-      timeline.to(".work-flex", {
-        x: -translateX,
-        ease: "none",
-      });
-
-      return timeline;
-    }
-
-    // Store timeline reference
-    timelineRef.current = setupAnimation();
-
-    let resizeTimeout;
-    const handleResize = () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        // Kill existing timeline and ScrollTrigger
-        if (timelineRef.current) {
-          timelineRef.current.kill();
-          timelineRef.current = null;
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.8,
+          ease: "power2.out",
+          delay: (index % gridConfig.cols) * 0.1, // Stagger based on column position
+          scrollTrigger: {
+            trigger: card,
+            start: "top 85%",
+            end: "top 60%",
+            toggleActions: "play none none reverse",
+          }
         }
-        ScrollTrigger.getById("work")?.kill();
-
-        // Refresh ScrollTrigger and recreate animation
-        ScrollTrigger.refresh();
-        timelineRef.current = setupAnimation();
-      }, 300);
-    };
-
-    window.addEventListener('resize', handleResize);
+      );
+    });
 
     return () => {
-      if (timelineRef.current) {
-        timelineRef.current.kill();
-        timelineRef.current = null;
-      }
-      ScrollTrigger.getById("work")?.kill();
-      window.removeEventListener('resize', handleResize);
-      clearTimeout(resizeTimeout);
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
-  }, [isMobile, layout, effectiveViewport]);
-
-  // Add a separate effect to refresh ScrollTrigger when layout changes
-  useEffect(() => {
-    if (!isMobile) {
-      const refreshTimeout = setTimeout(() => {
-        ScrollTrigger.refresh();
-      }, 100);
-
-      return () => clearTimeout(refreshTimeout);
-    }
-  }, [layout, isMobile]);
-
-  if (isMobile) {
-    return (
-      <div className="work-section-mobile bg-black min-h-screen py-4 px-2">
-        <h2 className="text-3xl font-medium text-center text-white mb-8">
-          My <span className="text-[#40e6b9]">Work</span>
-        </h2>
-        <div className="max-w-md mx-auto space-y-6">
-          {workData.map((project) => (
-            <div key={project.id} className="work-card-mobile">
-              <WorkImage image={project.image} project={project} />
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
+  }, [gridConfig.cols, viewportWidth]);
 
   return (
     <div
-      className="work-section relative h-screen box-border will-change-transform overflow-hidden"
-      style={{
-        // No overall scaling - let individual elements be responsive
-        overflowX: 'hidden',
-        overflowY: 'hidden',
-        // Adjust for different pixel densities
-        imageRendering: devicePixelRatio > 1 ? 'crisp-edges' : 'auto'
-      }}
+      ref={containerRef}
+      className="work-section bg-black min-h-screen py-12 px-4 sm:px-6 lg:px-8"
     >
-      <div className="work-container relative mx-auto flex flex-col h-full max-w-none">
-        <div className="flex flex-col items-center py-8 flex-shrink-0">
-          <h2
-            className="font-medium text-center text-white mb-2"
-            style={{ fontSize: `${layout.headerSize}px` }}
-          >
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4">
             My <span className="text-[#40e6b9]">Work</span>
           </h2>
-          <p
-            className="text-[#adacac] text-center"
-            style={{ fontSize: `${14 * layout.fontSize}px` }}
-          >
-            Scroll horizontally to explore {workData.length} projects • {Math.floor(layout.cardsVisible)} cards visible
+          <p className="text-lg text-[#adacac] max-w-2xl mx-auto">
+            Scroll down to explore {workData.length} projects showcasing modern web development
           </p>
         </div>
+
+        {/* Responsive Grid with Enhanced Gaps */}
         <div
-          className="work-flex w-full flex flex-1 relative will-change-transform"
+          className={`grid ${gridConfig.cols === 1 ? 'grid-cols-1' :
+            gridConfig.cols === 2 ? 'grid-cols-1 md:grid-cols-2' :
+              'grid-cols-1 md:grid-cols-2 2xl:grid-cols-3'
+            }`}
           style={{
-            // Ensure smooth scrolling performance
-            width: '100vw',
-            transition: 'transform 0.1s ease-out'
+            gap: `${gridConfig.gap * 4}px` // Enhanced gap spacing in pixels
           }}
         >
           {workData.map((project, index) => (
             <div
-              className="work-box py-4 flex flex-col box-border border-r border-[#363636] flex-shrink-0 justify-start will-change-transform"
               key={project.id}
+              className="work-card bg-gray-900/50 rounded-xl border border-gray-800 overflow-hidden hover:border-[#40e6b9]/50 transition-all duration-300 hover:transform hover:scale-[1.02] hover:shadow-2xl hover:shadow-[#40e6b9]/20 flex flex-col"
               style={{
-                // Responsive card dimensions
-                width: `${layout.cardWidth}px`,
-                height: '100%',
-                minWidth: `${layout.cardWidth}px`,
-                maxWidth: `${layout.cardWidth}px`,
-                paddingLeft: `${layout.padding}px`,
-                paddingRight: `${layout.padding}px`,
-                marginLeft: index === 0 ? `${layout.padding}px` : '0'
+                height: '600px', // Increased card height for better 3D effects
+                minHeight: '600px',
+                maxHeight: '600px'
               }}
             >
-              <div className="work-info flex-shrink-0 mb-3">
-                <div className="work-title flex justify-between w-full mb-2">
-                  <h3
-                    className="m-0 font-semibold text-[#40e6b9]"
-                    style={{
-                      fontSize: `${32 * layout.fontSize}px`,
-                      lineHeight: `${32 * layout.fontSize}px`
-                    }}
-                  >
+              {/* Project Info - Fixed Height Text Area */}
+              <div
+                className="work-info flex-shrink-0 px-6 py-3"
+                style={{
+                  height: '180px',
+                  minHeight: '180px',
+                  maxHeight: '180px',
+                  overflow: 'hidden',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between'
+                }}
+              >
+                <div className="flex justify-between items-start mb-2">
+                  <span className="text-3xl font-bold text-[#40e6b9]">
                     {index + 1 < 10 ? `0${index + 1}` : index + 1}
-                  </h3>
-                  <div className="text-right">
+                  </span>
+                  <div className="text-right flex-1 ml-4">
                     <h4
-                      className="font-normal m-0 text-white"
-                      style={{ fontSize: `${14 * layout.fontSize}px` }}
+                      className="font-semibold text-white mb-1"
+                      style={{
+                        fontSize: '16px',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        maxWidth: '200px'
+                      }}
                     >
                       {project.title}
                     </h4>
                     <p
-                      className="font-light text-[#adacac] m-0 mt-1"
-                      style={{ fontSize: `${12 * layout.fontSize}px` }}
+                      className="font-light text-[#adacac] m-0"
+                      style={{
+                        fontSize: '12px',
+                        overflow: 'hidden',
+                        display: '-webkit-box',
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: 'vertical',
+                        lineHeight: '1.3'
+                      }}
                     >
                       {project.category}
                     </p>
                   </div>
                 </div>
-                <h4
-                  className="font-normal m-0 text-white mb-1"
-                  style={{ fontSize: `${14 * layout.fontSize}px` }}
-                >
-                  Tools and features
-                </h4>
-                <p
-                  className="font-light text-[#adacac] m-0 w-[90%]"
-                  style={{ fontSize: `${12 * layout.fontSize}px` }}
-                >
-                  {project.tools}
-                </p>
+
+                {/* Tools */}
+                <div>
+                  <h4 className="text-sm font-medium text-white mb-1">
+                    Tools and Features
+                  </h4>
+                  <p
+                    className="font-light text-[#adacac] m-0"
+                    style={{
+                      fontSize: '12px',
+                      overflow: 'hidden',
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical',
+                      lineHeight: '1.3',
+                      width: '100%'
+                    }}
+                  >
+                    {project.tools}
+                  </p>
+                </div>
               </div>
+
+              {/* Project Image/Video - Fixed Height Image Area */}
               <div
-                className="work-image-container flex-1 min-h-0"
+                className="work-image-container flex-1 p-5"
                 style={{
-                  // Let parent scaling handle consistency
                   width: '100%',
-                  height: '100%'
+                  height: '420px',
+                  minHeight: '420px',
+                  maxHeight: '420px',
+                  overflow: 'hidden',
+                  backgroundColor: '#1a1a1a'
                 }}
               >
                 <WorkImage image={project.image} project={project} />

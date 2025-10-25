@@ -8,8 +8,9 @@ const WorkImage = ({ image, project }) => {
   const cardRef = useRef(null);
 
   const handleViewProject = () => {
-    if (project.link) {
-      window.open(project.link, '_blank');
+    const projectUrl = project.link || project.website;
+    if (projectUrl) {
+      window.open(projectUrl, '_blank');
     }
   };
 
@@ -74,8 +75,8 @@ const WorkImage = ({ image, project }) => {
 
   return (
     <div className="" ref={cardRef}>
-      <CardContainer className="inter-var" containerClassName="py-2">
-<CardBody 
+      <CardContainer className="inter-var w-full h-full" containerClassName="py-0 w-full h-full">
+        <CardBody 
           className={`bg-gray-50 relative group/card dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-full h-full rounded-xl py-3 px-4 border flex flex-col cursor-pointer transition-shadow duration-300 ${isInView ? 'dark:shadow-2xl dark:shadow-teal-400/[0.5]' : ''} lg:dark:shadow-none lg:dark:hover:shadow-2xl lg:dark:hover:shadow-teal-400/[0.5]`}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
@@ -106,14 +107,18 @@ const WorkImage = ({ image, project }) => {
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             onTouchStart={handleTouch}>
-            <div className={`h-full w-full rounded-xl overflow-hidden transition-all duration-300 ${isHovered ? 'lg:p-2' : 'p-0'}`}>
+            <div className={`h-full w-full rounded-xl overflow-hidden transition-all duration-300 ${isHovered ? 'lg:p-2' : 'p-0'} flex items-center justify-center`}>
               <video
                 ref={videoRef}
-                className="h-full w-full object-cover group-hover/card:shadow-xl"
+                className="w-full h-full object-cover group-hover/card:shadow-xl"
                 muted
                 loop
                 playsInline
-                preload="metadata">
+                preload="metadata"
+                style={{
+                  objectFit: 'cover',
+                  aspectRatio: '16/9'
+                }}>
                 <source src={image} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
