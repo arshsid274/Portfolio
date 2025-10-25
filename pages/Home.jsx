@@ -107,11 +107,6 @@ useGSAP(() => {
   // Calculate scale based on viewport width with 1920px as reference
   // Ensure minimum scale for better Vercel compatibility
   const scale = Math.max(Math.min(viewportWidth / 1920, 1), 0.6);
-  
-  // Calculate MacBook scale based on viewport for consistent sizing
-  const macbookScale = isMobile 
-    ? Math.max(4, Math.min(viewportWidth / 200, 6)) 
-    : Math.max(5, Math.min(viewportWidth / 250, 8));
 
   return (
     <div 
@@ -132,55 +127,34 @@ useGSAP(() => {
       </div>
 
       <div 
-        className="relative z-10 flex flex-col lg:flex-row justify-center items-center rounded-lg shadow-lg bg-white/90 dark:bg-black/90 p-8"
+        className="relative z-10 w-[1200px] max-w-[90vw] flex flex-col lg:flex-row justify-center items-center rounded-lg shadow-lg bg-white/90 dark:bg-black/90 p-8"
         style={{
-          width: isMobile ? '95vw' : Math.min(1200 * scale, viewportWidth * 0.9),
-          maxWidth: '95vw',
-          transform: `scale(${Math.min(scale, 1)})`,
+          transform: `scale(${scale})`,
           transformOrigin: 'center center'
         }}
       >
 
        <div
   id="Mac"
-  className="order-1 lg:order-2 mb-8 lg:mb-0 flex justify-center items-center overflow-hidden rounded-lg relative"
-  style={{
-    width: isMobile ? '100%' : '700px',
-    height: isMobile ? '300px' : '500px',
-    maxWidth: '90vw'
-  }}
+  className="order-1 lg:order-2 w-[700px] h-[500px] mb-8 lg:mb-0 flex justify-center items-center overflow-hidden rounded-lg"
 >
-  <div 
-    className="absolute inset-0 flex justify-center items-center"
-    style={{
-      transform: `scale(${scale})`,
-      transformOrigin: 'center center'
-    }}
-  >
-    <ThreeJSErrorBoundary fallbackMessage="Unable to load the 3D MacBook model. The content is still available.">
-      <Suspense fallback={<ThreeJSLoadingFallback />}>
-        <MacbookModel 
-          screenImage="/react.svg" 
-          scale={[macbookScale, macbookScale, macbookScale]} 
-        />
-      </Suspense>
-    </ThreeJSErrorBoundary>
-  </div>
+
+  <ThreeJSErrorBoundary fallbackMessage="Unable to load the 3D MacBook model. The content is still available.">
+    <Suspense fallback={<ThreeJSLoadingFallback />}>
+      {isMobile ? (
+        <MacbookModel screenImage="/react.svg" scale={[6, 6, 6]} />
+      ) : (
+        <MacbookModel screenImage="/react.svg" scale={[7, 7, 7]} />
+      )}
+    </Suspense>
+  </ThreeJSErrorBoundary>
+
 </div>
 
-        <div 
-          className="order-2 lg:order-1 flex flex-col items-center justify-center gap-4"
-          style={{
-            marginLeft: isMobile ? '1rem' : '5rem',
-            marginRight: isMobile ? '1rem' : '5rem'
-          }}
-        >
+        <div className="order-2 lg:order-1 flex flex-col items-center justify-center gap-4 mx-20">
           <div
             id="Animated-details"
-            className="inline-block text-center justify-center"
-            style={{
-              maxWidth: isMobile ? '90vw' : '500px'
-            }}
+            className="inline-block max-w-lg text-center justify-center"
           >
             <BlurText
               text="Hello, I am"
