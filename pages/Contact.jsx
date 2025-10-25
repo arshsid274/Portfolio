@@ -47,7 +47,14 @@ const Contact = () => {
         }}
       >
         <motion.h3 
-          className="text-white text-4xl md:text-5xl lg:text-6xl font-normal uppercase mb-16"
+          className="text-4xl md:text-5xl lg:text-6xl font-normal uppercase mb-16"
+          style={{
+            background: 'linear-gradient(0deg, #00d4aa, #ffffff)',
+            backgroundClip: 'text',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            color: 'transparent'
+          }}
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
@@ -73,7 +80,7 @@ const Contact = () => {
               >
                 <a 
                   href="mailto:example@mail.com" 
-                  className="text-white text-lg hover:text-purple-400 transition-colors duration-300"
+                  className="text-white text-lg hover:text-[#00d4aa] transition-colors duration-300"
                 >
                   example@mail.com
                 </a>
@@ -88,7 +95,7 @@ const Contact = () => {
               >
                 <a 
                   href="tel:+9199999999" 
-                  className="text-white text-lg hover:text-purple-400 transition-colors duration-300"
+                  className="text-white text-lg hover:text-[#00d4aa] transition-colors duration-300"
                 >
                   +91 99999 99999
                 </a>
