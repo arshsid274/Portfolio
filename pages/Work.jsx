@@ -113,14 +113,33 @@ const Work = () => {
     }
     return false;
   });
-  const [viewportWidth, setViewportWidth] = useState(1920);
+  const [devicePixelRatio, setDevicePixelRatio] = useState(1);
+  const [browserZoom, setBrowserZoom] = useState(1);
+  const [effectiveViewport, setEffectiveViewport] = useState({ width: 1920, height: 1080 });
   const timelineRef = useRef(null);
 
   useEffect(() => {
     const checkScreenSize = () => {
+      // Get actual viewport dimensions
       const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-      setViewportWidth(vw);
-      setIsMobile(vw < 1024);
+      const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+
+      // Detect device pixel ratio for high-DPI displays
+      const dpr = window.devicePixelRatio || 1;
+
+      // Calculate browser zoom level (with fallback for edge cases)
+      const zoom = window.outerWidth && window.innerWidth
+        ? Math.round((window.outerWidth / window.innerWidth) * 100) / 100
+        : 1;
+
+      // Calculate effective viewport considering zoom and DPI
+      const effectiveWidth = vw * zoom;
+      const effectiveHeight = vh * zoom;
+
+      setDevicePixelRatio(dpr);
+      setBrowserZoom(zoom);
+      setEffectiveViewport({ width: effectiveWidth, height: effectiveHeight });
+      setIsMobile(effectiveWidth < 1024);
     };
 
     const initialTimeout = setTimeout(checkScreenSize, 100);
@@ -144,6 +163,26 @@ const Work = () => {
 
 
 
+
+  // Comprehensive scaling calculation - moved before useEffect
+  const calculateDynamicScale = () => {
+    // Base reference: 1920x1080 at 1.0 device pixel ratio
+    const baseWidth = 1920;
+    const baseDPR = 1;
+
+    // Calculate scale factors
+    const widthScale = effectiveViewport.width / baseWidth;
+    const dprScale = Math.max(0.8, Math.min(1.2, baseDPR / devicePixelRatio));
+    const zoomScale = Math.max(0.7, Math.min(1.3, 1 / browserZoom));
+
+    // Combine all factors with weights
+    const combinedScale = widthScale * 0.7 + dprScale * 0.2 + zoomScale * 0.1;
+
+    // Apply bounds and smooth the scale
+    return Math.max(0.5, Math.min(1.2, combinedScale));
+  };
+
+  const scale = calculateDynamicScale();
 
   useEffect(() => {
     if (isMobile) {
@@ -187,25 +226,24 @@ const Work = () => {
       const box = document.getElementsByClassName("work-box");
       if (box.length === 0) return;
 
-      // Calculate for all 11 cards with proper spacing
-      const cardWidth = 480; // Base card width
-      const cardScale = 0.85; // Scale factor
-      const cardPadding = 96; // 48px padding * 2 sides (px-12)
-      const firstCardMargin = 48; // ml-12 for first card
+      // Dynamic card dimensions based on scale
+      const baseCardWidth = 480;
+      const dynamicCardWidth = baseCardWidth * scale;
+      const cardPadding = 96 * scale;
+      const firstCardMargin = 48 * scale;
 
       // Effective width per card including padding
-      const effectiveCardWidth = (cardWidth * cardScale) + cardPadding;
+      const effectiveCardWidth = dynamicCardWidth + cardPadding;
 
       // Total width needed for all cards
       const totalCardsWidth = effectiveCardWidth * box.length;
       const totalWidthWithMargin = totalCardsWidth + firstCardMargin;
 
-      // Viewport width
-      const viewportWidth = window.innerWidth;
+      // Use effective viewport width
+      const currentViewportWidth = effectiveViewport.width;
 
       // Calculate translateX to show all cards
-      // Add extra buffer to ensure last card is fully visible
-      translateX = Math.max(0, totalWidthWithMargin - viewportWidth + 200);
+      translateX = Math.max(0, totalWidthWithMargin - currentViewportWidth + (200 * scale));
     }
 
     function setupAnimation() {
@@ -252,10 +290,7 @@ const Work = () => {
       window.removeEventListener('resize', handleResize);
       clearTimeout(resizeTimeout);
     };
-  }, [isMobile]);
-
-  // Calculate scale based on viewport width with 1920px as reference
-  const scale = Math.max(Math.min(viewportWidth / 1920, 1), 0.7);
+  }, [isMobile, scale, effectiveViewport]);
 
   if (isMobile) {
     return (
@@ -278,12 +313,14 @@ const Work = () => {
     <div
       className="work-section relative h-screen box-border will-change-transform overflow-hidden"
       style={{
-        // Apply consistent viewport-based scaling
-        transform: `scale(${scale})`,
+        // Apply comprehensive scaling that considers all factors
+        transform: `scale(${Math.max(0.8, scale)})`,
         transformOrigin: 'center center',
-        // Ensure no horizontal scrollbar appears
+        // Ensure proper overflow handling
         overflowX: 'hidden',
-        overflowY: 'hidden'
+        overflowY: 'hidden',
+        // Adjust for different pixel densities
+        imageRendering: devicePixelRatio > 1 ? 'crisp-edges' : 'auto'
       }}
     >
       <div className="work-container relative mx-auto flex flex-col h-full max-w-none">
@@ -303,12 +340,12 @@ const Work = () => {
                 } ${index === 0 ? 'ml-12' : ''}`}
               key={project.id}
               style={{
-                // Responsive card dimensions
-                width: `${Math.max(400, 480 * scale)}px`,
+                // Dynamic card dimensions based on comprehensive scaling
+                width: `${480 * scale}px`,
                 height: '100%',
-                minWidth: `${Math.max(400, 480 * scale)}px`,
-                maxWidth: `${Math.max(400, 480 * scale)}px`,
-                // Remove hardcoded scaling - let parent handle it
+                minWidth: `${480 * scale}px`,
+                maxWidth: `${480 * scale}px`,
+                // Remove any transform - let parent handle scaling
                 transform: 'none',
                 transformOrigin: 'center center'
               }}

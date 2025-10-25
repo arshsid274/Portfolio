@@ -16,14 +16,32 @@ gsap.registerPlugin(ScrollTrigger);
 
 function Home() {
   const [isMobile, setIsMobile] = useState(false);
-  const [viewportWidth, setViewportWidth] = useState(1920);
+  const [devicePixelRatio, setDevicePixelRatio] = useState(1);
+  const [browserZoom, setBrowserZoom] = useState(1);
+  const [effectiveViewport, setEffectiveViewport] = useState({ width: 1920, height: 1080 });
 
   useEffect(() => {
     const checkScreenSize = () => {
-      // Use consistent viewport detection for Vercel compatibility
+      // Get actual viewport dimensions
       const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-      setViewportWidth(vw);
-      setIsMobile(vw < 768);
+      const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+      
+      // Detect device pixel ratio for high-DPI displays
+      const dpr = window.devicePixelRatio || 1;
+      
+      // Calculate browser zoom level (with fallback for edge cases)
+      const zoom = window.outerWidth && window.innerWidth 
+        ? Math.round((window.outerWidth / window.innerWidth) * 100) / 100 
+        : 1;
+      
+      // Calculate effective viewport considering zoom and DPI
+      const effectiveWidth = vw * zoom;
+      const effectiveHeight = vh * zoom;
+      
+      setDevicePixelRatio(dpr);
+      setBrowserZoom(zoom);
+      setEffectiveViewport({ width: effectiveWidth, height: effectiveHeight });
+      setIsMobile(effectiveWidth < 768);
     };
     
     // Initial check with delay to ensure DOM is ready
@@ -104,9 +122,25 @@ useGSAP(() => {
   }
 }, [isMobile]);
 
-  // Calculate scale based on viewport width with 1920px as reference
-  // Ensure minimum scale for better Vercel compatibility
-  const scale = Math.max(Math.min(viewportWidth / 1920, 1), 0.6);
+  // Comprehensive scaling calculation
+  const calculateDynamicScale = () => {
+    // Base reference: 1920x1080 at 1.0 device pixel ratio
+    const baseWidth = 1920;
+    const baseDPR = 1;
+    
+    // Calculate scale factors
+    const widthScale = effectiveViewport.width / baseWidth;
+    const dprScale = Math.max(0.8, Math.min(1.2, baseDPR / devicePixelRatio));
+    const zoomScale = Math.max(0.7, Math.min(1.3, 1 / browserZoom));
+    
+    // Combine all factors with weights
+    const combinedScale = widthScale * 0.7 + dprScale * 0.2 + zoomScale * 0.1;
+    
+    // Apply bounds and smooth the scale - more conservative for Home
+    return Math.max(0.6, Math.min(1.1, combinedScale));
+  };
+  
+  const scale = calculateDynamicScale();
 
   return (
     <div 
@@ -130,7 +164,9 @@ useGSAP(() => {
         className="relative z-10 w-[1200px] max-w-[90vw] flex flex-col lg:flex-row justify-center items-center rounded-lg shadow-lg bg-white/90 dark:bg-black/90 p-8"
         style={{
           transform: `scale(${scale})`,
-          transformOrigin: 'center center'
+          transformOrigin: 'center center',
+          // Adjust for different pixel densities
+          imageRendering: devicePixelRatio > 1 ? 'crisp-edges' : 'auto'
         }}
       >
 
