@@ -12,7 +12,7 @@ const workData = [
     category: "3D Product Website ",
     tools: "React, Three.js, Gsap, Tailwind css",
     image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1761135569/Macbookfinal_updated_ew7hzf.mp4",
-    website: "https://apple-website-clone-psi.vercel.app/",
+    website: "https://macbook-landing-page-main.vercel.app/",
 
   },
   {
