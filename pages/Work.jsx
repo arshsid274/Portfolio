@@ -113,17 +113,33 @@ const Work = () => {
     }
     return false;
   });
+  const [viewportWidth, setViewportWidth] = useState(1920);
   const timelineRef = useRef(null);
 
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 1024);
+    const checkScreenSize = () => {
+      const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+      setViewportWidth(vw);
+      setIsMobile(vw < 1024);
     };
 
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
+    const initialTimeout = setTimeout(checkScreenSize, 100);
 
-    return () => window.removeEventListener('resize', checkMobile);
+    let resizeTimeout;
+    const debouncedResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(checkScreenSize, 200);
+    };
+
+    window.addEventListener('resize', debouncedResize, { passive: true });
+    window.addEventListener('orientationchange', debouncedResize, { passive: true });
+
+    return () => {
+      clearTimeout(initialTimeout);
+      clearTimeout(resizeTimeout);
+      window.removeEventListener('resize', debouncedResize);
+      window.removeEventListener('orientationchange', debouncedResize);
+    };
   }, []);
 
 
@@ -238,10 +254,12 @@ const Work = () => {
     };
   }, [isMobile]);
 
+  // Calculate scale based on viewport width with 1920px as reference
+  const scale = Math.max(Math.min(viewportWidth / 1920, 1), 0.7);
+
   if (isMobile) {
     return (
       <div className="work-section-mobile bg-black min-h-screen py-4 px-2">
-
         <h2 className="text-3xl font-medium text-center text-white mb-8">
           My <span className="text-[#40e6b9]">Work</span>
         </h2>
@@ -256,15 +274,13 @@ const Work = () => {
     );
   }
 
-
   return (
     <div
       className="work-section relative h-screen box-border will-change-transform overflow-hidden"
       style={{
-        // Override any inherited zoom/transform from viewport fixes
-        zoom: 1,
-        transform: 'scale(1)',
-        transformOrigin: 'top left',
+        // Apply consistent viewport-based scaling
+        transform: `scale(${scale})`,
+        transformOrigin: 'center center',
         // Ensure no horizontal scrollbar appears
         overflowX: 'hidden',
         overflowY: 'hidden'
@@ -287,16 +303,14 @@ const Work = () => {
                 } ${index === 0 ? 'ml-12' : ''}`}
               key={project.id}
               style={{
-                // Fixed card dimensions to prevent scaling issues
-                width: '480px', // Reduced from 600px for better Vercel compatibility
+                // Responsive card dimensions
+                width: `${Math.max(400, 480 * scale)}px`,
                 height: '100%',
-                minWidth: '480px',
-                maxWidth: '480px',
-                // Override any inherited scaling
-                transform: 'scale(0.85)', // Slightly smaller for Vercel
-                transformOrigin: 'center center',
-                // Reset zoom inheritance
-                zoom: 1
+                minWidth: `${Math.max(400, 480 * scale)}px`,
+                maxWidth: `${Math.max(400, 480 * scale)}px`,
+                // Remove hardcoded scaling - let parent handle it
+                transform: 'none',
+                transformOrigin: 'center center'
               }}
             >
               <div className="work-info flex-shrink-0">
@@ -321,9 +335,9 @@ const Work = () => {
               <div
                 className="work-image-container flex-1 min-h-0"
                 style={{
-                  // Ensure image container doesn't inherit scaling issues
-                  transform: 'scale(1)',
-                  transformOrigin: 'center center'
+                  // Let parent scaling handle consistency
+                  width: '100%',
+                  height: '100%'
                 }}
               >
                 <WorkImage image={project.image} project={project} />

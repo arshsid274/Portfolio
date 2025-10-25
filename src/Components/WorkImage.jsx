@@ -74,7 +74,7 @@ const WorkImage = ({ image, project }) => {
 
   return (
     <div className="" ref={cardRef}>
-      <CardContainer className="inter-var" containerClassName="py-0">
+      <CardContainer className="inter-var" containerClassName="py-2">
 <CardBody 
           className={`bg-gray-50 relative group/card dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-full h-full rounded-xl py-3 px-4 border flex flex-col cursor-pointer transition-shadow duration-300 ${isInView ? 'dark:shadow-2xl dark:shadow-teal-400/[0.5]' : ''} lg:dark:shadow-none lg:dark:hover:shadow-2xl lg:dark:hover:shadow-teal-400/[0.5]`}
           onMouseEnter={handleMouseEnter}
