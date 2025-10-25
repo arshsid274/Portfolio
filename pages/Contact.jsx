@@ -1,16 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { MdArrowOutward, MdCopyright } from "react-icons/md";
-import { useClarityTracking } from "../src/hooks/useClarityTracking.js";
 
 const Contact = () => {
   const [isMobile, setIsMobile] = useState(false);
-  const { trackSectionView, trackContactInteraction } = useClarityTracking();
-
-  // Track when Contact section comes into view
-  useEffect(() => {
-    trackSectionView('contact');
-  }, [trackSectionView]);
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -76,7 +69,6 @@ const Contact = () => {
               >
                 <a 
                   href="mailto:example@mail.com" 
-                  onClick={() => trackContactInteraction('email_click')}
                   className={`text-white hover:text-[#00d4aa] transition-colors duration-300 ${
                     isMobile ? 'text-lg' : 'text-lg md:text-xl'
                   }`}
@@ -96,7 +88,6 @@ const Contact = () => {
               >
                 <a 
                   href="tel:+9199999999" 
-                  onClick={() => trackContactInteraction('phone_click')}
                   className={`text-white hover:text-[#00d4aa] transition-colors duration-300 ${
                     isMobile ? 'text-lg' : 'text-lg md:text-xl'
                   }`}
@@ -124,7 +115,6 @@ const Contact = () => {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => trackContactInteraction(`social_${link.name.toLowerCase()}`)}
                 className={`text-white border-b border-gray-400 pb-1 flex items-center gap-2 hover:text-[#00d4aa] hover:border-[#00d4aa] transition-all duration-300 w-fit ${
                   isMobile ? 'text-lg' : 'text-xl lg:text-2xl'
                 }`}

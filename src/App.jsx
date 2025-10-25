@@ -2,11 +2,9 @@ import { Suspense, lazy, useEffect, useState } from 'react';
 import { Navbar } from './Components/Navbar';
 import ScreenSizeHelper from './Components/ScreenSizeHelper';
 import MainLoader from './Components/MainLoader.jsx';
-import clarityService from './services/clarity.js';
-import { useScrollTracking } from './hooks/useClarityTracking.js';
 import './App.css'
 import ThreeJSErrorBoundary from './Components/ThreeJSErrorBoundary.jsx';
-import { PageLoadingFallback, ThreeJSLoadingFallback } from './Components/LoadingFallback.jsx';
+import { PageLoadingFallback } from './Components/LoadingFallback.jsx';
 
 const MacbookScroll = lazy(() => import('./Components/macbookScroll.jsx').then(module => ({ default: module.MacbookScroll })));
 const Home = lazy(() => import('../pages/Home.jsx'));
@@ -26,22 +24,6 @@ function App() {
   // Check if all critical 3D components are ready
   const allComponentsReady = Object.values(componentsReady).every(ready => ready);
 
-  // Enable scroll tracking
-  useScrollTracking();
-
-  // Initialize Microsoft Clarity
-  useEffect(() => {
-    // Initialize Clarity when the app loads
-    clarityService.init();
-    
-    // Set initial tags for portfolio tracking after a delay
-    setTimeout(() => {
-      clarityService.setTag('page_type', 'portfolio');
-      clarityService.setTag('user_type', 'visitor');
-      clarityService.event('portfolio_loaded');
-    }, 2000); // Wait 2 seconds for Clarity to load
-  }, []);
-
   useEffect(() => {
     // Minimum loading time
     const minLoadingTime = 2000; // 2 seconds minimum
@@ -50,7 +32,7 @@ function App() {
     const checkReadiness = () => {
       const elapsedTime = Date.now() - startTime;
       const minTimeReached = elapsedTime >= minLoadingTime;
-      
+
       if (allComponentsReady && minTimeReached) {
         setIsMainLoading(false);
       }
@@ -83,15 +65,15 @@ function App() {
     if (!isMainLoading) {
       // Scroll to top to ensure we start from MacbookScroll
       const scrollToTop = () => {
-        window.scrollTo({ 
-          top: 0, 
-          behavior: 'smooth' 
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
         });
       };
-      
+
       // Small delay to ensure all components are rendered
       const scrollTimer = setTimeout(scrollToTop, 300);
-      
+
       return () => clearTimeout(scrollTimer);
     }
   }, [isMainLoading]);
@@ -116,8 +98,8 @@ function App() {
         <ScreenSizeHelper />
         <ThreeJSErrorBoundary fallbackMessage="Unable to load the interactive MacBook display. The portfolio content is still available below.">
           <Suspense fallback={null}>
-            <MacbookScroll 
-              src="https://res.cloudinary.com/dgpzvkjki/video/upload/v1760959660/src2_cmjedk.mp4" 
+            <MacbookScroll
+              src="https://res.cloudinary.com/dgpzvkjki/video/upload/v1760959660/src2_cmjedk.mp4"
               onReady={() => markComponentReady('macbookScroll')}
             />
           </Suspense>
