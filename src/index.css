@@ -172,4 +172,14 @@
   .animate-pulse {
     animation: pulse var(--duration, 1.5s) ease-out infinite;
   }
+}/* G
+radient text utility for consistent Experience/Contact styling */
+.gradient-text {
+  background: linear-gradient(0deg, #00d4aa, #ffffff) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  -moz-background-clip: text !important;
+  -moz-text-fill-color: transparent !important;
+  color: transparent !important;
 }

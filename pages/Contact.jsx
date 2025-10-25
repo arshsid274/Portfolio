@@ -47,14 +47,7 @@ const Contact = () => {
         }}
       >
         <motion.h3 
-          className="text-4xl md:text-5xl lg:text-6xl font-normal uppercase mb-16"
-          style={{
-            background: 'linear-gradient(0deg, #00d4aa, #ffffff)',
-            backgroundClip: 'text',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            color: 'transparent'
-          }}
+          className="gradient-text text-4xl md:text-5xl lg:text-6xl font-normal uppercase mb-16"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
