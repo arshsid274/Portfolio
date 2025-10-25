@@ -83,53 +83,9 @@ const MobileScroll = ({ src, title }) => {
   });
 
   useEffect(() => {
-    let lastScroll = window.scrollY;
-    let isScrolling = false;
-    
-    const smoothScrollTo = (target, duration = 2000) => {
-      const start = window.scrollY;
-      const distance = target - start;
-      const startTime = performance.now();
-      
-      const scroll = (currentTime) => {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const easeProgress = progress * (2 - progress);
-        
-        window.scrollTo(0, start + distance * easeProgress);
-        
-        if (progress < 1) {
-          requestAnimationFrame(scroll);
-        } else {
-          isScrolling = false;
-        }
-      };
-      
-      requestAnimationFrame(scroll);
-    };
-    
-    const handleScroll = () => {
-      if (isScrolling) return;
-      
-      const scrolled = window.scrollY;
-      const mobileHeight = containerRef.current?.offsetHeight || 0;
-      const scrollingDown = scrolled > lastScroll;
-      
-      if (scrolled > 50 && scrolled < mobileHeight - 50) {
-        isScrolling = true;
-        
-        if (scrollingDown) {
-          smoothScrollTo(mobileHeight, 2000);
-        } else {
-          smoothScrollTo(0, 2000);
-        }
-      }
-      
-      lastScroll = scrolled;
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    // Disable auto-scroll for mobile to prevent infinite loop
+    // The scroll animations are handled by Framer Motion transforms
+    return () => {};
   }, []);
   
   const rotate = useTransform(scrollYProgress, [0, 0.1, 0.3], [-25, -25, 0]);
@@ -185,86 +141,65 @@ export const MacbookScroll = ({
   const [isXl, setIsXl] = useState(false);
 
   useEffect(() => {
-   const checkScreenSize = () => {
-  // Use natural viewport detection
-  const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-  setIsMobile(vw < 768);
-  setIsXl(vw >= 1280);
-};
+    const checkScreenSize = () => {
+      // Use natural viewport detection with higher threshold for stability
+      const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+      setIsMobile(vw < 768);
+      setIsXl(vw >= 1280);
+    };
 
+    // Initial check with delay to ensure DOM is ready
+    const initialTimeout = setTimeout(checkScreenSize, 100);
     
-    // Initial check with a small delay to ensure DOM is ready
-    setTimeout(checkScreenSize, 100);
+    // Improved debouncing with longer delay to prevent rapid changes
+    let resizeTimeout;
+    const debouncedResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(checkScreenSize, 300); // Increased from 150ms
+    };
     
-    const debouncedResize = (() => {
-      let timeoutId;
-      return () => {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(checkScreenSize, 150);
-      };
-    })();
+    // Orientation change with longer delay for device rotation
+    let orientationTimeout;
+    const handleOrientationChange = () => {
+      clearTimeout(orientationTimeout);
+      orientationTimeout = setTimeout(checkScreenSize, 800); // Increased from 500ms
+    };
     
-    window.addEventListener('resize', debouncedResize);
-    window.addEventListener('orientationchange', () => {
-      setTimeout(checkScreenSize, 500);
-    });
+    window.addEventListener('resize', debouncedResize, { passive: true });
+    window.addEventListener('orientationchange', handleOrientationChange, { passive: true });
     
     return () => {
+      clearTimeout(initialTimeout);
+      clearTimeout(resizeTimeout);
+      clearTimeout(orientationTimeout);
       window.removeEventListener('resize', debouncedResize);
-      window.removeEventListener('orientationchange', checkScreenSize);
+      window.removeEventListener('orientationchange', handleOrientationChange);
     };
   }, []);
 
   useEffect(() => {
     if (isMobile) return;
     
+    // Disable auto-scroll behavior to prevent infinite loop
+    // The scroll animations are handled by Framer Motion useScroll and useTransform
+    // This prevents the component from hijacking natural scroll behavior
+    
+    let scrollTimeout;
     let lastScroll = window.scrollY;
-    let isScrolling = false;
     
-    const smoothScrollTo = (target, duration = 3000) => {
-      const start = window.scrollY;
-      const distance = target - start;
-      const startTime = performance.now();
-      
-      const scroll = (currentTime) => {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const easeProgress = progress * (2 - progress);
-        
-        window.scrollTo(0, start + distance * easeProgress);
-        
-        if (progress < 1) {
-          requestAnimationFrame(scroll);
-        } else {
-          isScrolling = false;
-        }
-      };
-      
-      requestAnimationFrame(scroll);
-    };
-    
+    // Debounced scroll handler for performance optimization only
     const handleScroll = () => {
-      if (isScrolling) return;
-      
-      const scrolled = window.scrollY;
-      const macbookHeight = ref.current?.offsetHeight || 0;
-      const scrollingDown = scrolled > lastScroll;
-      
-      if (scrolled > 100 && scrolled < macbookHeight - 100) {
-        isScrolling = true;
-        
-        if (scrollingDown) {
-          smoothScrollTo(macbookHeight, 3000);
-        } else {
-          smoothScrollTo(0, 3000);
-        }
-      }
-      
-      lastScroll = scrolled;
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        lastScroll = window.scrollY;
+      }, 16); // ~60fps throttling
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      clearTimeout(scrollTimeout);
+    };
   }, [isMobile]);
 
   const scaleX = useTransform(scrollYProgress, [0, 1], [1.2, isMobile ? 3.0 : isXl ? 5.5 : 4.8]);
