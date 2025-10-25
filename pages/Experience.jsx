@@ -13,7 +13,7 @@ const Experience = () => {
     };
 
     checkScreenSize();
-    
+
     const debouncedResize = () => {
       setTimeout(checkScreenSize, 150);
     };
@@ -54,12 +54,12 @@ const Experience = () => {
     const forceVisibility = () => {
       const timeline = document.querySelector('.career-timeline');
       const boxes = document.querySelectorAll('.career-info-box');
-      
+
       if (timeline && timeline.style.opacity === '0') {
         timeline.style.opacity = '0.8';
         timeline.style.maxHeight = '100%';
       }
-      
+
       boxes.forEach(box => {
         if (box && box.style.opacity === '0') {
           box.style.opacity = '0.9';
@@ -69,7 +69,7 @@ const Experience = () => {
 
     // Force visibility after a short delay
     const visibilityTimer = setTimeout(forceVisibility, 1000);
-    
+
     return () => clearTimeout(visibilityTimer);
   }, []);
 
@@ -77,13 +77,13 @@ const Experience = () => {
     // Ensure content is visible even if animation fails
     const timeline = document.querySelector('.career-timeline');
     const boxes = document.querySelectorAll('.career-info-box');
-    
+
     if (timeline) {
       timeline.style.maxHeight = '100%';
       timeline.style.opacity = '1';
       timeline.style.transition = 'all 0.5s ease-out';
     }
-    
+
     boxes.forEach((box, index) => {
       if (box) {
         setTimeout(() => {

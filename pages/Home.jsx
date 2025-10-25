@@ -25,43 +25,43 @@ function Home() {
       // Get actual viewport dimensions
       const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
       const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
-      
+
       // Detect device pixel ratio for high-DPI displays
       const dpr = window.devicePixelRatio || 1;
-      
+
       // Calculate browser zoom level (with fallback for edge cases)
-      const zoom = window.outerWidth && window.innerWidth 
-        ? Math.round((window.outerWidth / window.innerWidth) * 100) / 100 
+      const zoom = window.outerWidth && window.innerWidth
+        ? Math.round((window.outerWidth / window.innerWidth) * 100) / 100
         : 1;
-      
+
       // Calculate effective viewport considering zoom and DPI
       const effectiveWidth = vw * zoom;
       const effectiveHeight = vh * zoom;
-      
+
       setDevicePixelRatio(dpr);
       setBrowserZoom(zoom);
       setEffectiveViewport({ width: effectiveWidth, height: effectiveHeight });
       setIsMobile(effectiveWidth < 768);
     };
-    
+
     // Initial check with delay to ensure DOM is ready
     const initialTimeout = setTimeout(checkScreenSize, 100);
-    
+
     let resizeTimeout;
     const debouncedResize = () => {
       clearTimeout(resizeTimeout);
       resizeTimeout = setTimeout(checkScreenSize, 200); // Increased debounce for stability
     };
-    
+
     let orientationTimeout;
     const handleOrientationChange = () => {
       clearTimeout(orientationTimeout);
       orientationTimeout = setTimeout(checkScreenSize, 600);
     };
-    
+
     window.addEventListener('resize', debouncedResize, { passive: true });
     window.addEventListener('orientationchange', handleOrientationChange, { passive: true });
-    
+
     document.documentElement.classList.add("dark");
 
     const refreshTimeout = setTimeout(() => {
@@ -79,76 +79,78 @@ function Home() {
     };
   }, []);
 
-useGSAP(() => {
-  if (!isMobile) {
-    gsap.fromTo(
-      "#Animated-details",
-      { y: 100, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 1,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: "#Animated-details",
-          toggleActions: "play none none reverse",
-          start: "top 80%",
-          end: "bottom 20%",
-          refreshPriority: -1,
-        },
-      }
-    );
-
-    gsap.fromTo(
-      "#Mac",
-      { opacity: 0 },
-      {
-        opacity: 1,
-        duration: 1.5,
-        delay: 0.5,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: "#Mac",
-          toggleActions: "play none none reverse",
-          start: "top 80%",
-          end: "bottom 20%",
-          refreshPriority: -1,
-        },
-      }
-    );
-  } else {
+  useGSAP(() => {
+    // Always make content visible immediately - no scroll triggers for Home section
     gsap.set("#Animated-details", { opacity: 1, y: 0 });
     gsap.set("#Mac", { opacity: 1, y: 0 });
-  }
-}, [isMobile]);
+
+    // Optional: Add a subtle fade-in animation without scroll trigger
+    if (!isMobile) {
+      gsap.fromTo(
+        "#Animated-details",
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          delay: 0.2,
+          ease: "power2.out",
+        }
+      );
+
+      gsap.fromTo(
+        "#Mac",
+        { opacity: 0 },
+        {
+          opacity: 1,
+          duration: 1,
+          delay: 0.5,
+          ease: "power2.out",
+        }
+      );
+    }
+  }, [isMobile]);
 
   // Comprehensive scaling calculation
   const calculateDynamicScale = () => {
     // Base reference: 1920x1080 at 1.0 device pixel ratio
     const baseWidth = 1920;
     const baseDPR = 1;
-    
+
     // Calculate scale factors
     const widthScale = effectiveViewport.width / baseWidth;
     const dprScale = Math.max(0.8, Math.min(1.2, baseDPR / devicePixelRatio));
     const zoomScale = Math.max(0.7, Math.min(1.3, 1 / browserZoom));
-    
+
     // Combine all factors with weights
     const combinedScale = widthScale * 0.7 + dprScale * 0.2 + zoomScale * 0.1;
-    
+
     // Apply bounds and smooth the scale - more conservative for Home
     return Math.max(0.6, Math.min(1.1, combinedScale));
   };
-  
+
   const scale = calculateDynamicScale();
 
+  // Force Canvas refresh when viewport changes
+  const [canvasRefresh, setCanvasRefresh] = useState(0);
+
+  useEffect(() => {
+    const refreshTimer = setTimeout(() => {
+      setCanvasRefresh(prev => prev + 1);
+    }, 300);
+
+    return () => clearTimeout(refreshTimer);
+  }, [effectiveViewport, scale]);
+
   return (
-    <div 
+    <div
+      id="home-section"
       className="flex justify-center items-center relative bg-black text-white"
-      style={{ 
+      style={{
         minHeight: '100vh',
-        height: '100vh',
-        overflow: 'hidden'
+        height: isMobile ? 'auto' : '100vh',
+        overflow: 'visible',
+        padding: isMobile ? '20px 0' : '0'
       }}
     >
       <div className="absolute inset-0 z-0" style={{ filter: 'blur(2px)' }}>
@@ -160,74 +162,80 @@ useGSAP(() => {
         />
       </div>
 
-      <div 
-        className="relative z-10 w-[1200px] max-w-[90vw] flex flex-col lg:flex-row justify-center items-center rounded-lg shadow-lg bg-white/90 dark:bg-black/90 p-8"
+      <div
+        className={`relative z-10 flex justify-center items-center rounded-lg shadow-lg bg-white/90 dark:bg-black/90 ${isMobile
+            ? 'w-full max-w-[95vw] flex-col p-4 gap-6'
+            : 'w-[1200px] max-w-[90vw] flex-col lg:flex-row p-8'
+          }`}
         style={{
-          transform: `scale(${scale})`,
+          transform: isMobile ? 'none' : `scale(${scale})`,
           transformOrigin: 'center center',
-          // Adjust for different pixel densities
           imageRendering: devicePixelRatio > 1 ? 'crisp-edges' : 'auto'
         }}
       >
 
-       <div
-  id="Mac"
-  className="order-1 lg:order-2 w-[700px] h-[500px] mb-8 lg:mb-0 flex justify-center items-center overflow-hidden rounded-lg"
->
+        <div
+          id="Mac"
+          className={`${isMobile ? 'order-1 w-full h-[250px] relative z-20' : 'order-1 lg:order-2 w-[700px] h-[500px] relative z-20'} mb-4 lg:mb-0 flex justify-center items-center overflow-visible rounded-lg`}
+          style={{
+            minWidth: isMobile ? '100%' : '700px',
+            minHeight: isMobile ? '250px' : '500px'
+          }}
+        >
 
-  <ThreeJSErrorBoundary fallbackMessage="Unable to load the 3D MacBook model. The content is still available.">
-    <Suspense fallback={<ThreeJSLoadingFallback />}>
-      {isMobile ? (
-        <MacbookModel screenImage="/react.svg" scale={[6, 6, 6]} />
-      ) : (
-        <MacbookModel screenImage="/react.svg" scale={[7, 7, 7]} />
-      )}
-    </Suspense>
-  </ThreeJSErrorBoundary>
+          <ThreeJSErrorBoundary fallbackMessage="Unable to load the 3D MacBook model. The content is still available.">
+            <Suspense fallback={<ThreeJSLoadingFallback />}>
+              {isMobile ? (
+                <MacbookModel key={`mobile-${canvasRefresh}`} screenImage="/react.svg" scale={[4, 4, 4]} />
+              ) : (
+                <MacbookModel key={`desktop-${canvasRefresh}`} screenImage="/react.svg" scale={[7, 7, 7]} />
+              )}
+            </Suspense>
+          </ThreeJSErrorBoundary>
 
-</div>
+        </div>
 
-        <div className="order-2 lg:order-1 flex flex-col items-center justify-center gap-4 mx-20">
+        <div className={`${isMobile ? 'order-2 w-full relative z-10' : 'order-2 lg:order-1 mx-20 relative z-10'} flex flex-col items-center justify-center gap-4`}>
           <div
             id="Animated-details"
-            className="inline-block max-w-lg text-center justify-center"
+            className={`inline-block text-center justify-center ${isMobile ? 'max-w-full px-2' : 'max-w-lg'}`}
           >
             <BlurText
               text="Hello, I am"
               delay={isMobile ? 0 : 150}
               animateBy="words"
               direction="top"
-              className="text-6xl font-bold"
+              className={`${isMobile ? 'text-3xl' : 'text-6xl'} font-bold text-white relative z-10`}
             />
             <BlurText
               text="Arsh Siddiqui"
               delay={isMobile ? 0 : 300}
               animateBy="words"
               direction="top"
-              className="text-6xl font-bold text-[#40e6b9]"
+              className={`${isMobile ? 'text-3xl' : 'text-6xl'} font-bold text-[#00d4aa] relative z-10`}
             />
             <BlurText
               text="I Craft Premium Web Experiences"
               delay={isMobile ? 0 : 450}
               animateBy="words"
               direction="top"
-              className="text-6xl font-bold"
+              className={`${isMobile ? 'text-3xl' : 'text-6xl'} font-bold text-white relative z-10`}
             />
             <BlurText
               text="That Impress."
               delay={isMobile ? 0 : 600}
               animateBy="words"
               direction="top"
-              className="text-6xl font-bold text-[#40e6b9]"
+              className={`${isMobile ? 'text-3xl' : 'text-6xl'} font-bold text-[#00d4aa] relative z-10`}
             />
 
-            <div className="flex flex-col sm:flex-row gap-5 mt-10">
+            <div className={`flex gap-3 ${isMobile ? 'flex-col mt-6' : 'flex-col sm:flex-row gap-5 mt-10'}`}>
               <ResumeButton
                 text="Resume"
-                className="text-xl px-6 py-3"
+                className={`${isMobile ? 'text-lg px-4 py-2' : 'text-xl px-6 py-3'}`}
                 iconColor="#333"
               />
-              <button className="text-xl px-6 py-3 bg-gray-200 dark:bg-gray-700 rounded-full">
+              <button className={`${isMobile ? 'text-lg px-4 py-2' : 'text-xl px-6 py-3'} bg-gray-200 dark:bg-gray-700 rounded-full`}>
                 Contact Me
               </button>
             </div>

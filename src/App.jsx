@@ -1,7 +1,7 @@
-import { Suspense, lazy, useEffect, useRef } from 'react';
+import { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import { Navbar } from './Components/Navbar';
-import ResponsiveWrapper from './Components/ResponsiveWrapper';
 import ScreenSizeHelper from './Components/ScreenSizeHelper';
+import MainLoader from './Components/MainLoader.jsx';
 import './App.css'
 import ThreeJSErrorBoundary from './Components/ThreeJSErrorBoundary.jsx';
 import { PageLoadingFallback, ThreeJSLoadingFallback } from './Components/LoadingFallback.jsx';
@@ -15,7 +15,50 @@ const Skills = lazy(() => import('../pages/Skills.jsx'));
 const Experience = lazy(() => import('../pages/Experience.jsx'));
 
 function App() {
-  // Removed viewport height tracking and reload logic
+  const [isMainLoading, setIsMainLoading] = useState(true);
+  const homeRef = useRef(null);
+
+  useEffect(() => {
+    // Show loader for initial load time to allow 3D models and videos to load
+    const loadingTimer = setTimeout(() => {
+      setIsMainLoading(false);
+    }, 3000); // 3 seconds loading time
+
+    // Also listen for window load event
+    const handleLoad = () => {
+      setTimeout(() => {
+        setIsMainLoading(false);
+      }, 1000);
+    };
+
+    if (document.readyState === 'complete') {
+      handleLoad();
+    } else {
+      window.addEventListener('load', handleLoad);
+    }
+
+    return () => {
+      clearTimeout(loadingTimer);
+      window.removeEventListener('load', handleLoad);
+    };
+  }, []);
+
+  // Scroll to Home section after loader completes
+  useEffect(() => {
+    if (!isMainLoading && homeRef.current) {
+      const scrollToHome = () => {
+        homeRef.current.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      };
+      
+      // Small delay to ensure all components are rendered
+      const scrollTimer = setTimeout(scrollToHome, 500);
+      
+      return () => clearTimeout(scrollTimer);
+    }
+  }, [isMainLoading]);
 
   const navItems = [
     { label: 'Home', href: '/' },
@@ -31,37 +74,40 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen w-full overflow-x-hidden">
-      <ScreenSizeHelper />
-      <ThreeJSErrorBoundary fallbackMessage="Unable to load the interactive MacBook display. The portfolio content is still available below.">
-        <Suspense fallback={<ThreeJSLoadingFallback />}>
-          <MacbookScroll src="https://res.cloudinary.com/dgpzvkjki/video/upload/v1760959660/src2_cmjedk.mp4" />
+    <>
+      <MainLoader isLoading={isMainLoading} />
+      <div className="min-h-screen w-full overflow-x-hidden">
+        <ScreenSizeHelper />
+        <ThreeJSErrorBoundary fallbackMessage="Unable to load the interactive MacBook display. The portfolio content is still available below.">
+          <Suspense fallback={<ThreeJSLoadingFallback />}>
+            <MacbookScroll src="https://res.cloudinary.com/dgpzvkjki/video/upload/v1760959660/src2_cmjedk.mp4" />
+          </Suspense>
+        </ThreeJSErrorBoundary>
+        <Navbar navItems={navItems} socialLinks={socialLinks} />
+
+        <div ref={homeRef}>
+          <Suspense fallback={<PageLoadingFallback />}>
+            <Home />
+          </Suspense>
+        </div>
+
+        <Suspense fallback={<PageLoadingFallback />}>
+          <Work />
         </Suspense>
-      </ThreeJSErrorBoundary>
-      <Navbar navItems={navItems} socialLinks={socialLinks} />
 
-      <Suspense fallback={<PageLoadingFallback />}>
-        <Home />
-      </Suspense>
+        <Suspense fallback={<PageLoadingFallback />}>
+          <Skills />
+        </Suspense>
 
-      <Suspense fallback={<PageLoadingFallback />}>
-        <Work />
-      </Suspense>
+        <Suspense fallback={<PageLoadingFallback />}>
+          <Experience />
+        </Suspense>
 
-      <Suspense fallback={<PageLoadingFallback />}>
-        <Skills />
-      </Suspense>
-
-      <Suspense fallback={<PageLoadingFallback />}>
-        <Experience />
-      </Suspense>
-
-
-
-      <Suspense fallback={<PageLoadingFallback />}>
-        <Contact />
-      </Suspense>
-    </div>
+        <Suspense fallback={<PageLoadingFallback />}>
+          <Contact />
+        </Suspense>
+      </div>
+    </>
   )
 }
 
