@@ -187,15 +187,9 @@ const Work = () => {
   return (
     <div
       ref={containerRef}
-      className="work-section bg-black min-h-screen py-12 px-4 sm:px-6 lg:px-8"
+      className="work-section bg-black py-12 px-4 sm:px-6 lg:px-8"
     >
-      <div 
-        className="max-w-7xl mx-auto"
-        style={{
-          transform: `scale(${scale})`,
-          transformOrigin: 'top center'
-        }}
-      >
+      <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4">
@@ -208,9 +202,10 @@ const Work = () => {
 
         {/* Fixed Grid with Consistent Dimensions */}
         <div
-          className="grid"
+          className="grid mb-12"
           style={{
             gridTemplateColumns: `repeat(${gridConfig.cols}, 1fr)`,
+            gridAutoRows: 'min-content',
             gap: `${gridConfig.gap * 4}px`,
             width: '100%',
             maxWidth: '1400px',
