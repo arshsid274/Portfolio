@@ -214,7 +214,7 @@ const Work = () => {
             My <span className="text-[#40e6b9]">Work</span>
           </h2>
           <p className="text-lg text-[#adacac] max-w-2xl mx-auto">
-            Scroll down to explore {workData.length} projects showcasing modern web development
+            {/* Scroll down to explore {workData.length} projects showcasing modern web development */}
           </p>
         </div>
 
