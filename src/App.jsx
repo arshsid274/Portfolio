@@ -34,12 +34,12 @@ function App() {
     // Initialize Clarity when the app loads
     clarityService.init();
     
-    // Set initial tags for portfolio tracking
-    clarityService.setTag('page_type', 'portfolio');
-    clarityService.setTag('user_type', 'visitor');
-    
-    // Track page load event
-    clarityService.event('portfolio_loaded');
+    // Set initial tags for portfolio tracking after a delay
+    setTimeout(() => {
+      clarityService.setTag('page_type', 'portfolio');
+      clarityService.setTag('user_type', 'visitor');
+      clarityService.event('portfolio_loaded');
+    }, 2000); // Wait 2 seconds for Clarity to load
   }, []);
 
   useEffect(() => {
