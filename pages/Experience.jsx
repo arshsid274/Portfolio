@@ -28,24 +28,72 @@ const Experience = () => {
   }, []);
 
   useEffect(() => {
-    try {
-      initializeExperienceAnimation();
-    } catch (error) {
-      console.warn('Experience animation failed to initialize:', error);
-      // Fallback: show elements immediately
+    // Add a delay to ensure DOM is ready
+    const initTimer = setTimeout(() => {
+      try {
+        initializeExperienceAnimation();
+      } catch (error) {
+        console.warn('Experience animation failed to initialize:', error);
+        showContentFallback();
+      }
+    }, 100);
+
+    // Also set up a fallback timer in case animation doesn't trigger
+    const fallbackTimer = setTimeout(() => {
+      showContentFallback();
+    }, 2000);
+
+    return () => {
+      clearTimeout(initTimer);
+      clearTimeout(fallbackTimer);
+    };
+  }, []);
+
+  // Additional useEffect to ensure content is visible on mount
+  useEffect(() => {
+    const forceVisibility = () => {
       const timeline = document.querySelector('.career-timeline');
       const boxes = document.querySelectorAll('.career-info-box');
       
-      if (timeline) {
+      if (timeline && timeline.style.opacity === '0') {
+        timeline.style.opacity = '0.8';
         timeline.style.maxHeight = '100%';
-        timeline.style.opacity = '1';
       }
       
       boxes.forEach(box => {
-        box.style.opacity = '1';
+        if (box && box.style.opacity === '0') {
+          box.style.opacity = '0.9';
+        }
       });
-    }
+    };
+
+    // Force visibility after a short delay
+    const visibilityTimer = setTimeout(forceVisibility, 1000);
+    
+    return () => clearTimeout(visibilityTimer);
   }, []);
+
+  const showContentFallback = () => {
+    // Ensure content is visible even if animation fails
+    const timeline = document.querySelector('.career-timeline');
+    const boxes = document.querySelectorAll('.career-info-box');
+    
+    if (timeline) {
+      timeline.style.maxHeight = '100%';
+      timeline.style.opacity = '1';
+      timeline.style.transition = 'all 0.5s ease-out';
+    }
+    
+    boxes.forEach((box, index) => {
+      if (box) {
+        setTimeout(() => {
+          box.style.opacity = '1';
+          box.style.transform = 'translateY(0)';
+          box.style.transition = 'all 0.3s ease-out';
+        }, index * 100);
+      }
+    });
+  };
 
   // Remove scaling to prevent gaps in Experience section
   // const scale = Math.min(viewportWidth / 1920, 1);
@@ -58,10 +106,10 @@ const Experience = () => {
           <br /> experience
         </h2>
         <div className="career-info">
-          <div className="career-timeline">
+          <div className="career-timeline" style={{ opacity: 0.3, maxHeight: '50%' }}>
             <div className="career-dot"></div>
           </div>
-          <div className="career-info-box">
+          <div className="career-info-box" style={{ opacity: 0.8 }}>
             <div className="career-info-in">
               <div className="career-role">
                 <h4>Position In Company</h4>
@@ -75,7 +123,7 @@ const Experience = () => {
               mollitia ratione suscipit repellat.
             </p>
           </div>
-          <div className="career-info-box">
+          <div className="career-info-box" style={{ opacity: 0.8 }}>
             <div className="career-info-in">
               <div className="career-role">
                 <h4>Position In Company</h4>
@@ -89,7 +137,7 @@ const Experience = () => {
               mollitia ratione suscipit repellat.
             </p>
           </div>
-          <div className="career-info-box">
+          <div className="career-info-box" style={{ opacity: 0.8 }}>
             <div className="career-info-in">
               <div className="career-role">
                 <h4>Position In Company</h4>
