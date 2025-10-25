@@ -136,6 +136,12 @@
     overflow-x: hidden;
     /* Remove zoom and transform overrides */
   }
+  
+  /* Ensure page always starts from top */
+  body, html {
+    scroll-behavior: smooth;
+    overscroll-behavior: none;
+  }
 
   #root {
     /* Remove zoom and transform overrides */

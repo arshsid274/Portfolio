@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useRef, useState } from 'react';
+import { Suspense, lazy, useEffect, useState } from 'react';
 import { Navbar } from './Components/Navbar';
 import ScreenSizeHelper from './Components/ScreenSizeHelper';
 import MainLoader from './Components/MainLoader.jsx';
@@ -16,45 +16,63 @@ const Experience = lazy(() => import('../pages/Experience.jsx'));
 
 function App() {
   const [isMainLoading, setIsMainLoading] = useState(true);
-  const homeRef = useRef(null);
+  const [componentsReady, setComponentsReady] = useState({
+    macbookScroll: false,
+    homeModel: false
+  });
+
+  // Check if all critical 3D components are ready
+  const allComponentsReady = Object.values(componentsReady).every(ready => ready);
 
   useEffect(() => {
-    // Show loader for initial load time to allow 3D models and videos to load
-    const loadingTimer = setTimeout(() => {
-      setIsMainLoading(false);
-    }, 3000); // 3 seconds loading time
+    // Minimum loading time
+    const minLoadingTime = 2000; // 2 seconds minimum
+    const startTime = Date.now();
 
-    // Also listen for window load event
-    const handleLoad = () => {
-      setTimeout(() => {
+    const checkReadiness = () => {
+      const elapsedTime = Date.now() - startTime;
+      const minTimeReached = elapsedTime >= minLoadingTime;
+      
+      if (allComponentsReady && minTimeReached) {
         setIsMainLoading(false);
-      }, 1000);
+      }
     };
 
-    if (document.readyState === 'complete') {
-      handleLoad();
-    } else {
-      window.addEventListener('load', handleLoad);
-    }
+    // Check readiness periodically
+    const readinessInterval = setInterval(checkReadiness, 100);
+
+    // Fallback timeout - hide loader after 8 seconds regardless
+    const fallbackTimer = setTimeout(() => {
+      setIsMainLoading(false);
+    }, 8000);
 
     return () => {
-      clearTimeout(loadingTimer);
-      window.removeEventListener('load', handleLoad);
+      clearInterval(readinessInterval);
+      clearTimeout(fallbackTimer);
     };
-  }, []);
+  }, [allComponentsReady]);
 
-  // Scroll to Home section after loader completes
+  // Callback functions for components to report readiness
+  const markComponentReady = (componentName) => {
+    setComponentsReady(prev => ({
+      ...prev,
+      [componentName]: true
+    }));
+  };
+
+  // Ensure page starts at top (MacbookScroll) after loader completes
   useEffect(() => {
-    if (!isMainLoading && homeRef.current) {
-      const scrollToHome = () => {
-        homeRef.current.scrollIntoView({ 
-          behavior: 'smooth',
-          block: 'start'
+    if (!isMainLoading) {
+      // Scroll to top to ensure we start from MacbookScroll
+      const scrollToTop = () => {
+        window.scrollTo({ 
+          top: 0, 
+          behavior: 'smooth' 
         });
       };
       
       // Small delay to ensure all components are rendered
-      const scrollTimer = setTimeout(scrollToHome, 500);
+      const scrollTimer = setTimeout(scrollToTop, 300);
       
       return () => clearTimeout(scrollTimer);
     }
@@ -79,17 +97,18 @@ function App() {
       <div className="min-h-screen w-full overflow-x-hidden">
         <ScreenSizeHelper />
         <ThreeJSErrorBoundary fallbackMessage="Unable to load the interactive MacBook display. The portfolio content is still available below.">
-          <Suspense fallback={<ThreeJSLoadingFallback />}>
-            <MacbookScroll src="https://res.cloudinary.com/dgpzvkjki/video/upload/v1760959660/src2_cmjedk.mp4" />
+          <Suspense fallback={null}>
+            <MacbookScroll 
+              src="https://res.cloudinary.com/dgpzvkjki/video/upload/v1760959660/src2_cmjedk.mp4" 
+              onReady={() => markComponentReady('macbookScroll')}
+            />
           </Suspense>
         </ThreeJSErrorBoundary>
         <Navbar navItems={navItems} socialLinks={socialLinks} />
 
-        <div ref={homeRef}>
-          <Suspense fallback={<PageLoadingFallback />}>
-            <Home />
-          </Suspense>
-        </div>
+        <Suspense fallback={null}>
+          <Home onReady={() => markComponentReady('homeModel')} />
+        </Suspense>
 
         <Suspense fallback={<PageLoadingFallback />}>
           <Work />

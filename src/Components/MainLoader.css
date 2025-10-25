@@ -12,6 +12,51 @@
   backdrop-filter: blur(5px);
 }
 
+.loader-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.loader-text {
+  text-align: center;
+  max-width: 600px;
+  padding: 0 20px;
+}
+
+.tech-typography {
+  font-family: 'Geist', 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', 'Droid Sans Mono', 'Source Code Pro', monospace;
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.gradient-highlight {
+  background: linear-gradient(135deg, #00d4aa 0%, #40e6b9 50%, #ffffff 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
+  color: transparent;
+  background-size: 200% 200%;
+  animation: gradientShift 3s ease-in-out infinite;
+  font-weight: 500;
+}
+
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
 .spinner {
   background-image: linear-gradient(#00d4aa 35%, #ffffff);
   width: 100px;
@@ -47,5 +92,31 @@
   .spinner1 {
     width: 80px;
     height: 80px;
+  }
+  
+  .loader-content {
+    gap: 1.5rem;
+  }
+  
+  .tech-typography {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    letter-spacing: 0.3px;
+  }
+  
+  .loader-text {
+    max-width: 90%;
+    padding: 0 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tech-typography {
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+  
+  .loader-content {
+    gap: 1rem;
   }
 }

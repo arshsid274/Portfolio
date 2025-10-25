@@ -6,7 +6,7 @@ import Lights from './Light'
 import Loader from './Loader'
 import LightRays from './LightRays.jsx'
 
-export const MacbookModel = ({ screenImage = "/assets/images/hero.jpeg", scale = [1, 1, 1] }) => {
+export const MacbookModel = ({ screenImage = "/assets/images/hero.jpeg", scale = [1, 1, 1], onReady }) => {
   const [canvasKey, setCanvasKey] = useState(0);
   const [isReady, setIsReady] = useState(false);
 
@@ -15,6 +15,11 @@ export const MacbookModel = ({ screenImage = "/assets/images/hero.jpeg", scale =
     const timer = setTimeout(() => {
       setIsReady(true);
       setCanvasKey(prev => prev + 1);
+      
+      // Report readiness after a short delay to ensure model is fully loaded
+      setTimeout(() => {
+        if (onReady) onReady();
+      }, 500);
     }, 100);
 
     // Handle resize to refresh Canvas
@@ -28,7 +33,7 @@ export const MacbookModel = ({ screenImage = "/assets/images/hero.jpeg", scale =
       clearTimeout(timer);
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [onReady]);
   return (
     <>
     

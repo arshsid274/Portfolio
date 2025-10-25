@@ -14,7 +14,7 @@ const MacbookModel = lazy(() => import("../src/Components/MacbookModel.jsx").the
 
 gsap.registerPlugin(ScrollTrigger);
 
-function Home() {
+function Home({ onReady }) {
   const [isMobile, setIsMobile] = useState(false);
   const [devicePixelRatio, setDevicePixelRatio] = useState(1);
   const [browserZoom, setBrowserZoom] = useState(1);
@@ -164,8 +164,8 @@ function Home() {
 
       <div
         className={`relative z-10 flex justify-center items-center rounded-lg shadow-lg bg-white/90 dark:bg-black/90 ${isMobile
-            ? 'w-full max-w-[95vw] flex-col p-4 gap-6'
-            : 'w-[1200px] max-w-[90vw] flex-col lg:flex-row p-8'
+          ? 'w-full max-w-[95vw] flex-col p-4 gap-6'
+          : 'w-[1200px] max-w-[90vw] flex-col lg:flex-row p-8'
           }`}
         style={{
           transform: isMobile ? 'none' : `scale(${scale})`,
