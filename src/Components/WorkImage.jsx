@@ -89,8 +89,8 @@ const WorkImage = ({ image, project }) => {
           <CardItem
             translateZ="50"
             className={`text-lg font-bold flex-shrink-0 transition-all duration-300 ${isHovered || isInView
-                ? 'bg-gradient-to-r from-[#00d4aa] to-[#0099cc] bg-clip-text text-transparent'
-                : 'text-neutral-600 dark:text-white'
+              ? 'bg-gradient-to-r from-[#00d4aa] to-[#0099cc] bg-clip-text text-transparent'
+              : 'text-neutral-600 dark:text-white'
               }`}>
             {project.title}
           </CardItem>

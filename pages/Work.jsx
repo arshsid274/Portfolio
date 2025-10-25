@@ -135,12 +135,12 @@ const Work = () => {
 
 
 
-  // Calculate responsive grid layout with wider cards (fewer columns)
+  // Calculate responsive grid layout ensuring at least 3 cards are visible
   const getGridConfig = () => {
-    if (viewportWidth >= 1536) return { cols: 3, gap: 10 }; // 2xl: 3 columns (wider cards)
-    if (viewportWidth >= 1280) return { cols: 2, gap: 8 };  // xl: 2 columns (wider cards)
-    if (viewportWidth >= 1024) return { cols: 2, gap: 6 };  // lg: 2 columns (wider cards)
-    if (viewportWidth >= 768) return { cols: 2, gap: 6 };   // md: 2 columns
+    if (viewportWidth >= 1536) return { cols: 3, gap: 8 }; // 2xl: 3 columns
+    if (viewportWidth >= 1280) return { cols: 3, gap: 6 }; // xl: 3 columns  
+    if (viewportWidth >= 1024) return { cols: 3, gap: 6 }; // lg: 3 columns
+    if (viewportWidth >= 768) return { cols: 2, gap: 6 };  // md: 2 columns
     return { cols: 1, gap: 6 }; // sm: 1 column
   };
 
@@ -222,37 +222,37 @@ const Work = () => {
               key={project.id}
               className="work-card bg-gray-900/50 rounded-xl border border-gray-800 overflow-hidden hover:border-[#40e6b9]/50 transition-all duration-300 hover:transform hover:scale-[1.02] hover:shadow-2xl hover:shadow-[#40e6b9]/20 flex flex-col"
               style={{
-                height: '600px', // Increased card height for better 3D effects
-                minHeight: '600px',
-                maxHeight: '600px'
+                height: '650px', // Increased card height for better 3D effects
+                minHeight: '650px',
+                maxHeight: '650px'
               }}
             >
-              {/* Project Info - Fixed Height Text Area */}
+              {/* Project Info - Compact Text Area */}
               <div
-                className="work-info flex-shrink-0 px-6 py-3"
+                className="work-info flex-shrink-0 px-4 py-2"
                 style={{
-                  height: '180px',
-                  minHeight: '180px',
-                  maxHeight: '180px',
+                  height: '140px',
+                  minHeight: '140px',
+                  maxHeight: '140px',
                   overflow: 'hidden',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between'
                 }}
               >
-                <div className="flex justify-between items-start mb-2">
-                  <span className="text-3xl font-bold text-[#40e6b9]">
+                <div className="flex justify-between items-start mb-1">
+                  <span className="text-2xl font-bold text-[#40e6b9]">
                     {index + 1 < 10 ? `0${index + 1}` : index + 1}
                   </span>
                   <div className="text-right flex-1 ml-4">
                     <h4
                       className="font-semibold text-white mb-1"
                       style={{
-                        fontSize: '16px',
+                        fontSize: '14px',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',
-                        maxWidth: '200px'
+                        maxWidth: '180px'
                       }}
                     >
                       {project.title}
@@ -275,18 +275,18 @@ const Work = () => {
 
                 {/* Tools */}
                 <div>
-                  <h4 className="text-sm font-medium text-white mb-1">
+                  <h4 className="text-xs font-medium text-white mb-1">
                     Tools and Features
                   </h4>
                   <p
                     className="font-light text-[#adacac] m-0"
                     style={{
-                      fontSize: '12px',
+                      fontSize: '10px',
                       overflow: 'hidden',
                       display: '-webkit-box',
                       WebkitLineClamp: 2,
                       WebkitBoxOrient: 'vertical',
-                      lineHeight: '1.3',
+                      lineHeight: '1.2',
                       width: '100%'
                     }}
                   >
@@ -300,11 +300,11 @@ const Work = () => {
                 className="work-image-container flex-1 p-5"
                 style={{
                   width: '100%',
-                  height: '420px',
-                  minHeight: '420px',
-                  maxHeight: '420px',
-                  overflow: 'hidden',
-                  backgroundColor: '#1a1a1a'
+                  height: '510px',
+                  minHeight: '510px',
+                  maxHeight: '510px',
+                  overflow: 'visible', // Allow 3D effects to show
+                  backgroundColor: 'transparent'
                 }}
               >
                 <WorkImage image={project.image} project={project} />
