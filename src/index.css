@@ -119,20 +119,13 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    /* BONUS: Animation performance optimizations */
     backface-visibility: hidden;
     -webkit-font-smoothing: antialiased;
     scroll-behavior: smooth;
   }
 
   html {
-    /* Comprehensive zoom and transform reset for Vercel deployment */
-    zoom: 1 !important;
-    transform: scale(1) !important;
-    -webkit-transform: scale(1) !important;
-    -moz-transform: scale(1) !important;
-    -ms-transform: scale(1) !important;
-    -o-transform: scale(1) !important;
+    /* Remove all the transform and zoom overrides */
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
   }
@@ -140,23 +133,11 @@
   body {
     @apply bg-background text-foreground;
     overflow-x: hidden;
-    /* Ensure body element maintains consistent scaling */
-    zoom: 1 !important;
-    transform: scale(1) !important;
-    -webkit-transform: scale(1) !important;
-    -moz-transform: scale(1) !important;
-    -ms-transform: scale(1) !important;
-    -o-transform: scale(1) !important;
+    /* Remove zoom and transform overrides */
   }
 
   #root {
-    /* Prevent any scaling issues on the React root element */
-    zoom: 1 !important;
-    transform: scale(1) !important;
-    -webkit-transform: scale(1) !important;
-    -moz-transform: scale(1) !important;
-    -ms-transform: scale(1) !important;
-    -o-transform: scale(1) !important;
+    /* Remove zoom and transform overrides */
   }
 }
 

@@ -4,7 +4,11 @@
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+ <!-- Remove this -->
+<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /> -->
+
+<!-- Use this instead -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vite + React</title>
 
 </head>
@@ -13,48 +17,13 @@
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
   <script>
-    // Theme handling
-    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
-
-    // Zoom override for Vercel deployment consistency
-    try {
-      // Function to enforce zoom level 1
-      function enforceZoomLevel() {
-        try {
-          // Set zoom properties on documentElement (html)
-          if (document.documentElement) {
-            document.documentElement.style.zoom = '1';
-            document.documentElement.style.setProperty('zoom', '1', 'important');
-          }
-          
-          // Set zoom properties on body
-          if (document.body) {
-            document.body.style.zoom = '1';
-            document.body.style.setProperty('zoom', '1', 'important');
-          }
-        } catch (error) {
-          console.warn('Zoom override failed:', error);
-        }
-      }
-
-      // Execute immediately if DOM is ready
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', enforceZoomLevel);
-      } else {
-        enforceZoomLevel();
-      }
-
-      // Also enforce on window load as a fallback
-      window.addEventListener('load', enforceZoomLevel);
-      
-    } catch (error) {
-      console.warn('Zoom override script initialization failed:', error);
-    }
-  </script>
+  // Simple theme handling only
+  if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    document.documentElement.classList.add('dark')
+  } else {
+    document.documentElement.classList.remove('dark')
+  }
+</script>
 </body>
 
 </html>
