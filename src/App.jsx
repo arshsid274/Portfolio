@@ -8,7 +8,7 @@ import { PageLoadingFallback, ThreeJSLoadingFallback } from './Components/Loadin
 
 const MacbookScroll = lazy(() => import('./Components/macbookScroll.jsx').then(module => ({ default: module.MacbookScroll })));
 const Home = lazy(() => import('../pages/Home.jsx'));
-const About = lazy(() => import('../pages/About.jsx'));
+
 const Contact = lazy(() => import('../pages/Contact.jsx'));
 const Work = lazy(() => import('../pages/Work.jsx'));
 const Skills = lazy(() => import('../pages/Skills.jsx'));
@@ -56,9 +56,7 @@ function App() {
         <Experience />
       </Suspense>
 
-      <Suspense fallback={<PageLoadingFallback />}>
-        <About />
-      </Suspense>
+
 
       <Suspense fallback={<PageLoadingFallback />}>
         <Contact />

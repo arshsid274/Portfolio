@@ -47,18 +47,12 @@ const Experience = () => {
     }
   }, []);
 
-  // Calculate scale based on viewport width with 1920px as reference
-  const scale = Math.min(viewportWidth / 1920, 1);
+  // Remove scaling to prevent gaps in Experience section
+  // const scale = Math.min(viewportWidth / 1920, 1);
 
   return (
     <div className="career-section section-container">
-      <div 
-        className="career-container"
-        style={{
-          transform: `scale(${scale})`,
-          transformOrigin: 'top center'
-        }}
-      >
+      <div className="career-container">
         <h2>
           My career <span>&</span>
           <br /> experience
