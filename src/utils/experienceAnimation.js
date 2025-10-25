@@ -21,105 +21,106 @@ export function initializeExperienceAnimation() {
 }
 
 function setupAnimation(gsap, ScrollTrigger) {
-    // Create timeline that plays once when triggered
-    const careerTimeline = gsap.timeline({
-      paused: true
+    // Clean up any existing ScrollTriggers for this section
+    ScrollTrigger.getAll().forEach(trigger => {
+      if (trigger.trigger && trigger.trigger.classList.contains('career-section')) {
+        trigger.kill();
+      }
+    });
+
+    // Set initial states
+    gsap.set(".career-timeline", { 
+      maxHeight: "0%",
+      opacity: 0
     });
     
-    // Set up the timeline animation sequence
-    careerTimeline
-      .fromTo(
-        ".career-timeline",
-        { 
-          maxHeight: "0%",
-          opacity: 0
-        },
-        { 
-          maxHeight: "100%", 
-          opacity: 1,
-          duration: 2,
-          ease: "power2.out"
-        },
-        0
-      )
-      .fromTo(
-        ".career-info-box",
-        { 
-          opacity: 0,
-          y: 30
-        },
-        { 
-          opacity: 1, 
-          y: 0,
-          stagger: 0.3, 
-          duration: 0.8,
-          ease: "power2.out"
-        },
-        0.5
-      )
-      .to(
-        ".career-dot",
-        {
-          animationIterationCount: "1",
-          duration: 0.1,
-        },
-        1.5
-      );
+    gsap.set(".career-info-box", { 
+      opacity: 0,
+      y: 30
+    });
 
-    // ScrollTrigger to play animation once when section comes into view
-    ScrollTrigger.create({
-      trigger: ".career-section",
-      start: "top 80%",
-      end: "bottom 20%",
-      onEnter: () => {
-        careerTimeline.play();
-      },
-      onLeave: () => {
-        // Optional: Reset animation when leaving section
-        // careerTimeline.reverse();
-      },
-      onEnterBack: () => {
-        // Play again when scrolling back up
-        if (careerTimeline.progress() === 1) {
-          careerTimeline.restart();
-        }
+    // Create smooth bidirectional animations
+    gsap.to(".career-timeline", {
+      maxHeight: "100%", 
+      opacity: 1,
+      duration: 1.5,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: ".career-section",
+        start: "top 85%",
+        end: "top 60%",
+        toggleActions: "play none none reverse",
+        refreshPriority: -1
       }
+    });
+
+    // Animate each career box individually for better control
+    const boxes = document.querySelectorAll(".career-info-box");
+    boxes.forEach((box, index) => {
+      gsap.to(box, {
+        opacity: 1, 
+        y: 0,
+        duration: 0.6,
+        ease: "power2.out",
+        delay: index * 0.2,
+        scrollTrigger: {
+          trigger: box,
+          start: "top 90%",
+          end: "top 70%",
+          toggleActions: "play none none reverse",
+          refreshPriority: -1
+        }
+      });
     });
 }
 
 function setupFallbackAnimation() {
-  // Create intersection observer for fallback animation
-  const observer = new IntersectionObserver((entries) => {
+  // Create intersection observer for fallback animation with bidirectional support
+  const timelineObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const timeline = entry.target.querySelector('.career-timeline');
-        const boxes = entry.target.querySelectorAll('.career-info-box');
-        
-        if (timeline) {
+      const timeline = entry.target.querySelector('.career-timeline');
+      if (timeline) {
+        if (entry.isIntersecting) {
           timeline.style.maxHeight = '100%';
           timeline.style.opacity = '1';
-          timeline.style.transition = 'all 2s ease-out';
+          timeline.style.transition = 'all 1.5s ease-out';
+        } else {
+          timeline.style.maxHeight = '0%';
+          timeline.style.opacity = '0';
+          timeline.style.transition = 'all 0.8s ease-out';
         }
-        
-        boxes.forEach((box, index) => {
-          setTimeout(() => {
-            box.style.opacity = '1';
-            box.style.transform = 'translateY(0)';
-            box.style.transition = 'all 0.8s ease-out';
-          }, 500 + (index * 300));
-        });
-        
-        // Stop observing after animation
-        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.2,
+    rootMargin: '0px 0px -15% 0px'
+  });
+
+  const boxObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+        entry.target.style.transition = 'all 0.6s ease-out';
+      } else {
+        entry.target.style.opacity = '0';
+        entry.target.style.transform = 'translateY(30px)';
+        entry.target.style.transition = 'all 0.4s ease-out';
       }
     });
   }, {
     threshold: 0.3,
-    rootMargin: '0px 0px -20% 0px'
+    rootMargin: '0px 0px -10% 0px'
   });
 
   const careerSection = document.querySelector('.career-section');
+  const boxes = document.querySelectorAll('.career-info-box');
+  
   if (careerSection) {
-    observer.observe(careerSection);
+    timelineObserver.observe(careerSection);
   }
+  
+  boxes.forEach(box => {
+    boxObserver.observe(box);
+  });
 }

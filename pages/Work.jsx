@@ -150,39 +150,56 @@ const Work = () => {
   // const scale = Math.min(viewportWidth / 1920, 1);
 
   useEffect(() => {
-    // Clean up any existing ScrollTriggers
-    ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    // Clean up any existing ScrollTriggers for this section only
+    ScrollTrigger.getAll().forEach(trigger => {
+      if (trigger.trigger && trigger.trigger.closest('#work')) {
+        trigger.kill();
+      }
+    });
 
-    // Animate cards from below as they come into view
-    const cards = document.querySelectorAll('.work-card');
-    cards.forEach((card, index) => {
-      gsap.fromTo(card,
-        {
+    // Small delay to ensure DOM is ready
+    const timer = setTimeout(() => {
+      const cards = document.querySelectorAll('#work .work-card');
+      
+      cards.forEach((card, index) => {
+        // Set initial state without animation
+        gsap.set(card, {
           opacity: 0,
-          y: 80,
-          scale: 0.9
-        },
-        {
+          y: 60,
+          scale: 0.95
+        });
+
+        // Create smooth entrance animation
+        gsap.to(card, {
           opacity: 1,
           y: 0,
           scale: 1,
-          duration: 0.8,
+          duration: 0.6,
           ease: "power2.out",
-          delay: (index % gridConfig.cols) * 0.1, // Stagger based on column position
+          delay: (index % gridConfig.cols) * 0.08,
           scrollTrigger: {
             trigger: card,
-            start: "top 85%",
-            end: "top 60%",
+            start: "top 90%",
+            end: "top 70%",
             toggleActions: "play none none reverse",
+            refreshPriority: -1,
+            fastScrollEnd: true,
+            preventOverlaps: true
           }
-        }
-      );
-    });
+        });
+      });
+    }, 100);
 
     return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      clearTimeout(timer);
+      // Only kill ScrollTriggers for this section
+      ScrollTrigger.getAll().forEach(trigger => {
+        if (trigger.trigger && trigger.trigger.closest('#work')) {
+          trigger.kill();
+        }
+      });
     };
-  }, [gridConfig.cols, viewportWidth]);
+  }, [gridConfig.cols]);
 
   return (
     <div

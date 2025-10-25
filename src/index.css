@@ -143,6 +143,33 @@
     overscroll-behavior: none;
   }
 
+  /* Optimize scrolling performance */
+  * {
+    will-change: auto;
+  }
+
+  /* Smooth scrolling for work section */
+  #work {
+    scroll-behavior: smooth;
+    transform: translateZ(0);
+  }
+
+  /* Optimize experience section animations */
+  #experience {
+    scroll-behavior: smooth;
+    transform: translateZ(0);
+  }
+
+  .work-card {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+  }
+
+  .career-info-box, .career-timeline {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+  }
+
   #root {
     /* Remove zoom and transform overrides */
   }

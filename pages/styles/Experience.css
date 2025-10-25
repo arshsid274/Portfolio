@@ -9,7 +9,14 @@
   height: auto;
   margin: auto;
   margin-bottom: 50px;
-  padding: 60px 0px;
+  padding: 60px 20px;
+}
+
+.career-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 .career-section h2 {
@@ -154,8 +161,11 @@
 }
 @media only screen and (max-width: 1025px) {
   .career-section {
-    padding: 40px 0px;
+    padding: 40px 15px;
     margin-bottom: 0;
+  }
+  .career-container {
+    padding: 0 15px;
   }
 }
 @media only screen and (max-width: 900px) {
@@ -174,7 +184,8 @@
     left: 0%;
   }
   .career-container {
-    width: calc(100% - 25px);
+    width: 100%;
+    padding: 0 15px;
   }
 }
 @media only screen and (max-width: 600px) {
@@ -198,9 +209,12 @@
     padding-left: 5%;
   }
   .career-section {
-    padding: 40px 0px;
+    padding: 40px 10px;
     align-items: start;
     place-items: inherit;
     justify-content: left;
+  }
+  .career-container {
+    padding: 0 10px;
   }
 }
