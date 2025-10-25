@@ -23,7 +23,7 @@ const WorkImage = ({ image, project }) => {
           video.currentTime = 0;
         }
       });
-      
+
       videoRef.current.play();
     }
   };
@@ -76,7 +76,7 @@ const WorkImage = ({ image, project }) => {
   return (
     <div className="" ref={cardRef}>
       <CardContainer className="inter-var w-full h-full" containerClassName="py-0 w-full h-full">
-        <CardBody 
+        <CardBody
           className={`bg-gray-50 relative group/card dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-full h-full rounded-xl py-3 px-4 border flex flex-col cursor-pointer transition-shadow duration-300 ${isInView ? 'dark:shadow-2xl dark:shadow-teal-400/[0.5]' : ''} lg:dark:shadow-none lg:dark:hover:shadow-2xl lg:dark:hover:shadow-teal-400/[0.5]`}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
@@ -88,11 +88,10 @@ const WorkImage = ({ image, project }) => {
 
           <CardItem
             translateZ="50"
-            className={`text-lg font-bold flex-shrink-0 transition-all duration-300 ${
-              isHovered || isInView 
-                ? 'bg-gradient-to-r from-[#00d4aa] to-[#0099cc] bg-clip-text text-transparent' 
+            className={`text-lg font-bold flex-shrink-0 transition-all duration-300 ${isHovered || isInView
+                ? 'bg-gradient-to-r from-[#00d4aa] to-[#0099cc] bg-clip-text text-transparent'
                 : 'text-neutral-600 dark:text-white'
-            }`}>
+              }`}>
             {project.title}
           </CardItem>
           <CardItem
@@ -101,8 +100,8 @@ const WorkImage = ({ image, project }) => {
             className="text-neutral-500 text-sm max-w-sm mt-1 dark:text-neutral-300 flex-shrink-0">
             {project.category}
           </CardItem>
-          <CardItem 
-            translateZ="100" 
+          <CardItem
+            translateZ="100"
             className="w-full mt-3 flex-1 min-h-0"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
@@ -125,20 +124,18 @@ const WorkImage = ({ image, project }) => {
             </div>
           </CardItem>
           <div className="flex justify-between items-center mt-3 flex-shrink-0">
-         
+
             <CardItem
               translateZ={20}
               as="button"
               onClick={handleViewProject}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
-              className={`px-3 py-2 rounded-xl bg-black dark:bg-white dark:text-black text-white text-xs font-bold transition-all duration-300 flex items-center gap-2 flex-shrink-0 cursor-pointer ${
-                isHovered ? 'lg:scale-110 lg:px-4' : ''
-              }`}>
+              className={`px-3 py-2 rounded-xl bg-black dark:bg-white dark:text-black text-white text-xs font-bold transition-all duration-300 flex items-center gap-2 flex-shrink-0 cursor-pointer ${isHovered ? 'lg:scale-110 lg:px-4' : ''
+                }`}>
               View Project
-              <span className={`text-[#00d4aa] text-sm font-black transition-all duration-300 ${
-                isHovered ? 'translate-x-1 opacity-100' : 'translate-x-0 opacity-0'
-              }`}>
+              <span className={`text-[#00d4aa] text-sm font-black transition-all duration-300 ${isHovered ? 'translate-x-1 opacity-100' : 'translate-x-0 opacity-0'
+                }`}>
                 →
               </span>
             </CardItem>
