@@ -124,9 +124,30 @@
     -webkit-font-smoothing: antialiased;
     scroll-behavior: smooth;
   }
-  
+
+  html {
+    /* Prevent zoom on desktop */
+    zoom: 1;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+  }
+
   body {
     @apply bg-background text-foreground;
+    overflow-x: hidden;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  canvas {
+    touch-action: none;
   }
 }
 
