@@ -112,32 +112,29 @@ const Experience = () => {
           <div className="career-info-box" style={{ opacity: 0.8 }}>
             <div className="career-info-in">
               <div className="career-role">
-                <h4>Position In Company</h4>
-                <h5>Company Name</h5>
+                <h4>Software Developer</h4>
+                <h5>Shine Infosolution</h5>
               </div>
-              <h3>20XX</h3>
+              <h3>2025</h3>
             </div>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim
-              labore sit non ipsum temporibus quidem, deserunt eaque officiis
-              mollitia ratione suscipit repellat.
+              Full-stack Intern at shine Infosolutions — Built responsive UIs, role-based CRUD APIs, optimized static business sites with SEO, integrated APIs, and supported team mentoring & offline Raspberry Pi deployment.
             </p>
           </div>
           <div className="career-info-box" style={{ opacity: 0.8 }}>
             <div className="career-info-in">
               <div className="career-role">
-                <h4>Position In Company</h4>
-                <h5>Company Name</h5>
+                <h4>Frontend Intern</h4>
+                <h5>Vaslai</h5>
               </div>
-              <h3>20XX</h3>
+              <h3>2024</h3>
             </div>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim
-              labore sit non ipsum temporibus quidem, deserunt eaque officiis
-              mollitia ratione suscipit repellat.
+               Front-End Intern at Vasl AI — Designed key website UIs, implemented secure form validation, built dynamic PubChem search with API integration, and merged multi-source REST API data into one seamless app.
+            
             </p>
           </div>
-          <div className="career-info-box" style={{ opacity: 0.8 }}>
+          {/* <div className="career-info-box" style={{ opacity: 0.8 }}>
             <div className="career-info-in">
               <div className="career-role">
                 <h4>Position In Company</h4>
@@ -150,7 +147,7 @@ const Experience = () => {
               labore sit non ipsum temporibus quidem, deserunt eaque officiis
               mollitia ratione suscipit repellat.
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
