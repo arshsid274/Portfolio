@@ -118,7 +118,7 @@ const Contact = () => {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white text-xl lg:text-2xl border-b border-gray-400 pb-1 flex items-center gap-2 hover:text-purple-400 hover:border-purple-400 transition-all duration-300 w-fit"
+                className="text-white text-xl lg:text-2xl border-b border-gray-400 pb-1 flex items-center gap-2 hover:text-[#00d4aa] hover:border-[#00d4aa] transition-all duration-300 w-fit"
                 whileHover={{ x: 10 }}
                 transition={{ duration: 0.2 }}
                 initial={{ opacity: 0, x: -20 }}
@@ -147,7 +147,7 @@ const Contact = () => {
               viewport={{ once: true }}
             >
               Designed and Developed <br /> 
-              by <span className="text-purple-400">Your Name</span>
+              by <span className="text-[#00d4aa]">Your Name</span>
             </motion.h2>
             
             <motion.h5 
