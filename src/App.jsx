@@ -94,6 +94,7 @@ function App() {
   return (
     <>
       <MainLoader isLoading={isMainLoading} />
+      <Navbar navItems={navItems} socialLinks={socialLinks} />
       <div className="min-h-screen w-full overflow-x-hidden">
         <ScreenSizeHelper />
         <ThreeJSErrorBoundary fallbackMessage="Unable to load the interactive MacBook display. The portfolio content is still available below.">
@@ -104,7 +105,6 @@ function App() {
             />
           </Suspense>
         </ThreeJSErrorBoundary>
-        <Navbar navItems={navItems} socialLinks={socialLinks} />
 
         <Suspense fallback={null}>
           <Home onReady={() => markComponentReady('homeModel')} />
