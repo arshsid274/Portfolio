@@ -242,35 +242,54 @@ const Work = () => {
 
       // Use responsive layout calculations
       const cardWidth = layout.cardWidth;
-      const cardPadding = layout.padding * 2; // px-12 = 48px * 2
-      const firstCardMargin = layout.padding; // ml-12 = 48px
+      const cardPadding = layout.padding * 2; // paddingLeft + paddingRight
+      const firstCardMargin = layout.padding; // marginLeft for first card
 
-      // Calculate how much space each card takes
+      // Calculate total width needed for all cards
       const effectiveCardWidth = cardWidth + cardPadding;
-
-      // Total width for all cards
       const totalCardsWidth = effectiveCardWidth * box.length;
-      const totalWidthWithMargin = totalCardsWidth + firstCardMargin;
+      const totalWidthWithFirstMargin = totalCardsWidth + firstCardMargin;
 
-      // Calculate how much we need to scroll to show all cards
-      // Leave some buffer space at the end
-      const bufferSpace = cardWidth * 0.5;
-      translateX = Math.max(0, totalWidthWithMargin - effectiveViewport.width + bufferSpace);
+      // Calculate the exact amount needed to scroll to show the last card completely
+      const viewportWidth = effectiveViewport.width;
+
+      // Only scroll if total width exceeds viewport
+      if (totalWidthWithFirstMargin > viewportWidth) {
+        // Calculate exact translateX to show last card completely
+        translateX = totalWidthWithFirstMargin - viewportWidth;
+      } else {
+        // If all cards fit in viewport, no scrolling needed
+        translateX = 0;
+      }
+
+      // Ensure we don't scroll more than necessary
+      translateX = Math.max(0, translateX);
     }
 
     function setupAnimation() {
       setTranslateX();
 
+      // Only create animation if there's actual scrolling needed
+      if (translateX <= 0) {
+        return null; // No animation needed if all cards fit
+      }
+
       let timeline = gsap.timeline({
         scrollTrigger: {
           trigger: ".work-section",
           start: "top top",
-          end: `+=${translateX}`,
+          end: `+=${translateX}`, // Scroll distance matches exactly what we need
           scrub: 1,
           pin: true,
           id: "work",
           refreshPriority: -1,
           anticipatePin: 1,
+          onUpdate: (self) => {
+            // Clamp the scroll to prevent over-scrolling
+            const maxScroll = -translateX;
+            const currentScroll = maxScroll * self.progress;
+            gsap.set(".work-flex", { x: Math.max(currentScroll, maxScroll) });
+          }
         },
       });
 
@@ -288,7 +307,7 @@ const Work = () => {
     const handleResize = () => {
       clearTimeout(resizeTimeout);
       resizeTimeout = setTimeout(() => {
-        timeline.kill();
+        if (timeline) timeline.kill();
         ScrollTrigger.getById("work")?.kill();
         setupAnimation();
       }, 250);
@@ -297,7 +316,7 @@ const Work = () => {
     window.addEventListener('resize', handleResize);
 
     return () => {
-      timeline.kill();
+      if (timeline) timeline.kill();
       ScrollTrigger.getById("work")?.kill();
       window.removeEventListener('resize', handleResize);
       clearTimeout(resizeTimeout);
@@ -357,8 +376,7 @@ const Work = () => {
         >
           {workData.map((project, index) => (
             <div
-              className={`work-box py-6 flex box-border border-r border-[#363636] flex-shrink-0 gap-6 justify-center will-change-transform ${index % 2 === 1 ? 'flex-col-reverse' : 'flex-col'
-                } ${index === 0 ? '' : ''}`}
+              className="work-box py-4 flex flex-col box-border border-r border-[#363636] flex-shrink-0 justify-start will-change-transform"
               key={project.id}
               style={{
                 // Responsive card dimensions
@@ -371,8 +389,8 @@ const Work = () => {
                 marginLeft: index === 0 ? `${layout.padding}px` : '0'
               }}
             >
-              <div className="work-info flex-shrink-0">
-                <div className="work-title flex justify-between w-full mb-4">
+              <div className="work-info flex-shrink-0 mb-3">
+                <div className="work-title flex justify-between w-full mb-2">
                   <h3
                     className="m-0 font-semibold text-[#40e6b9]"
                     style={{
@@ -398,13 +416,13 @@ const Work = () => {
                   </div>
                 </div>
                 <h4
-                  className="font-normal m-0 text-white"
+                  className="font-normal m-0 text-white mb-1"
                   style={{ fontSize: `${14 * layout.fontSize}px` }}
                 >
                   Tools and features
                 </h4>
                 <p
-                  className="font-light text-[#adacac] m-0 mt-1 w-[90%]"
+                  className="font-light text-[#adacac] m-0 w-[90%]"
                   style={{ fontSize: `${12 * layout.fontSize}px` }}
                 >
                   {project.tools}

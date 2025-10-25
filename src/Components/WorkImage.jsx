@@ -120,11 +120,7 @@ const WorkImage = ({ image, project }) => {
             </div>
           </CardItem>
           <div className="flex justify-between items-center mt-3 flex-shrink-0">
-            <CardItem
-              translateZ={20}
-              className="px-3 py-1 rounded-xl text-xs font-normal dark:text-white flex-1 max-w-[60%] break-words">
-              {project.tools}
-            </CardItem>
+         
             <CardItem
               translateZ={20}
               as="button"
