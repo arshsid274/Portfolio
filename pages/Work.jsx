@@ -164,25 +164,39 @@ const Work = () => {
 
 
 
-  // Comprehensive scaling calculation - moved before useEffect
-  const calculateDynamicScale = () => {
-    // Base reference: 1920x1080 at 1.0 device pixel ratio
-    const baseWidth = 1920;
-    const baseDPR = 1;
+  // Calculate responsive card dimensions and layout
+  const calculateResponsiveLayout = () => {
+    const viewportWidth = effectiveViewport.width;
 
-    // Calculate scale factors
-    const widthScale = effectiveViewport.width / baseWidth;
-    const dprScale = Math.max(0.8, Math.min(1.2, baseDPR / devicePixelRatio));
-    const zoomScale = Math.max(0.7, Math.min(1.3, 1 / browserZoom));
+    // Define breakpoints and corresponding card configurations
+    const breakpoints = [
+      { minWidth: 2560, cardWidth: 520, cardsVisible: 4.5, fontSize: 1.1 }, // 4K+ displays
+      { minWidth: 1920, cardWidth: 480, cardsVisible: 3.5, fontSize: 1.0 }, // Standard 1920px
+      { minWidth: 1600, cardWidth: 420, cardsVisible: 3.2, fontSize: 0.95 }, // 1600px displays
+      { minWidth: 1440, cardWidth: 380, cardsVisible: 3.0, fontSize: 0.9 }, // 1440px displays
+      { minWidth: 1366, cardWidth: 360, cardsVisible: 2.8, fontSize: 0.85 }, // 1366px displays
+      { minWidth: 1280, cardWidth: 340, cardsVisible: 2.5, fontSize: 0.8 }, // 1280px displays
+      { minWidth: 1024, cardWidth: 320, cardsVisible: 2.2, fontSize: 0.75 }, // Tablets
+    ];
 
-    // Combine all factors with weights
-    const combinedScale = widthScale * 0.7 + dprScale * 0.2 + zoomScale * 0.1;
+    // Find the appropriate configuration
+    const config = breakpoints.find(bp => viewportWidth >= bp.minWidth) ||
+      { cardWidth: 300, cardsVisible: 2.0, fontSize: 0.7 }; // Fallback
 
-    // Apply bounds and smooth the scale
-    return Math.max(0.5, Math.min(1.2, combinedScale));
+    // Adjust for device pixel ratio and zoom
+    const dprAdjustment = Math.max(0.9, Math.min(1.1, 1 / devicePixelRatio));
+    const zoomAdjustment = Math.max(0.9, Math.min(1.1, browserZoom));
+
+    return {
+      cardWidth: Math.round(config.cardWidth * dprAdjustment * zoomAdjustment),
+      cardsVisible: config.cardsVisible,
+      fontSize: config.fontSize * dprAdjustment,
+      padding: Math.round(48 * config.fontSize),
+      headerSize: Math.round(70 * config.fontSize)
+    };
   };
 
-  const scale = calculateDynamicScale();
+  const layout = calculateResponsiveLayout();
 
   useEffect(() => {
     if (isMobile) {
@@ -226,24 +240,22 @@ const Work = () => {
       const box = document.getElementsByClassName("work-box");
       if (box.length === 0) return;
 
-      // Dynamic card dimensions based on scale
-      const baseCardWidth = 480;
-      const dynamicCardWidth = baseCardWidth * scale;
-      const cardPadding = 96 * scale;
-      const firstCardMargin = 48 * scale;
+      // Use responsive layout calculations
+      const cardWidth = layout.cardWidth;
+      const cardPadding = layout.padding * 2; // px-12 = 48px * 2
+      const firstCardMargin = layout.padding; // ml-12 = 48px
 
-      // Effective width per card including padding
-      const effectiveCardWidth = dynamicCardWidth + cardPadding;
+      // Calculate how much space each card takes
+      const effectiveCardWidth = cardWidth + cardPadding;
 
-      // Total width needed for all cards
+      // Total width for all cards
       const totalCardsWidth = effectiveCardWidth * box.length;
       const totalWidthWithMargin = totalCardsWidth + firstCardMargin;
 
-      // Use effective viewport width
-      const currentViewportWidth = effectiveViewport.width;
-
-      // Calculate translateX to show all cards
-      translateX = Math.max(0, totalWidthWithMargin - currentViewportWidth + (200 * scale));
+      // Calculate how much we need to scroll to show all cards
+      // Leave some buffer space at the end
+      const bufferSpace = cardWidth * 0.5;
+      translateX = Math.max(0, totalWidthWithMargin - effectiveViewport.width + bufferSpace);
     }
 
     function setupAnimation() {
@@ -290,7 +302,7 @@ const Work = () => {
       window.removeEventListener('resize', handleResize);
       clearTimeout(resizeTimeout);
     };
-  }, [isMobile, scale, effectiveViewport]);
+  }, [isMobile, layout, effectiveViewport]);
 
   if (isMobile) {
     return (
@@ -313,10 +325,7 @@ const Work = () => {
     <div
       className="work-section relative h-screen box-border will-change-transform overflow-hidden"
       style={{
-        // Apply comprehensive scaling that considers all factors
-        transform: `scale(${Math.max(0.8, scale)})`,
-        transformOrigin: 'center center',
-        // Ensure proper overflow handling
+        // No overall scaling - let individual elements be responsive
         overflowX: 'hidden',
         overflowY: 'hidden',
         // Adjust for different pixel densities
@@ -324,48 +333,80 @@ const Work = () => {
       }}
     >
       <div className="work-container relative mx-auto flex flex-col h-full max-w-none">
-        <h2 className="text-[70px] font-medium text-center text-white py-8 flex-shrink-0">
-          My <span className="text-[#40e6b9]">Work</span>
-        </h2>
+        <div className="flex flex-col items-center py-8 flex-shrink-0">
+          <h2
+            className="font-medium text-center text-white mb-2"
+            style={{ fontSize: `${layout.headerSize}px` }}
+          >
+            My <span className="text-[#40e6b9]">Work</span>
+          </h2>
+          <p
+            className="text-[#adacac] text-center"
+            style={{ fontSize: `${14 * layout.fontSize}px` }}
+          >
+            Scroll horizontally to explore {workData.length} projects • {Math.floor(layout.cardsVisible)} cards visible
+          </p>
+        </div>
         <div
           className="work-flex w-full flex flex-1 relative will-change-transform"
           style={{
-            // Remove overflow properties - let GSAP handle all scrolling
-            width: '100vw'
+            // Ensure smooth scrolling performance
+            width: '100vw',
+            transition: 'transform 0.1s ease-out'
           }}
         >
           {workData.map((project, index) => (
             <div
-              className={`work-box px-12 py-6 flex box-border border-r border-[#363636] flex-shrink-0 gap-6 justify-center will-change-transform ${index % 2 === 1 ? 'flex-col-reverse' : 'flex-col'
-                } ${index === 0 ? 'ml-12' : ''}`}
+              className={`work-box py-6 flex box-border border-r border-[#363636] flex-shrink-0 gap-6 justify-center will-change-transform ${index % 2 === 1 ? 'flex-col-reverse' : 'flex-col'
+                } ${index === 0 ? '' : ''}`}
               key={project.id}
               style={{
-                // Dynamic card dimensions based on comprehensive scaling
-                width: `${480 * scale}px`,
+                // Responsive card dimensions
+                width: `${layout.cardWidth}px`,
                 height: '100%',
-                minWidth: `${480 * scale}px`,
-                maxWidth: `${480 * scale}px`,
-                // Remove any transform - let parent handle scaling
-                transform: 'none',
-                transformOrigin: 'center center'
+                minWidth: `${layout.cardWidth}px`,
+                maxWidth: `${layout.cardWidth}px`,
+                paddingLeft: `${layout.padding}px`,
+                paddingRight: `${layout.padding}px`,
+                marginLeft: index === 0 ? `${layout.padding}px` : '0'
               }}
             >
               <div className="work-info flex-shrink-0">
                 <div className="work-title flex justify-between w-full mb-4">
-                  <h3 className="text-[32px] leading-[32px] m-0 font-semibold text-[#40e6b9]">
+                  <h3
+                    className="m-0 font-semibold text-[#40e6b9]"
+                    style={{
+                      fontSize: `${32 * layout.fontSize}px`,
+                      lineHeight: `${32 * layout.fontSize}px`
+                    }}
+                  >
                     {index + 1 < 10 ? `0${index + 1}` : index + 1}
                   </h3>
                   <div className="text-right">
-                    <h4 className="text-sm font-normal m-0 text-white">
+                    <h4
+                      className="font-normal m-0 text-white"
+                      style={{ fontSize: `${14 * layout.fontSize}px` }}
+                    >
                       {project.title}
                     </h4>
-                    <p className="font-light text-[#adacac] m-0 mt-1 text-xs">
+                    <p
+                      className="font-light text-[#adacac] m-0 mt-1"
+                      style={{ fontSize: `${12 * layout.fontSize}px` }}
+                    >
                       {project.category}
                     </p>
                   </div>
                 </div>
-                <h4 className="text-sm font-normal m-0 text-white">Tools and features</h4>
-                <p className="font-light text-[#adacac] m-0 mt-1 w-[90%] text-xs">
+                <h4
+                  className="font-normal m-0 text-white"
+                  style={{ fontSize: `${14 * layout.fontSize}px` }}
+                >
+                  Tools and features
+                </h4>
+                <p
+                  className="font-light text-[#adacac] m-0 mt-1 w-[90%]"
+                  style={{ fontSize: `${12 * layout.fontSize}px` }}
+                >
                   {project.tools}
                 </p>
               </div>
