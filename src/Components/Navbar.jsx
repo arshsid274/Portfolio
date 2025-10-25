@@ -1,5 +1,4 @@
 import { useState,useEffect  } from 'react';
-import { ThemeSwitch } from './ThemeSwitch';
 
 export const Navbar = ({ navItems = [], socialLinks = {} }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -65,8 +64,6 @@ export const Navbar = ({ navItems = [], socialLinks = {} }) => {
                 </a>
               )}
             </div>
-
-            <ThemeSwitch />
 
             <div>
               <a 

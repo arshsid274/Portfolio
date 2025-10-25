@@ -87,7 +87,7 @@ function App() {
   ];
 
   const socialLinks = {
-    github: 'https://github.com/username',
+    github: 'https://github.com/arshsid274',
     twitter: 'https://twitter.com/username'
   };
 
