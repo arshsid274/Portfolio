@@ -146,8 +146,8 @@ const Work = () => {
 
   const gridConfig = getGridConfig();
 
-  // Calculate scale based on viewport width with 1920px as reference (like Home.jsx)
-  const scale = Math.min(viewportWidth / 1920, 1);
+  // Remove scaling for Work section to prevent gaps on Vercel
+  // const scale = Math.min(viewportWidth / 1920, 1);
 
   useEffect(() => {
     // Clean up any existing ScrollTriggers
