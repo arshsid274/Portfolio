@@ -69,20 +69,42 @@ const SkillItem = ({ name, icon, index }) => {
 };
 
 const technologies = [
-  { name: "React JS", icon: "/tech/reactjs.png" },
-  { name: "Next JS", icon: "/tech/nextjs.svg" },
-  { name: "Express JS", icon: "/tech/express.png" },
-  { name: "JavaScript", icon: "/tech/javascript.png" },
-  { name: "TypeScript", icon: "/tech/typescript.png" },
-  { name: "Redux Toolkit", icon: "/tech/redux.png" },
-  { name: "Tailwind CSS", icon: "/tech/tailwind.png" },
-  { name: "Node JS", icon: "/tech/nodejs.png" },
-  { name: "MongoDB", icon: "/tech/mongodb.png" },
-  { name: "git", icon: "/tech/git.png" },
   { name: "HTML 5", icon: "/tech/html.png" },
   { name: "CSS 3", icon: "/tech/css.png" },
-  { name: "Java", icon: "/tech/java.png" },
+    { name: "Bootstrap", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" },
+  { name: "Tailwind CSS", icon: "/tech/tailwind.png" },
+    { name: "JavaScript", icon: "/tech/javascript.png" },
+
+ 
+
+ 
+
+
+ 
+
+  { name: "Node JS", icon: "/tech/nodejs.png" },
+   { name: "Express JS", icon: "/tech/express.png" },
+  { name: "MongoDB", icon: "/tech/mongodb.png" },
+   { name: "React JS", icon: "/tech/reactjs.png" },
+    { name: "Angular", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angularjs/angularjs-original.svg" },
+  { name: "Vue", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg" },
+
+  { name: "Nextjs", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" },
+ { name: "arduino ", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/arduino/arduino-original.svg" },
+  { name: "c++", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" },
+   { name: "esp32", icon: "https://products.psacertified.org/media/company-logos/vwIlwl60RS0uPL3mAWAK34EkMJBpEVQ1ulcainlX.png?w=350&signature=24eb94753e7035b8715cc5fa0d637ed839a3f8ff361a0763152963ee188f7f4b" },
+    { name: "git", icon: "/tech/git.png" },
+     { name: "firebase", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg" },
+  { name: "Postman", icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwZ8yf3JwTIlWxzc-yRjgQmKyI58b8ClKvzw&s" },
+  
+  
+  { name: "Three Js", icon: "/tech/threejs.svg" },
   { name: "JWT", icon: "/tech/jwt.svg" },
+
+    { name: "Linux", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" },
+    
+      { name: "Windows", icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuYypmGR91DF2fvasAhTRnYRNl0pmT4cnWnA&s" },
+      { name: "Mac Os", icon: "/tech/jwt.svg" },
 ];
 
 function Skills() {
