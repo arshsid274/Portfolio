@@ -104,7 +104,7 @@ const technologies = [
     { name: "Linux", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" },
     
       { name: "Windows", icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuYypmGR91DF2fvasAhTRnYRNl0pmT4cnWnA&s" },
-      { name: "Mac Os", icon: "/tech/jwt.svg" },
+      { name: "Mac Os", icon: "https://upload.wikimedia.org/wikipedia/commons/c/c9/Finder_Icon_macOS_Big_Sur.png" },
 ];
 
 function Skills() {
@@ -148,7 +148,7 @@ function Skills() {
         rangeY={400}
         containerClassName="min-h-screen"
       >
-        <div className="max-w-7xl mx-auto py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto py-12 sm:py-10  px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
