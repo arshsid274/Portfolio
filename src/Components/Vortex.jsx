@@ -127,8 +127,14 @@ export const Vortex = (props) => {
   };
 
   const resize = (canvas) => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    const container = containerRef.current;
+    if (container) {
+      canvas.width = container.offsetWidth;
+      canvas.height = container.offsetHeight;
+    } else {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
     center[0] = 0.5 * canvas.width;
     center[1] = 0.5 * canvas.height;
   };
