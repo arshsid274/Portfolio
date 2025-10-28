@@ -6,6 +6,8 @@ const SkillItem = ({ name, icon, index }) => {
   const ref = React.useRef(null);
   const [position, setPosition] = React.useState({ x: 0, y: 0 });
   const [isMobile, setIsMobile] = React.useState(false);
+  const [isHovered, setIsHovered] = React.useState(false);
+  const [imageError, setImageError] = React.useState(false);
 
   React.useEffect(() => {
     const checkMobile = () => {
@@ -19,7 +21,7 @@ const SkillItem = ({ name, icon, index }) => {
   }, []);
 
   const onMouseMove = (e) => {
-    if (isMobile) return; // Disable mouse move on mobile
+    if (isMobile) return;
 
     const { clientX, clientY } = e;
     const { width, height, left, top } = ref.current.getBoundingClientRect();
@@ -28,12 +30,19 @@ const SkillItem = ({ name, icon, index }) => {
     setPosition({ x, y });
   };
 
+  const onMouseEnter = () => {
+    if (isMobile) return;
+    setIsHovered(true);
+  };
+
   const onMouseLeave = () => {
     if (isMobile) return;
     setPosition({ x: 0, y: 0 });
+    setIsHovered(false);
   };
 
   const { x, y } = position;
+  const isThreeJS = name === "Three Js";
 
   return (
     <motion.div
@@ -41,10 +50,12 @@ const SkillItem = ({ name, icon, index }) => {
       whileInView={{ opacity: 1, x: 0 }}
       transition={{ delay: index * 0.1, duration: 0.5 }}
       viewport={{ once: true }}
+      className="p-1"
     >
       <motion.div
         ref={ref}
         onMouseMove={onMouseMove}
+        onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         animate={isMobile ? {} : { x, y }}
         transition={{
@@ -55,14 +66,29 @@ const SkillItem = ({ name, icon, index }) => {
         }}
         whileHover={isMobile ? { scale: 1.1 } : {}}
         whileTap={isMobile ? { scale: 0.95 } : {}}
-        className="skill-item-container"
+        className={`skill-item-container relative rounded-full p-3 transition-all duration-300 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-32 xl:h-32 flex items-center justify-center ${isHovered ? 'shadow-[0_0_30px_rgba(0,212,170,0.6)]' : ''
+          } ${isThreeJS ? 'bg-gradient-to-br from-[#00d4aa] to-[#ffffff]' : ''}`}
+        style={{
+          background: isThreeJS ? 'linear-gradient(135deg, #00d4aa 0%, #40e6b9 50%, #ffffff 100%)' : 'transparent'
+        }}
       >
-        <img
-          title={name}
-          alt={name}
-          className="cursor-pointer object-cover w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 transition-all duration-200 hover:brightness-110"
-          src={icon}
-        />
+        {!imageError ? (
+          <img
+            title={name}
+            alt={name}
+            className="cursor-pointer object-contain w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 xl:w-16 xl:h-16 transition-all duration-300 hover:brightness-110"
+            src={icon}
+            onError={() => {
+              console.warn(`Failed to load icon for ${name}:`, icon);
+              setImageError(true);
+            }}
+            loading="lazy"
+          />
+        ) : (
+          <div className="text-white text-xs sm:text-sm font-bold text-center leading-tight">
+            {name.split(' ').map(word => word.charAt(0)).join('').toUpperCase()}
+          </div>
+        )}
       </motion.div>
     </motion.div>
   );
@@ -92,10 +118,10 @@ const technologies = [
   { name: "Nextjs", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" },
   { name: "arduino ", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/arduino/arduino-original.svg" },
   { name: "c++", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" },
-  { name: "esp32", icon: "https://products.psacertified.org/media/company-logos/vwIlwl60RS0uPL3mAWAK34EkMJBpEVQ1ulcainlX.png?w=350&signature=24eb94753e7035b8715cc5fa0d637ed839a3f8ff361a0763152963ee188f7f4b" },
+  { name: "ESP32", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/embeddedc/embeddedc-original.svg" },
   { name: "git", icon: "/tech/git.png" },
   { name: "firebase", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg" },
-  { name: "Postman", icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwZ8yf3JwTIlWxzc-yRjgQmKyI58b8ClKvzw&s" },
+  { name: "Postman", icon: "https://www.vectorlogo.zone/logos/getpostman/getpostman-icon.svg" },
 
 
   { name: "Three Js", icon: "/tech/threejs.svg" },
@@ -103,8 +129,8 @@ const technologies = [
 
   { name: "Linux", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" },
 
-  { name: "Windows", icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuYypmGR91DF2fvasAhTRnYRNl0pmT4cnWnA&s" },
-  { name: "Mac Os", icon: "https://upload.wikimedia.org/wikipedia/commons/c/c9/Finder_Icon_macOS_Big_Sur.png" },
+  { name: "Windows", icon: "https://www.vectorlogo.zone/logos/microsoft/microsoft-icon.svg" },
+  { name: "Mac Os", icon: "https://www.vectorlogo.zone/logos/apple/apple-tile.svg" },
 ];
 
 function Skills() {
@@ -135,7 +161,7 @@ function Skills() {
   // Viewport width tracking for potential future use
 
   return (
-    <section id="skills" className="h-screen w-full overflow-hidden">
+    <section id="skills" className="min-h-screen w-full overflow-hidden  border-none outline-none">
       <Vortex
         backgroundColor="#000000"
         baseHue={120}
@@ -145,9 +171,9 @@ function Skills() {
         baseRadius={3}
         rangeRadius={4}
         rangeY={400}
-        containerClassName="h-full w-full"
+        containerClassName="min-h-screen w-full"
       >
-        <div className="max-w-7xl mx-auto py-12 sm:py-10  px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto py-8 sm:py-12 px-4 sm:px-6 lg:px-8 border-none outline-none">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -159,7 +185,7 @@ function Skills() {
             <h2 className="text-white font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl mt-2">Skills.</h2>
           </motion.div>
 
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-8 sm:gap-10 md:gap-12 lg:gap-14 xl:gap-16 place-items-center px-4 sm:px-2">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-6 sm:gap-8 md:gap-10 lg:gap-12 xl:gap-14 place-items-center px-16 sm:px-20 md:px-24 lg:px-32 xl:px-40 py-12 pb-20 border-none outline-none">
             {technologies.map((technology, index) => (
               <SkillItem
                 key={technology.name}
