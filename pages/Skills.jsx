@@ -66,17 +66,23 @@ const SkillItem = ({ name, icon, index }) => {
         }}
         whileHover={isMobile ? { scale: 1.1 } : {}}
         whileTap={isMobile ? { scale: 0.95 } : {}}
-        className={`skill-item-container relative rounded-full p-3 transition-all duration-300 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-32 xl:h-32 flex items-center justify-center ${isHovered ? 'shadow-[0_0_30px_rgba(0,212,170,0.6)]' : ''
-          } ${isThreeJS ? 'bg-gradient-to-br from-[#00d4aa] to-[#ffffff]' : ''}`}
+        className={`skill-item-container relative rounded-full transition-all duration-300 flex items-center justify-center ${isMobile
+          ? 'w-14 h-14 p-2'
+          : 'w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-36 xl:h-36 2xl:w-44 2xl:h-44 3xl:w-52 3xl:h-52 4xl:w-60 4xl:h-60 p-3'
+          } ${isHovered ? 'shadow-[0_0_4px_rgba(0,212,170,0.8)]' : ''
+          } ${isThreeJS ? 'border-2 border-transparent bg-gradient-to-br from-[#00d4aa] via-[#40e6b9] to-transparent bg-clip-border' : ''}`}
         style={{
-          background: isThreeJS ? 'linear-gradient(135deg, #00d4aa 0%, #40e6b9 50%, #ffffff 100%)' : 'transparent'
+          background: isThreeJS ? 'radial-gradient(circle at center, #00d4aa 0%, #40e6b9 18%, transparent 42%)' : 'transparent'
         }}
       >
         {!imageError ? (
           <img
             title={name}
             alt={name}
-            className="cursor-pointer object-contain w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 xl:w-16 xl:h-16 transition-all duration-300 hover:brightness-110"
+            className={`cursor-pointer object-contain transition-all duration-300 hover:brightness-110 ${isMobile
+              ? 'w-8 h-8'
+              : 'w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 xl:w-20 xl:h-20 2xl:w-24 2xl:h-24 3xl:w-28 3xl:h-28 4xl:w-32 4xl:h-32'
+              }`}
             src={icon}
             onError={() => {
               console.warn(`Failed to load icon for ${name}:`, icon);
@@ -85,7 +91,10 @@ const SkillItem = ({ name, icon, index }) => {
             loading="lazy"
           />
         ) : (
-          <div className="text-white text-xs sm:text-sm font-bold text-center leading-tight">
+          <div className={`text-white font-bold text-center leading-tight ${isMobile
+            ? 'text-xs'
+            : 'text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl'
+            }`}>
             {name.split(' ').map(word => word.charAt(0)).join('').toUpperCase()}
           </div>
         )}
@@ -166,15 +175,15 @@ function Skills() {
       <Vortex
         backgroundColor="#000000"
         baseHue={120}
-        particleCount={500}
-        baseSpeed={0.1}
-        rangeSpeed={1.5}
+        particleCount={1200}
+        baseSpeed={0.3}
+        rangeSpeed={2.5}
         baseRadius={3}
-        rangeRadius={4}
+        rangeRadius={5}
         rangeY={800}
         containerClassName="h-full w-full absolute inset-0"
       >
-        <div className="max-w-7xl mx-auto py-8 sm:py-12 px-4 sm:px-6 lg:px-8 border-none outline-none relative z-10">
+        <div className="max-w-7xl mx-auto py-6 sm:py-8 md:py-10 lg:py-12 px-2 xs:px-3 sm:px-4 md:px-6 lg:px-8 border-none outline-none relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -186,7 +195,7 @@ function Skills() {
             <h2 className="text-white font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl mt-2">Skills.</h2>
           </motion.div>
 
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 gap-6 sm:gap-8 md:gap-10 lg:gap-12 xl:gap-14 place-items-center px-16 sm:px-20 md:px-24 lg:px-32 xl:px-40 py-12 pb-20 border-none outline-none">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-9 3xl:grid-cols-10 4xl:grid-cols-12 gap-6 sm:gap-8 md:gap-10 lg:gap-14 xl:gap-18 2xl:gap-22 3xl:gap-26 4xl:gap-32 place-items-center px-2 sm:px-3 md:px-4 lg:px-6 xl:px-8 2xl:px-10 3xl:px-12 4xl:px-16 py-12 pb-20 border-none outline-none">
             {technologies.map((technology, index) => (
               <SkillItem
                 key={technology.name}
