@@ -118,13 +118,14 @@ const technologies = [
   { name: "Nextjs", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" },
   { name: "arduino ", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/arduino/arduino-original.svg" },
   { name: "c++", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" },
-  { name: "ESP32", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/embeddedc/embeddedc-original.svg" },
+  { name: "ESP32", icon: "https://cdn.worldvectorlogo.com/logos/espressif-systems.svg" },
   { name: "git", icon: "/tech/git.png" },
   { name: "firebase", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg" },
   { name: "Postman", icon: "https://www.vectorlogo.zone/logos/getpostman/getpostman-icon.svg" },
 
 
   { name: "Three Js", icon: "/tech/threejs.svg" },
+  { name: "Gsap", icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTySE8oQbAHSYkYcjYaIZ9N9-YVArJPyEXc-S43ziHv27qJdBc_2fYIz1_pY76IsGetAc4&usqp=CAU" },
   { name: "JWT", icon: "/tech/jwt.svg" },
 
   { name: "Linux", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" },
@@ -161,7 +162,7 @@ function Skills() {
   // Viewport width tracking for potential future use
 
   return (
-    <section id="skills" className="min-h-screen w-full overflow-hidden  border-none outline-none">
+    <section id="skills" className="min-h-screen w-full overflow-hidden py-16 border-none outline-none relative">
       <Vortex
         backgroundColor="#000000"
         baseHue={120}
@@ -170,10 +171,10 @@ function Skills() {
         rangeSpeed={1.5}
         baseRadius={3}
         rangeRadius={4}
-        rangeY={400}
-        containerClassName="min-h-screen w-full"
+        rangeY={800}
+        containerClassName="h-full w-full absolute inset-0"
       >
-        <div className="max-w-7xl mx-auto py-8 sm:py-12 px-4 sm:px-6 lg:px-8 border-none outline-none">
+        <div className="max-w-7xl mx-auto py-8 sm:py-12 px-4 sm:px-6 lg:px-8 border-none outline-none relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
