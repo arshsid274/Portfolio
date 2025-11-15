@@ -67,8 +67,8 @@ const SkillItem = ({ name, icon, index }) => {
         whileHover={isMobile ? { scale: 1.1 } : {}}
         whileTap={isMobile ? { scale: 0.95 } : {}}
         className={`skill-item-container relative rounded-full transition-all duration-300 flex items-center justify-center ${isMobile
-          ? 'w-14 h-14 p-2'
-          : 'w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-36 xl:h-36 2xl:w-44 2xl:h-44 3xl:w-52 3xl:h-52 4xl:w-60 4xl:h-60 p-3'
+          ? 'w-12 h-12 p-1.5'
+          : 'w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-18 lg:h-18 xl:w-20 xl:h-20 2xl:w-24 2xl:h-24 p-2'
           } ${isHovered ? 'shadow-[0_0_4px_rgba(0,212,170,0.8)]' : ''
           } ${isThreeJS ? 'border-2 border-transparent bg-gradient-to-br from-[#00d4aa] via-[#40e6b9] to-transparent bg-clip-border' : ''}`}
         style={{
@@ -80,8 +80,8 @@ const SkillItem = ({ name, icon, index }) => {
             title={name}
             alt={name}
             className={`cursor-pointer object-contain transition-all duration-300 hover:brightness-110 ${isMobile
-              ? 'w-8 h-8'
-              : 'w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 xl:w-20 xl:h-20 2xl:w-24 2xl:h-24 3xl:w-28 3xl:h-28 4xl:w-32 4xl:h-32'
+              ? 'w-6 h-6'
+              : 'w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 xl:w-14 xl:h-14 2xl:w-16 2xl:h-16'
               }`}
             src={icon}
             onError={() => {
@@ -92,8 +92,8 @@ const SkillItem = ({ name, icon, index }) => {
           />
         ) : (
           <div className={`text-white font-bold text-center leading-tight ${isMobile
-            ? 'text-xs'
-            : 'text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl'
+            ? 'text-[8px]'
+            : 'text-[8px] sm:text-xs md:text-sm lg:text-base xl:text-lg 2xl:text-xl'
             }`}>
             {name.split(' ').map(word => word.charAt(0)).join('').toUpperCase()}
           </div>
@@ -171,7 +171,7 @@ function Skills() {
   // Viewport width tracking for potential future use
 
   return (
-    <section id="skills" className="min-h-screen w-full overflow-hidden py-16 border-none outline-none relative">
+    <section id="skills" className="h-screen w-full overflow-hidden py-16 border-none outline-none relative">
       <Vortex
         backgroundColor="#000000"
         baseHue={120}
@@ -181,7 +181,7 @@ function Skills() {
         baseRadius={3}
         rangeRadius={5}
         rangeY={800}
-        containerClassName="h-full w-full absolute inset-0"
+        containerClassName="h-full w-full absolute inset-0 flex-1"
       >
         <div className="max-w-7xl mx-auto py-6 sm:py-8 md:py-10 lg:py-12 px-2 xs:px-3 sm:px-4 md:px-6 lg:px-8 border-none outline-none relative z-10">
           <motion.div
@@ -195,7 +195,8 @@ function Skills() {
             <h2 className="text-white font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl mt-2">Skills.</h2>
           </motion.div>
 
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 2xl:grid-cols-9 3xl:grid-cols-10 4xl:grid-cols-12 gap-6 sm:gap-8 md:gap-10 lg:gap-14 xl:gap-18 2xl:gap-22 3xl:gap-26 4xl:gap-32 place-items-center px-2 sm:px-3 md:px-4 lg:px-6 xl:px-8 2xl:px-10 3xl:px-12 4xl:px-16 py-12 pb-20 border-none outline-none">
+         <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-7 xl:grid-cols-8 2xl:grid-cols-9 gap-2 sm:gap-3 md:gap-4 lg:gap-5 xl:gap-6 place-items-center px-2 sm:px-4 md:px-6 lg:px-8 py-8 pb-24 border-none outline-none">
+
             {technologies.map((technology, index) => (
               <SkillItem
                 key={technology.name}
