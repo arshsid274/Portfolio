@@ -171,7 +171,7 @@ function Skills() {
   // Viewport width tracking for potential future use
 
   return (
-    <section id="skills" className="h-screen w-full overflow-hidden py-16 border-none outline-none relative">
+    <section id="skills" className="min-h-screen w-full overflow-hidden py-8 border-none outline-none relative">
       <Vortex
         backgroundColor="#000000"
         baseHue={120}
@@ -183,7 +183,7 @@ function Skills() {
         rangeY={800}
         containerClassName="h-full w-full absolute inset-0 flex-1"
       >
-        <div className="max-w-7xl mx-auto py-6 sm:py-8 md:py-10 lg:py-12 px-2 xs:px-3 sm:px-4 md:px-6 lg:px-8 border-none outline-none relative z-10">
+        <div className="max-w-7xl mx-auto py-4 sm:py-6 md:py-8 px-2 xs:px-3 sm:px-4 md:px-6 lg:px-8 border-none outline-none relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -195,7 +195,7 @@ function Skills() {
             <h2 className="text-white font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl mt-2">Skills.</h2>
           </motion.div>
 
-         <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-7 xl:grid-cols-8 2xl:grid-cols-9 gap-2 sm:gap-3 md:gap-4 lg:gap-5 xl:gap-6 place-items-center px-2 sm:px-4 md:px-6 lg:px-8 py-8 pb-24 border-none outline-none">
+         <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-7 xl:grid-cols-8 2xl:grid-cols-9 gap-2 sm:gap-3 md:gap-4 lg:gap-5 xl:gap-6 place-items-center px-2 sm:px-4 md:px-6 lg:px-8 py-4 pb-8 border-none outline-none">
 
             {technologies.map((technology, index) => (
               <SkillItem
