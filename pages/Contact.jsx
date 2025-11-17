@@ -27,11 +27,13 @@ const Contact = () => {
   }, []);
 
   const socialLinks = [
-    { name: "Github", url: "https://github.com", icon: MdArrowOutward },
-    { name: "Linkedin", url: "https://www.linkedin.com", icon: MdArrowOutward },
-    { name: "Twitter", url: "https://x.com", icon: MdArrowOutward },
-    { name: "Instagram", url: "https://www.instagram.com", icon: MdArrowOutward }
+    { name: "Github", url: "https://github.com/arshsid274", icon: MdArrowOutward },
+    { name: "Linkedin", url: "www.linkedin.com/in/arsh-sid-b645b62b2", icon: MdArrowOutward },
+    // { name: "Twitter", url: "https://x.com", icon: MdArrowOutward },
+    // { name: "Instagram", url: "https://www.instagram.com", icon: MdArrowOutward }
   ];
+
+
 
   return (
     <section className="relative bg-black py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8" id="contact">
@@ -73,7 +75,7 @@ const Contact = () => {
                     isMobile ? 'text-lg' : 'text-lg md:text-xl'
                   }`}
                 >
-                  example@mail.com
+                  arshsid274@gmail.com
                 </a>
               </motion.p>
             </div>
@@ -92,7 +94,7 @@ const Contact = () => {
                     isMobile ? 'text-lg' : 'text-lg md:text-xl'
                   }`}
                 >
-                  +91 99999 99999
+                  +91 7380627426
                 </a>
               </motion.p>
             </div>
@@ -149,7 +151,7 @@ const Contact = () => {
               viewport={{ once: true }}
             >
               Designed and Developed <br /> 
-              by <span className="text-[#00d4aa]">Your Name</span>
+              with <span className="text-[#00d4aa]">❤</span>  by <span className="text-[#00d4aa]">Mohammad Arsh</span>
             </motion.h2>
             
             <motion.h5 
@@ -161,7 +163,7 @@ const Contact = () => {
               transition={{ duration: 0.6, delay: 1 }}
               viewport={{ once: true }}
             >
-              <MdCopyright className={isMobile ? 'text-sm' : 'text-base'} /> 2024
+              <MdCopyright className={isMobile ? 'text-sm' : 'text-base'} /> 2025
             </motion.h5>
           </motion.div>
         </div>
