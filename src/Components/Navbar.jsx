@@ -140,7 +140,9 @@ export const Navbar = ({ navItems = [], socialLinks = {} }) => {
 
             <div>
               <a 
-                href="#contact"
+                href="https://wa.me/917380627426?text=Hi%20Arsh,%20I%20would%20like%20to%20discuss%20a%20project%20with%20you."
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-xs sm:text-sm md:text-sm lg:text-base xl:text-base 2xl:text-lg font-normal text-white bg-white/10 backdrop-blur-sm py-1.5 px-2 sm:py-2 sm:px-3 md:py-2 md:px-4 rounded-lg flex items-center space-x-1 sm:space-x-2 hover:bg-[#00d4aa]/20 hover:text-white transition-all duration-300 border border-white/20"
               >
                 <svg
