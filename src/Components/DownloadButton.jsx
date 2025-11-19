@@ -9,9 +9,13 @@ const DownloadButton = ({ tooltip = "Size: 20Mb", className = "" }) => {
     // Set clicked state to true (permanent gradient)
     setIsClicked(true);
     
-    // Add your resume download logic here
-    // For example: window.open('/path/to/resume.pdf', '_blank');
-    console.log('Downloading resume...');
+    // Create download link for the PDF
+    const link = document.createElement('a');
+    link.href = '/assets/Updated_Resume.pdf';
+    link.download = 'Mohammad_Arsh_Resume.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const displayTooltip = isClicked ? "Downloaded!" : tooltip;
