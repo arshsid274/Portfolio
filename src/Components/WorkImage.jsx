@@ -107,20 +107,31 @@ const WorkImage = ({ image, project }) => {
             onMouseLeave={handleMouseLeave}
             onTouchStart={handleTouch}>
             <div className={`h-full w-full rounded-xl overflow-hidden transition-all duration-300 ${isHovered ? 'lg:p-2' : 'p-0'} flex items-center justify-center`}>
-              <video
-                ref={videoRef}
-                className="w-full h-full object-contain group-hover/card:shadow-xl"
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                style={{
-                  objectFit: 'contain',
-                  aspectRatio: '16/9'
-                }}>
-                <source src={image} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+             <video
+  ref={videoRef}
+  className="w-full h-full object-contain group-hover/card:shadow-xl"
+  muted
+  loop
+  playsInline
+  autoPlay
+  preload="metadata"
+  style={{
+    objectFit: 'contain',
+    aspectRatio: '16/9'
+  }}
+  onLoadedData={() => {
+    // Force play on mobile when video loads
+    if (videoRef.current && isInView) {
+      videoRef.current.play().catch(() => {
+        // Fallback if autoplay fails
+        console.log('Autoplay failed, video will play on user interaction');
+      });
+    }
+  }}>
+  <source src={image} type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
+
             </div>
           </CardItem>
           <div className="flex justify-between items-center mt-3 flex-shrink-0">
