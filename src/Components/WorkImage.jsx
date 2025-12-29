@@ -109,13 +109,13 @@ const WorkImage = ({ image, project }) => {
             <div className={`h-full w-full rounded-xl overflow-hidden transition-all duration-300 ${isHovered ? 'lg:p-2' : 'p-0'} flex items-center justify-center`}>
               <video
                 ref={videoRef}
-                className="w-full h-full object-cover group-hover/card:shadow-xl"
+                className="w-full h-full object-contain group-hover/card:shadow-xl"
                 muted
                 loop
                 playsInline
                 preload="metadata"
                 style={{
-                  objectFit: 'cover',
+                  objectFit: 'contain',
                   aspectRatio: '16/9'
                 }}>
                 <source src={image} type="video/mp4" />

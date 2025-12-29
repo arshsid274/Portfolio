@@ -11,7 +11,7 @@ const workData = [
     title: "Macbook Landing Page Clone ",
     category: "3D Product Website ",
     tools: "React, Three.js, Gsap, Tailwind css",
-    image: "https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/macbookLanding.webm",
+    image: "https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/MacbookLanding.webm",
     website: "https://macbook-landing-page-main.vercel.app/",
 
   },
@@ -20,7 +20,7 @@ const workData = [
     title: "Apple Website Clone",
     category: "3D Product Website ",
     tools: "React, Three.js, Gsap, Tailwind css",
-    image: "https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/IPhoneLanding.webm",
+    image: "https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/AppleClone.webm",
     website: "https://apple-website-clone-psi.vercel.app/",
 
   },
@@ -29,7 +29,7 @@ const workData = [
     title: "Vasl Ai",
     category: "Data Analyst Website ",
     tools: "Vue, Nuxt, PrimeVue,Tailwind css,Headless Ui,HeroIcon",
-    image: "https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/vaslai.webm",
+    image: "https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/Vaslai.webm",
     website: "https://www.vaslai.com/",
 
 
@@ -39,7 +39,7 @@ const workData = [
     title: "Dirt Off",
     category: "Business management  app for Laundery ",
     tools: "React,Tailwind css,Firebase,Node js ,express js",
-    image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760963986/DirtOffFullStack_wsr9bl.mp4",
+    image: "https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/DirtOffFullStack.webm",
     link: "https://dirt-off-frontend.vercel.app/"
   },
   {
@@ -47,7 +47,7 @@ const workData = [
     title: "Buddha Avenue",
     category: "Banquet Management app for Hotels ",
     tools: "React,Tailwind css, Axios, DaisyUi,React Router DOM,Node js ,Express js,MongoDB",
-    image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760963994/BuddhaAvenue_fvf4zy.mp4",
+    image: "https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/BuddhaAvenue.webm",
     link: "https://budha-avenue-frontend.vercel.app/"
   },
   {
@@ -55,7 +55,7 @@ const workData = [
     title: "Dirt Off ",
     category: "Static Website for Laundery ",
     tools: "HTML ,CSS ,Javascript,jQuery,Bootstrap",
-    image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760945298/DirtOffStatic_yav2v9.mp4",
+    image: "https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/Dirtoffstatic.webm",
     website: "https://www.dirtoff.in/",
 
   },
@@ -64,7 +64,7 @@ const workData = [
     title: "Shine Travels",
     category: "Static Website for Travel Agency ",
     tools: "HTML ,CSS ,Javascript,jQuery,Gsap,Bootstrap",
-    image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760945296/ShineTravels_du9lst.mp4",
+    image: "https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/ShineInfosoultion.webm",
     website: "https://www.shinetravels.co.in/",
 
   },
@@ -73,7 +73,7 @@ const workData = [
     title: "Regalia Banquet",
     category: "Static website for Banquet Hall ",
     tools: "HTML ,CSS ,Javascript,jQuery,Bootstrap",
-    image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760945290/RegaliaBanquet_acnza9.mp4",
+    image: "https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/Regalia.webm",
     website: "https://www.theregaliaresort.in/",
 
   },
@@ -82,7 +82,7 @@ const workData = [
     title: "Design Orient Arcitect",
     category: "Architecture Portfolio Website ",
     tools: "React, Tailwind css,React Router,FontAwesome ,Lucid React",
-    image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760945282/DesignOrientArchitect_llaalf.mp4",
+    image: "https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/DesignOrientArchitect.webm",
     website: "https://www.architectsdo.com/",
 
   },
@@ -91,7 +91,7 @@ const workData = [
     title: "Ishan Travels",
     category: "static  website for travels agency ",
     tools: "HTML ,CSS ,Javascript,jQuery,Bootstrap",
-    image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760945247/IshanTravels_ztijt0.mp4",
+    image: "https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/IshanTravels.webm",
     website: "https://ishan-travel.vercel.app/",
 
   },
@@ -100,7 +100,7 @@ const workData = [
     title: "Rajvillas",
     category: "Static website for Hotel ",
     tools: "HTML ,CSS ,Javascript,jQuery,Bootstrap",
-    image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760945271/RajVillas_tgzs0z.mp4",
+    image: "https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/Rajvillas.webm",
     website: "https://rajvillas-final.vercel.app/",
 
   }
