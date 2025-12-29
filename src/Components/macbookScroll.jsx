@@ -212,7 +212,7 @@ export const MacbookScroll = ({
   const lidOpacity = useTransform(scrollYProgress, [0.8, 1], [1, 0]);
 
   if (isMobile) {
-    return <MobileScroll src="https://res.cloudinary.com/dgpzvkjki/video/upload/v1760972230/Mobile_view_iwhclu.mp4" title={title} />;
+    return <MobileScroll src="https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/mobileview.webm" title={title} />;
   }
 
   return (
