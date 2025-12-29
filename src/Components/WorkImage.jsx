@@ -49,18 +49,19 @@ const WorkImage = ({ image, project }) => {
     playVideo();
   };
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsInView(entry.isIntersecting);
-        if (entry.isIntersecting) {
-          playVideo();
-        } else {
-          pauseVideo();
-        }
-      },
-      { threshold: 0.5 }
-    );
+useEffect(() => {
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      setIsInView(entry.isIntersecting);
+      if (entry.isIntersecting) {
+        setTimeout(() => playVideo(), 100);
+      } else {
+        pauseVideo();
+      }
+    },
+    { threshold: 0.5 }
+  );
+
 
     if (cardRef.current) {
       observer.observe(cardRef.current);
@@ -128,7 +129,7 @@ const WorkImage = ({ image, project }) => {
       });
     }
   }}>
-  <source src={image} type="video/mp4" />
+  <source src={image} type="video/webm" />
   Your browser does not support the video tag.
 </video>
 
