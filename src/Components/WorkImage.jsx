@@ -14,19 +14,25 @@ const WorkImage = ({ image, project }) => {
     }
   };
 
-  const playVideo = () => {
-    if (videoRef.current) {
-      // Reset all other videos first
-      document.querySelectorAll('video').forEach(video => {
-        if (video !== videoRef.current) {
-          video.pause();
-          video.currentTime = 0;
-        }
+const playVideo = () => {
+  if (videoRef.current) {
+    document.querySelectorAll('video').forEach(video => {
+      if (video !== videoRef.current) {
+        video.pause();
+        video.currentTime = 0;
+      }
+    });
+    
+    // Force play with promise handling for mobile
+    const playPromise = videoRef.current.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        // Autoplay failed, but video will show first frame
       });
-
-      videoRef.current.play();
     }
-  };
+  }
+};
+
 
   const pauseVideo = () => {
     if (videoRef.current) {
@@ -116,6 +122,8 @@ useEffect(() => {
   playsInline
   autoPlay
   preload="metadata"
+    webkit-playsinline="true"
+  x5-playsinline="true"
   style={{
     objectFit: 'contain',
     aspectRatio: '16/9'
