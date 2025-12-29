@@ -100,7 +100,7 @@ function App() {
         <ThreeJSErrorBoundary fallbackMessage="Unable to load the interactive MacBook display. The portfolio content is still available below.">
           <Suspense fallback={null}>
             <MacbookScroll
-              src="https://res.cloudinary.com/dgpzvkjki/video/upload/v1760959660/src2_cmjedk.mp4"
+              src="https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/home.webm"
               onReady={() => markComponentReady('macbookScroll')}
             />
           </Suspense>
