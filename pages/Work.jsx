@@ -11,7 +11,7 @@ const workData = [
     title: "Macbook Landing Page Clone ",
     category: "3D Product Website ",
     tools: "React, Three.js, Gsap, Tailwind css",
-    image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1761135569/Macbookfinal_updated_ew7hzf.mp4",
+    image: "https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/macbookLanding.webm",
     website: "https://macbook-landing-page-main.vercel.app/",
 
   },
@@ -20,7 +20,7 @@ const workData = [
     title: "Apple Website Clone",
     category: "3D Product Website ",
     tools: "React, Three.js, Gsap, Tailwind css",
-    image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760945223/AppleClone_zm4el3.mp4",
+    image: "https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/IPhoneLanding.webm",
     website: "https://apple-website-clone-psi.vercel.app/",
 
   },
@@ -29,7 +29,7 @@ const workData = [
     title: "Vasl Ai",
     category: "Data Analyst Website ",
     tools: "Vue, Nuxt, PrimeVue,Tailwind css,Headless Ui,HeroIcon",
-    image: "https://res.cloudinary.com/dgpzvkjki/video/upload/v1760945266/VaslAi_ctcj4d.mp4",
+    image: "https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/IPhoneLanding.webm",
     website: "https://www.vaslai.com/",
 
 
