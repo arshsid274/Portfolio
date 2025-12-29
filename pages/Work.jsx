@@ -29,7 +29,7 @@ const workData = [
     title: "Vasl Ai",
     category: "Data Analyst Website ",
     tools: "Vue, Nuxt, PrimeVue,Tailwind css,Headless Ui,HeroIcon",
-    image: "https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/IPhoneLanding.webm",
+    image: "https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/vaslai.webm",
     website: "https://www.vaslai.com/",
 
 
