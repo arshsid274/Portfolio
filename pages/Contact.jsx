@@ -84,19 +84,35 @@ const Contact = () => {
               <h4 className={`text-white font-medium opacity-60 mb-2 ${
                 isMobile ? 'text-base' : 'text-lg'
               }`}>Phone</h4>
-              <motion.p
-                whileHover={isMobile ? {} : { scale: 1.05 }}
-                transition={{ duration: 0.2 }}
-              >
-                <a 
-                  href="tel:+9199999999" 
-                  className={`text-white hover:text-[#00d4aa] transition-colors duration-300 ${
-                    isMobile ? 'text-lg' : 'text-lg md:text-xl'
-                  }`}
-                >
-                  +91 7380627426
-                </a>
-              </motion.p>
+              <div className="flex flex-col space-y-1">
+  <motion.p
+    whileHover={isMobile ? {} : { scale: 1.05 }}
+    transition={{ duration: 0.2 }}
+  >
+    <a 
+      href="tel:+917380627426" 
+      className={`text-white hover:text-[#00d4aa] transition-colors duration-300 ${
+        isMobile ? 'text-lg' : 'text-lg md:text-xl'
+      }`}
+    >
+      +91 7380627426
+    </a>
+  </motion.p>
+  <motion.p
+    whileHover={isMobile ? {} : { scale: 1.05 }}
+    transition={{ duration: 0.2 }}
+  >
+    <a 
+      href="tel:+971XXXXXXXXX" 
+      className={`text-white hover:text-[#00d4aa] transition-colors duration-300 ${
+        isMobile ? 'text-lg' : 'text-lg md:text-xl'
+      }`}
+    >
+      +971 547172956
+    </a>
+  </motion.p>
+</div>
+
             </div>
           </motion.div>
 
