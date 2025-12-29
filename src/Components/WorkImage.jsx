@@ -4,14 +4,8 @@ import { CardBody, CardContainer, CardItem } from './3d-card';
 const WorkImage = ({ image, project }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isInView, setIsInView] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  const [videoLoaded, setVideoLoaded] = useState(false);
   const videoRef = useRef(null);
   const cardRef = useRef(null);
-
-  useEffect(() => {
-    setIsMobile(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
-  }, []);
 
   const handleViewProject = () => {
     const projectUrl = project.link || project.website;
@@ -21,7 +15,7 @@ const WorkImage = ({ image, project }) => {
   };
 
   const playVideo = () => {
-    if (videoRef.current && videoLoaded) {
+    if (videoRef.current) {
       // Reset all other videos first
       document.querySelectorAll('video').forEach(video => {
         if (video !== videoRef.current) {
@@ -30,9 +24,7 @@ const WorkImage = ({ image, project }) => {
         }
       });
 
-      videoRef.current.play().catch(() => {
-        // Silent fail - video will show first frame on mobile
-      });
+      videoRef.current.play();
     }
   };
 
@@ -45,16 +37,12 @@ const WorkImage = ({ image, project }) => {
 
   const handleMouseEnter = () => {
     setIsHovered(true);
-    if (!isMobile) {
-      playVideo();
-    }
+    playVideo();
   };
 
   const handleMouseLeave = () => {
     setIsHovered(false);
-    if (!isMobile) {
-      pauseVideo();
-    }
+    pauseVideo();
   };
 
   const handleTouch = () => {
@@ -65,13 +53,13 @@ const WorkImage = ({ image, project }) => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsInView(entry.isIntersecting);
-        if (entry.isIntersecting && !isMobile) {
+        if (entry.isIntersecting) {
           playVideo();
-        } else if (!entry.isIntersecting) {
+        } else {
           pauseVideo();
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.5 }
     );
 
     if (cardRef.current) {
@@ -83,7 +71,7 @@ const WorkImage = ({ image, project }) => {
         observer.unobserve(cardRef.current);
       }
     };
-  }, [isMobile, videoLoaded]);
+  }, []);
 
   return (
     <div className="" ref={cardRef}>
@@ -93,6 +81,10 @@ const WorkImage = ({ image, project }) => {
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           onTouchStart={handleTouch}>
+
+
+
+
 
           <CardItem
             translateZ="50"
@@ -115,31 +107,35 @@ const WorkImage = ({ image, project }) => {
             onMouseLeave={handleMouseLeave}
             onTouchStart={handleTouch}>
             <div className={`h-full w-full rounded-xl overflow-hidden transition-all duration-300 ${isHovered ? 'lg:p-2' : 'p-0'} flex items-center justify-center`}>
-              <video
-                ref={videoRef}
-                className="w-full h-full object-contain group-hover/card:shadow-xl"
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                autoPlay={!isMobile}
-                onLoadedData={() => setVideoLoaded(true)}
-                onCanPlay={() => {
-                  if (!isMobile && isInView) {
-                    playVideo();
-                  }
-                }}
-                style={{
-                  objectFit: 'contain',
-                  aspectRatio: '16/9'
-                }}>
-                <source src={image} type="video/webm" />
-                <source src={image.replace('.webm', '.mp4')} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
+             <video
+  ref={videoRef}
+  className="w-full h-full object-contain group-hover/card:shadow-xl"
+  muted
+  loop
+  playsInline
+  autoPlay
+  preload="metadata"
+  style={{
+    objectFit: 'contain',
+    aspectRatio: '16/9'
+  }}
+  onLoadedData={() => {
+    // Force play on mobile when video loads
+    if (videoRef.current && isInView) {
+      videoRef.current.play().catch(() => {
+        // Fallback if autoplay fails
+        console.log('Autoplay failed, video will play on user interaction');
+      });
+    }
+  }}>
+  <source src={image} type="video/mp4" />
+  Your browser does not support the video tag.
+</video>
+
             </div>
           </CardItem>
           <div className="flex justify-between items-center mt-3 flex-shrink-0">
+
             <CardItem
               translateZ={20}
               as="button"
