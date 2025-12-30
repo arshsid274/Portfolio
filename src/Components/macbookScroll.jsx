@@ -312,23 +312,29 @@ export const Lid = ({
         }}
         className="absolute inset-0 h-96 w-[32rem] rounded-2xl bg-[#010101] p-2">
         <div className="absolute inset-0 rounded-lg bg-[#272729]" />
-        <div className="absolute inset-0 h-full w-full rounded-lg overflow-hidden">
-          {src && (
-            <video
-              ref={videoRef}
-              className="h-full w-full object-fill  rounded-lg"
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="auto"
-            >
-              <source src={src} type="video/mp4" />
-              <source src={src.replace('.mp4', '.webm')} type="video/webm" />
-              Your browser does not support the video tag.
-            </video>
-          )}
-        </div>
+    <div className="absolute inset-0 h-full w-full rounded-lg overflow-hidden bg-black ">
+  {src && (
+    <video
+      ref={videoRef}
+      className="w-full h-full rounded-lg"
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="auto"
+      style={{
+        objectFit: 'fill',
+        objectPosition: 'center',
+        backgroundColor: 'black'
+      }}
+    >
+      <source src={src} type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+  )}
+</div>
+
+
       </motion.div>
     </div>
   );
