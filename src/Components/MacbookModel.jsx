@@ -6,14 +6,6 @@ import Lights from './Light'
 import Loader from './Loader'
 import LightRays from './LightRays.jsx'
 
-// Mobile detection
-const isMobileDevice = () => {
-  if (typeof window === 'undefined' || typeof navigator === 'undefined') return false;
-  const userAgent = navigator.userAgent || navigator.vendor || window.opera || '';
-  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent) && window.innerWidth < 1024;
-};
-const isLowMemoryDevice = typeof navigator !== 'undefined' && navigator.deviceMemory && navigator.deviceMemory < 4;
-
 export const MacbookModel = ({ screenImage = "/assets/images/hero.jpeg", scale = [1, 1, 1], onReady }) => {
   const [canvasKey, setCanvasKey] = useState(0);
   const [isReady, setIsReady] = useState(false);
@@ -21,13 +13,6 @@ export const MacbookModel = ({ screenImage = "/assets/images/hero.jpeg", scale =
   const rendererRef = useRef(null);
 
   useEffect(() => {
-    // Skip heavy 3D on mobile devices
-    if (isMobileDevice() || isLowMemoryDevice) {
-      setIsReady(true);
-      if (onReady) onReady();
-      return;
-    }
-
     const timer = setTimeout(() => {
       setIsReady(true);
       setCanvasKey(prev => prev + 1);
@@ -38,9 +23,7 @@ export const MacbookModel = ({ screenImage = "/assets/images/hero.jpeg", scale =
     }, 100);
 
     const handleResize = () => {
-      if (!isMobileDevice()) {
-        setCanvasKey(prev => prev + 1);
-      }
+      setCanvasKey(prev => prev + 1);
     };
 
     window.addEventListener('resize', handleResize, { passive: true });
@@ -68,17 +51,6 @@ export const MacbookModel = ({ screenImage = "/assets/images/hero.jpeg", scale =
     };
   }, []);
 
-  // Return lightweight version for mobile
-  if (isMobileDevice() || isLowMemoryDevice) {
-    return (
-      <div className="w-full h-full relative flex items-center justify-center bg-gradient-to-br from-gray-900 to-black">
-        <div className="text-white/50 text-center">
-          <div className="text-lg mb-2">3D Model</div>
-          <div className="text-sm opacity-70">Optimized for mobile</div>
-        </div>
-      </div>
-    );
-  }
   return (
     <>
     
@@ -98,18 +70,18 @@ export const MacbookModel = ({ screenImage = "/assets/images/hero.jpeg", scale =
           transition: 'opacity 0.3s ease-in-out'
         }}
         gl={{ 
-          antialias: !isMobileDevice(), 
-          powerPreference: isMobileDevice() ? "low-power" : "high-performance", 
+          antialias: true, 
+          powerPreference: "high-performance", 
           alpha: true,
           preserveDrawingBuffer: false,
           stencil: false,
           depth: true
         }}
-        dpr={isMobileDevice() ? [1, 1.5] : [1, 2]}
+        dpr={[1, 2]}
         resize={{ scroll: false, debounce: { scroll: 100, resize: 50 } }}
         onCreated={({ gl }) => {
           rendererRef.current = gl;
-          gl.setPixelRatio(Math.min(window.devicePixelRatio, isMobileDevice() ? 1.5 : 2));
+          gl.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         }}
       >
         <ambientLight intensity={0.3} />
