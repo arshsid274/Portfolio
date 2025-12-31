@@ -4,7 +4,9 @@ import ScreenSizeHelper from './Components/ScreenSizeHelper';
 import MainLoader from './Components/MainLoader.jsx';
 import './App.css'
 import ThreeJSErrorBoundary from './Components/ThreeJSErrorBoundary.jsx';
+import MobileErrorBoundary from './Components/MobileErrorBoundary.jsx';
 import { PageLoadingFallback } from './Components/LoadingFallback.jsx';
+import performanceMonitor from './utils/performanceMonitor.js';
 
 const MacbookScroll = lazy(() => import('./Components/macbookScroll.jsx').then(module => ({ default: module.MacbookScroll })));
 const Home = lazy(() => import('../pages/Home.jsx'));
@@ -20,13 +22,24 @@ function App() {
     macbookScroll: false,
     homeModel: false
   });
+  const [performanceMode, setPerformanceMode] = useState('normal');
+
+  // Listen for memory warnings
+  useEffect(() => {
+    const handleMemoryWarning = (event) => {
+      setPerformanceMode(event.detail.performanceMode);
+    };
+
+    window.addEventListener('memoryWarning', handleMemoryWarning);
+    return () => window.removeEventListener('memoryWarning', handleMemoryWarning);
+  }, []);
 
   // Check if all critical 3D components are ready
   const allComponentsReady = Object.values(componentsReady).every(ready => ready);
 
   useEffect(() => {
-    // Minimum loading time
-    const minLoadingTime = 2000; // 2 seconds minimum
+    // Minimum loading time with performance consideration
+    const minLoadingTime = performanceMonitor.shouldUseReducedQuality() ? 1000 : 2000;
     const startTime = Date.now();
 
     const checkReadiness = () => {
@@ -38,13 +51,10 @@ function App() {
       }
     };
 
-    // Check readiness periodically
     const readinessInterval = setInterval(checkReadiness, 100);
-
-    // Fallback timeout - hide loader after 8 seconds regardless
     const fallbackTimer = setTimeout(() => {
       setIsMainLoading(false);
-    }, 8000);
+    }, performanceMonitor.shouldUseReducedQuality() ? 4000 : 8000);
 
     return () => {
       clearInterval(readinessInterval);
@@ -97,18 +107,22 @@ function App() {
       <Navbar navItems={navItems} socialLinks={socialLinks} />
       <div className="min-h-screen w-full overflow-x-hidden">
         {/* <ScreenSizeHelper /> */}
-        <ThreeJSErrorBoundary fallbackMessage="Unable to load the interactive MacBook display. The portfolio content is still available below.">
-          <Suspense fallback={null}>
-            <MacbookScroll
-              src="https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/home.webm"
-              onReady={() => markComponentReady('macbookScroll')}
-            />
-          </Suspense>
-        </ThreeJSErrorBoundary>
+        <MobileErrorBoundary>
+          <ThreeJSErrorBoundary fallbackMessage="Unable to load the interactive MacBook display. The portfolio content is still available below.">
+            <Suspense fallback={null}>
+              <MacbookScroll
+                src="https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/home.webm"
+                onReady={() => markComponentReady('macbookScroll')}
+              />
+            </Suspense>
+          </ThreeJSErrorBoundary>
+        </MobileErrorBoundary>
 
-        <Suspense fallback={null}>
-          <Home onReady={() => markComponentReady('homeModel')} />
-        </Suspense>
+        <MobileErrorBoundary>
+          <Suspense fallback={null}>
+            <Home onReady={() => markComponentReady('homeModel')} />
+          </Suspense>
+        </MobileErrorBoundary>
 
         <Suspense fallback={<PageLoadingFallback />}>
           <Work />
