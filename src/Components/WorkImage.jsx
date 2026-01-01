@@ -136,7 +136,7 @@ const WorkImage = ({ image, project }) => {
                 muted
                 loop
                 playsInline
-                preload="none" // Important: Don't preload on mobile
+                preload="metadata" // Load metadata to show first frame/thumbnail
                 webkit-playsinline="true"
                 x5-playsinline="true"
                 style={{
