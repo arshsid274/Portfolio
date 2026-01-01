@@ -12,8 +12,8 @@ const MainLoader = ({ isLoading }) => {
         </div>
         <div className="loader-text">
           <h2 className="tech-typography">
-            Please wait while server is building your{' '}
-            <span className="gradient-highlight">3D experience</span>
+To have a best expirence Please open in {' '}
+            <span className="gradient-highlight">Personal Computer</span>
           </h2>
         </div>
       </div>
