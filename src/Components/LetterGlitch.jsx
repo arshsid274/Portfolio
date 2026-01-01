@@ -39,10 +39,10 @@ const LetterGlitch = ({
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result
       ? {
-          r: parseInt(result[1], 16),
-          g: parseInt(result[2], 16),
-          b: parseInt(result[3], 16)
-        }
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+      }
       : null;
   };
 
@@ -77,8 +77,15 @@ const LetterGlitch = ({
     const container = containerRef.current;
     if (!canvas || !container) return;
 
-    const dpr = window.devicePixelRatio || 1;
+    // Cap DPR to 1 for performance on mobile, especially since it's blurred
+    const dpr = 1;
     const containerRect = container.getBoundingClientRect();
+
+    // Ignore small vertical resizes (address bar on mobile) if width hasn't changed
+    if (canvas.width === containerRect.width * dpr &&
+      Math.abs(canvas.height - containerRect.height * dpr) < 100) {
+      return;
+    }
 
     canvas.width = containerRect.width * dpr;
     canvas.height = containerRect.height * dpr;
@@ -98,10 +105,10 @@ const LetterGlitch = ({
 
   const drawLetters = () => {
     if (!context.current || !canvasRef.current || !containerRef.current || letters.current.length === 0) return;
-    
+
     const ctx = context.current;
     const containerRect = containerRef.current.getBoundingClientRect();
-    
+
     ctx.clearRect(0, 0, containerRect.width, containerRect.height);
     ctx.font = `${fontSize}px monospace`;
     ctx.textBaseline = 'top';
@@ -180,14 +187,25 @@ const LetterGlitch = ({
     animate();
 
     let resizeTimeout;
+    let lastWidth = window.innerWidth;
 
     const handleResize = () => {
+      const currentWidth = window.innerWidth;
+      const isMobile = currentWidth < 768;
+
+      // On mobile, ignore resize if width hasn't changed (address bar toggle)
+      if (isMobile && currentWidth === lastWidth) {
+        return;
+      }
+
+      lastWidth = currentWidth;
+
       clearTimeout(resizeTimeout);
       resizeTimeout = setTimeout(() => {
         cancelAnimationFrame(animationRef.current);
         resizeCanvas();
         animate();
-      }, 100);
+      }, 200);
     };
 
     window.addEventListener('resize', handleResize);
@@ -195,6 +213,7 @@ const LetterGlitch = ({
     return () => {
       cancelAnimationFrame(animationRef.current);
       window.removeEventListener('resize', handleResize);
+      clearTimeout(resizeTimeout);
     };
   }, [glitchSpeed, smooth]);
 

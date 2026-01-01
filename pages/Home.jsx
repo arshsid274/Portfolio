@@ -1,7 +1,8 @@
-import { useEffect, useState, Suspense, lazy } from "react";
+import { useEffect, useState, Suspense, lazy, useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useInView } from "framer-motion";
 
 import LetterGlitch from "../src/Components/LetterGlitch.jsx";
 import BlurText from "../src/Components/BlurText.jsx";
@@ -15,6 +16,10 @@ const MacbookModel = lazy(() => import("../src/Components/MacbookModel.jsx").the
 gsap.registerPlugin(ScrollTrigger);
 
 function Home({ onReady }) {
+  const containerRef = useRef(null);
+  // Load when the component is within 500px of the viewport
+  const isInView = useInView(containerRef, { once: true, margin: "0px 0px 500px 0px" });
+
   const [isMobile, setIsMobile] = useState(false);
   const [devicePixelRatio, setDevicePixelRatio] = useState(1);
   const [browserZoom, setBrowserZoom] = useState(1);
@@ -131,19 +136,9 @@ function Home({ onReady }) {
 
   const scale = calculateDynamicScale();
 
-  // Force Canvas refresh when viewport changes
-  const [canvasRefresh, setCanvasRefresh] = useState(0);
-
-  useEffect(() => {
-    const refreshTimer = setTimeout(() => {
-      setCanvasRefresh(prev => prev + 1);
-    }, 300);
-
-    return () => clearTimeout(refreshTimer);
-  }, [effectiveViewport, scale]);
-
   return (
     <div
+      ref={containerRef}
       id="home-section"
       className="flex justify-center items-center relative bg-black text-white"
       style={{
@@ -154,12 +149,14 @@ function Home({ onReady }) {
       }}
     >
       <div className="absolute inset-0 z-0" style={{ filter: 'blur(2px)' }}>
-        <LetterGlitch
-          glitchSpeed={50}
-          centerVignette={true}
-          outerVignette={false}
-          smooth={true}
-        />
+        {isInView && (
+          <LetterGlitch
+            glitchSpeed={50}
+            centerVignette={true}
+            outerVignette={false}
+            smooth={true}
+          />
+        )}
       </div>
 
       <div
@@ -182,17 +179,17 @@ function Home({ onReady }) {
             minHeight: isMobile ? '250px' : '500px'
           }}
         >
-
-          <ThreeJSErrorBoundary fallbackMessage="Unable to load the 3D MacBook model. The content is still available.">
-            <Suspense fallback={<ThreeJSLoadingFallback />}>
-              {isMobile ? (
-                <MacbookModel key={`mobile-${canvasRefresh}`} screenImage="/react.svg" scale={[4, 4, 4]} />
-              ) : (
-                <MacbookModel key={`desktop-${canvasRefresh}`} screenImage="/react.svg" scale={[7, 7, 7]} />
-              )}
-            </Suspense>
-          </ThreeJSErrorBoundary>
-
+          {isInView && (
+            <ThreeJSErrorBoundary fallbackMessage="Unable to load the 3D MacBook model. The content is still available.">
+              <Suspense fallback={<ThreeJSLoadingFallback />}>
+                {isMobile ? (
+                  <MacbookModel screenImage="/react.svg" scale={[4, 4, 4]} isMobile={true} />
+                ) : (
+                  <MacbookModel screenImage="/react.svg" scale={[7, 7, 7]} isMobile={false} />
+                )}
+              </Suspense>
+            </ThreeJSErrorBoundary>
+          )}
         </div>
 
         <div className={`${isMobile ? 'order-2 w-full relative z-10' : 'order-2 lg:order-1 mx-20 relative z-10'} flex flex-col items-center justify-center gap-4`}>
@@ -237,15 +234,6 @@ function Home({ onReady }) {
               <button className={`${isMobile ? 'text-lg px-4 py-2' : 'text-xl px-6 py-3'} bg-gray-200 dark:bg-gray-700 rounded-full`}>
                 Contact Me
               </button>
-
-
-              {/* <h1 className="cyan-glow-text">Apple Website Clone</h1>
-
-// Vibrant glow
-<h1 className="cyan-glow-vibrant">Apple Website Clone</h1>
-
-// Animated glow
-<h1 className="cyan-glow-animated">Apple Website Clone</h1> */}
             </div>
           </div>
         </div>

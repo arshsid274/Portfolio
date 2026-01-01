@@ -4,8 +4,13 @@ import { CardBody, CardContainer, CardItem } from './3d-card';
 const WorkImage = ({ image, project }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isInView, setIsInView] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const videoRef = useRef(null);
   const cardRef = useRef(null);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
 
   const handleViewProject = () => {
     const projectUrl = project.link || project.website;
@@ -14,60 +19,75 @@ const WorkImage = ({ image, project }) => {
     }
   };
 
-const playVideo = () => {
-  if (videoRef.current) {
-    document.querySelectorAll('video').forEach(video => {
-      if (video !== videoRef.current) {
-        video.pause();
-        video.currentTime = 0;
+  const playVideo = () => {
+    if (videoRef.current) {
+      // Only pause other videos if not on mobile to prevent performance issues
+      if (!isMobile) {
+        const videos = document.querySelectorAll('video');
+        videos.forEach(video => {
+          if (video !== videoRef.current && !video.paused) {
+            video.pause();
+          }
+        });
       }
-    });
-    
-    // Force play with promise handling for mobile
-    const playPromise = videoRef.current.play();
-    if (playPromise !== undefined) {
-      playPromise.catch(() => {
-        // Autoplay failed, but video will show first frame
-      });
-    }
-  }
-};
 
+      const playPromise = videoRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Autoplay failed
+        });
+      }
+    }
+  };
 
   const pauseVideo = () => {
     if (videoRef.current) {
       videoRef.current.pause();
-      videoRef.current.currentTime = 0;
     }
   };
 
   const handleMouseEnter = () => {
-    setIsHovered(true);
-    playVideo();
+    if (!isMobile) {
+      setIsHovered(true);
+      playVideo();
+    }
   };
 
   const handleMouseLeave = () => {
-    setIsHovered(false);
-    pauseVideo();
+    if (!isMobile) {
+      setIsHovered(false);
+      pauseVideo();
+    }
   };
 
   const handleTouch = () => {
-    playVideo();
-  };
-
-useEffect(() => {
-  const observer = new IntersectionObserver(
-    ([entry]) => {
-      setIsInView(entry.isIntersecting);
-      if (entry.isIntersecting) {
-        setTimeout(() => playVideo(), 100);
+    // On mobile, toggle play/pause on touch
+    if (videoRef.current) {
+      if (videoRef.current.paused) {
+        playVideo();
+        setIsHovered(true);
       } else {
         pauseVideo();
+        setIsHovered(false);
       }
-    },
-    { threshold: 0.5 }
-  );
+    }
+  };
 
+  useEffect(() => {
+    // Disable intersection observer autoplay on mobile
+    if (isMobile) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          setTimeout(() => playVideo(), 100);
+        } else {
+          pauseVideo();
+        }
+      },
+      { threshold: 0.5 }
+    );
 
     if (cardRef.current) {
       observer.observe(cardRef.current);
@@ -78,7 +98,7 @@ useEffect(() => {
         observer.unobserve(cardRef.current);
       }
     };
-  }, []);
+  }, [isMobile]);
 
   return (
     <div className="" ref={cardRef}>
@@ -88,10 +108,6 @@ useEffect(() => {
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           onTouchStart={handleTouch}>
-
-
-
-
 
           <CardItem
             translateZ="50"
@@ -114,32 +130,23 @@ useEffect(() => {
             onMouseLeave={handleMouseLeave}
             onTouchStart={handleTouch}>
             <div className={`h-full w-full rounded-xl overflow-hidden transition-all duration-300 ${isHovered ? 'lg:p-2' : 'p-0'} flex items-center justify-center`}>
-             <video
-  ref={videoRef}
-  className="w-full h-full object-contain group-hover/card:shadow-xl"
-  muted
-  loop
-  playsInline
-  autoPlay
-  preload="metadata"
-    webkit-playsinline="true"
-  x5-playsinline="true"
-  style={{
-    objectFit: 'contain',
-    aspectRatio: '16/9'
-  }}
-  onLoadedData={() => {
-    // Force play on mobile when video loads
-    if (videoRef.current && isInView) {
-      videoRef.current.play().catch(() => {
-        // Fallback if autoplay fails
-        console.log('Autoplay failed, video will play on user interaction');
-      });
-    }
-  }}>
-  <source src={image} type="video/webm" />
-  Your browser does not support the video tag.
-</video>
+              <video
+                ref={videoRef}
+                className="w-full h-full object-contain group-hover/card:shadow-xl"
+                muted
+                loop
+                playsInline
+                preload="none" // Important: Don't preload on mobile
+                webkit-playsinline="true"
+                x5-playsinline="true"
+                style={{
+                  objectFit: 'contain',
+                  aspectRatio: '16/9'
+                }}
+              >
+                <source src={image} type="video/webm" />
+                Your browser does not support the video tag.
+              </video>
 
             </div>
           </CardItem>
