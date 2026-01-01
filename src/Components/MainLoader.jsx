@@ -11,10 +11,10 @@ const MainLoader = ({ isLoading }) => {
           <div className="spinner1"></div>
         </div>
         <div className="loader-text">
-          <h2 className="tech-typography">
-To have a best expirence Please open in {' '}
-            <span className="gradient-highlight">Personal Computer</span>
-          </h2>
+  <h2 className="tech-typography">
+  Best viewed on a{' '}
+  <span className="gradient-highlight">desktop device</span>.
+</h2>
         </div>
       </div>
     </div>
