@@ -50,17 +50,10 @@ export const MacbookModel = ({ screenImage = "/assets/images/hero.jpeg", scale =
           }}
           dpr={isMobile ? 1 : [1, 2]} // Strictly cap DPR to 1 on mobile
         >
-          {isMobile ? (
-            <>
-              <ambientLight intensity={1.5} />
-              <directionalLight position={[10, 10, 5]} intensity={1} />
-            </>
-          ) : (
-            <>
-              <ambientLight intensity={0.3} />
-              <Lights />
-            </>
-          )}
+          <>
+            <ambientLight intensity={0.3} />
+            <Lights />
+          </>
           <PerspectiveCamera makeDefault position={[0, 0, 4]} />
 
           <OrbitControls

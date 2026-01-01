@@ -5,6 +5,7 @@ const WorkImage = ({ image, project }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isInView, setIsInView] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
   const videoRef = useRef(null);
   const cardRef = useRef(null);
 
@@ -61,6 +62,9 @@ const WorkImage = ({ image, project }) => {
   };
 
   const handleTouch = () => {
+    // If it's mobile and we have a youtube ID, we don't want to use the video tag logic
+    if (isMobile && project.youtubeId) return;
+
     // On mobile, toggle play/pause on touch
     if (videoRef.current) {
       if (videoRef.current.paused) {
@@ -74,16 +78,21 @@ const WorkImage = ({ image, project }) => {
   };
 
   useEffect(() => {
-    // Disable intersection observer autoplay on mobile
-    if (isMobile) return;
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsInView(entry.isIntersecting);
         if (entry.isIntersecting) {
-          setTimeout(() => playVideo(), 100);
+          if (isMobile && project.youtubeId) {
+            setShowVideo(true);
+          } else {
+            setTimeout(() => playVideo(), 100);
+          }
         } else {
-          pauseVideo();
+          if (isMobile && project.youtubeId) {
+            setShowVideo(false);
+          } else {
+            pauseVideo();
+          }
         }
       },
       { threshold: 0.5 }
@@ -98,7 +107,7 @@ const WorkImage = ({ image, project }) => {
         observer.unobserve(cardRef.current);
       }
     };
-  }, [isMobile]);
+  }, [isMobile, project.youtubeId]);
 
   return (
     <div className="" ref={cardRef}>
@@ -130,23 +139,50 @@ const WorkImage = ({ image, project }) => {
             onMouseLeave={handleMouseLeave}
             onTouchStart={handleTouch}>
             <div className={`h-full w-full rounded-xl overflow-hidden transition-all duration-300 ${isHovered ? 'lg:p-2' : 'p-0'} flex items-center justify-center`}>
-              <video
-                ref={videoRef}
-                className="w-full h-full object-contain group-hover/card:shadow-xl"
-                muted
-                loop
-                playsInline
-                preload="metadata" // Load metadata to show first frame/thumbnail
-                webkit-playsinline="true"
-                x5-playsinline="true"
-                style={{
-                  objectFit: 'contain',
-                  aspectRatio: '16/9'
-                }}
-              >
-                <source src={image} type="video/webm" />
-                Your browser does not support the video tag.
-              </video>
+              {isMobile && project.youtubeId ? (
+                // Safe YouTube rendering for mobile
+                showVideo ? (
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    src={`https://www.youtube.com/embed/${project.youtubeId}?autoplay=1&playsinline=1&mute=1&loop=1&playlist=${project.youtubeId}&controls=0`}
+                    title={project.title}
+                    allow="autoplay; encrypted-media"
+                    allowFullScreen
+                    className="w-full h-full object-cover rounded-xl pointer-events-none"
+                    style={{ border: 'none' }}
+                  />
+                ) : (
+                  <div
+                    className="w-full h-full relative"
+                  >
+                    <img
+                      src={`https://img.youtube.com/vi/${project.youtubeId}/hqdefault.jpg`}
+                      alt={project.title}
+                      className="w-full h-full object-cover rounded-xl"
+                    />
+                  </div>
+                )
+              ) : (
+                // Desktop or no-YouTube rendering
+                <video
+                  ref={videoRef}
+                  className="w-full h-full object-contain group-hover/card:shadow-xl"
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata" // Load metadata to show first frame/thumbnail
+                  webkit-playsinline="true"
+                  x5-playsinline="true"
+                  style={{
+                    objectFit: 'contain',
+                    aspectRatio: '16/9'
+                  }}
+                >
+                  <source src={image} type="video/webm" />
+                  Your browser does not support the video tag.
+                </video>
+              )}
 
             </div>
           </CardItem>

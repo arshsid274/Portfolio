@@ -29,7 +29,7 @@ const workData = [
     tools: "React, Three.js, Gsap, Tailwind css",
     image: "https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/MacbookLanding.webm",
     website: "https://macbook-landing-page-main.vercel.app/",
-
+    youtubeId: "U_Q3vTEMFXM"
   },
   {
     id: 2,
@@ -38,7 +38,7 @@ const workData = [
     tools: "React, Three.js, Gsap, Tailwind css",
     image: "https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/AppleClone.webm",
     website: "https://apple-website-clone-psi.vercel.app/",
-
+    youtubeId: "vAEUFD0yjuU"
   },
   {
     id: 3,
@@ -47,8 +47,7 @@ const workData = [
     tools: "Vue, Nuxt, PrimeVue,Tailwind css,Headless Ui,HeroIcon",
     image: "https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/Vaslai.webm",
     website: "https://www.vaslai.com/",
-
-
+    youtubeId: ""
   },
   {
     id: 4,
@@ -56,7 +55,8 @@ const workData = [
     category: "Business management  app for Laundery ",
     tools: "React,Tailwind css,Firebase,Node js ,express js",
     image: "https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/DirtOffFullStack.webm",
-    link: "https://dirt-off-frontend.vercel.app/"
+    link: "https://dirt-off-frontend.vercel.app/",
+    youtubeId: "WkF8oSODYY0"
   },
   {
     id: 5,
@@ -64,7 +64,8 @@ const workData = [
     category: "Banquet Management app for Hotels ",
     tools: "React,Tailwind css, Axios, DaisyUi,React Router DOM,Node js ,Express js,MongoDB",
     image: "https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/BuddhaAvenue.webm",
-    link: "https://budha-avenue-frontend.vercel.app/"
+    link: "https://budha-avenue-frontend.vercel.app/",
+    youtubeId: "zpizLBLpiuA"
   },
   {
     id: 6,
@@ -73,7 +74,7 @@ const workData = [
     tools: "HTML ,CSS ,Javascript,jQuery,Bootstrap",
     image: "https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/Dirtoffstatic.webm",
     website: "https://www.dirtoff.in/",
-
+    youtubeId: "83sNxZXAqLY"
   },
   {
     id: 7,
@@ -82,7 +83,7 @@ const workData = [
     tools: "HTML ,CSS ,Javascript,jQuery,Gsap,Bootstrap",
     image: "https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/ShineInfosoultion.webm",
     website: "https://www.shinetravels.co.in/",
-
+    youtubeId: ""
   },
   {
     id: 8,
@@ -91,7 +92,7 @@ const workData = [
     tools: "HTML ,CSS ,Javascript,jQuery,Bootstrap",
     image: "https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/Regalia.webm",
     website: "https://www.theregaliaresort.in/",
-
+    youtubeId: "fylKquzqlGk"
   },
   {
     id: 9,
@@ -100,7 +101,7 @@ const workData = [
     tools: "React, Tailwind css,React Router,FontAwesome ,Lucid React",
     image: "https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/DesignOrientArchitect.webm",
     website: "https://www.architectsdo.com/",
-
+    youtubeId: "tAq3MFf8lbw"
   },
   {
     id: 10,
@@ -109,7 +110,7 @@ const workData = [
     tools: "HTML ,CSS ,Javascript,jQuery,Bootstrap",
     image: "https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/IshanTravels.webm",
     website: "https://ishan-travel.vercel.app/",
-
+    youtubeId: "T84r6NnofXU"
   },
   {
     id: 11,
@@ -118,7 +119,7 @@ const workData = [
     tools: "HTML ,CSS ,Javascript,jQuery,Bootstrap",
     image: "https://cdn.jsdelivr.net/gh/arshsid274/Portfolio-assets@main/Rajvillas.webm",
     website: "https://rajvillas-final.vercel.app/",
-
+    youtubeId: "y6PBgdFMme4"
   }
 ];
 
