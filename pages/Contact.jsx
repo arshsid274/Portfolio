@@ -1,190 +1,142 @@
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { MdArrowOutward, MdCopyright } from "react-icons/md";
+import React, { useState } from 'react'
+import { BackgroundBeamsWithCollision } from '../src/Components/BackgroundBeamsWithCollisionDemo.jsx';
+import { Globe } from '@/Components/ui/globe.jsx';
 
 const Contact = () => {
-  const [isMobile, setIsMobile] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    phone: '',
+    email: '',
+    subject: ''
+  });
+  const [errors, setErrors] = useState({});
 
-  useEffect(() => {
-    const checkScreenSize = () => {
-      const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-      setIsMobile(vw < 768);
-    };
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (errors[e.target.name]) {
+      setErrors({ ...errors, [e.target.name]: '' });
+    }
+  };
 
-    checkScreenSize();
-    
-    const debouncedResize = () => {
-      setTimeout(checkScreenSize, 150);
-    };
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.firstName.trim()) newErrors.firstName = 'First name required';
+    if (!formData.lastName.trim()) newErrors.lastName = 'Last name required';
+    if (!formData.phone.trim()) newErrors.phone = 'Phone number required';
+    if (!formData.email.trim()) newErrors.email = 'Email required';
+    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Invalid email';
+    if (!formData.subject.trim()) newErrors.subject = 'Subject required';
+    return newErrors;
+  };
 
-    window.addEventListener('resize', debouncedResize);
-    window.addEventListener('orientationchange', debouncedResize);
-
-    return () => {
-      window.removeEventListener('resize', debouncedResize);
-      window.removeEventListener('orientationchange', debouncedResize);
-    };
-  }, []);
-
-  const socialLinks = [
-    { name: "Github", url: "https://github.com/arshsid274", icon: MdArrowOutward },
-    { name: "Linkedin", url: "www.linkedin.com/in/arsh-sid-b645b62b2", icon: MdArrowOutward },
-    // { name: "Twitter", url: "https://x.com", icon: MdArrowOutward },
-    // { name: "Instagram", url: "https://www.instagram.com", icon: MdArrowOutward }
-  ];
-
-
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const newErrors = validateForm();
+    if (Object.keys(newErrors).length === 0) {
+      console.log('Form submitted:', formData);
+    } else {
+      setErrors(newErrors);
+    }
+  };
 
   return (
-    <section className="relative bg-black py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8" id="contact">
-      <div className="max-w-7xl mx-auto">
-        <motion.h3 
-          className={`gradient-text font-normal uppercase mb-8 sm:mb-12 md:mb-16 ${
-            isMobile ? 'text-3xl' : 'text-4xl md:text-5xl lg:text-6xl'
-          }`}
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
-          Contact
-        </motion.h3>
+    <BackgroundBeamsWithCollision
+      beamGradient="linear-gradient(184deg, #4b8da8 0%, #38d9a9 52%, #155dfc 100%) " className={'h-[100vh]'}
+    >
+      <div className="px-8 ">
+        <h2 className="text-2xl relative z-20 md:text-4xl lg:text-7xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-[#4b8da8] via-[#38d9a9] to-[#155dfc] pt-16 mb-8">
+          Contact Me.
+        </h2>
 
-        <div className={`flex flex-col lg:flex-row justify-between ${
-          isMobile ? 'gap-8' : 'gap-16 lg:gap-8'
-        }`}>
-          {/* Contact Info */}
-          <motion.div 
-            className={`flex flex-col ${isMobile ? 'space-y-6' : 'space-y-8'}`}
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            <div>
-              <h4 className={`text-white font-medium opacity-60 mb-2 ${
-                isMobile ? 'text-base' : 'text-lg'
-              }`}>Email</h4>
-              <motion.p
-                whileHover={isMobile ? {} : { scale: 1.05 }}
-                transition={{ duration: 0.2 }}
-              >
-                <a 
-                  href="mailto:example@mail.com" 
-                  className={`text-white hover:text-[#00d4aa] transition-colors duration-300 ${
-                    isMobile ? 'text-lg' : 'text-lg md:text-xl'
-                  }`}
+        <div className='bg-black/80 backdrop-blur-sm rounded-lg min-w-[90%] sm:min-w-[85%] md:min-w-[80%] xl:min-w-[50%] 2xl:min-w-[60%] mx-auto relative z-20 overflow-hidden min-h-[40vh] sm:min-h-[45vh] md:min-h-[50vh] p-4 sm:p-6 md:p-8'>
+
+          <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-0'>
+
+            {/* Form */}
+            <div className="p-6">
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <input
+                      type="text"
+                      name="firstName"
+                      placeholder="First Name"
+                      value={formData.firstName}
+                      onChange={handleChange}
+                      className="w-full p-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/70 focus:outline-none focus:border-[#38d9a9]"
+                    />
+                    {errors.firstName && <p className="text-red-400 text-sm mt-1">{errors.firstName}</p>}
+                  </div>
+                  <div>
+                    <input
+                      type="text"
+                      name="lastName"
+                      placeholder="Last Name"
+                      value={formData.lastName}
+                      onChange={handleChange}
+                      className="w-full p-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/70 focus:outline-none focus:border-[#38d9a9]"
+                    />
+                    {errors.lastName && <p className="text-red-400 text-sm mt-1">{errors.lastName}</p>}
+                  </div>
+                </div>
+
+                <div>
+                  <input
+                    type="tel"
+                    name="phone"
+                    placeholder="Phone Number"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    className="w-full p-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/70 focus:outline-none focus:border-[#38d9a9]"
+                  />
+                  {errors.phone && <p className="text-red-400 text-sm mt-1">{errors.phone}</p>}
+                </div>
+
+                <div>
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="w-full p-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/70 focus:outline-none focus:border-[#38d9a9]"
+                  />
+                  {errors.email && <p className="text-red-400 text-sm mt-1">{errors.email}</p>}
+                </div>
+
+                <div>
+                  <textarea
+                    name="subject"
+                    placeholder="Subject"
+                    rows="4"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    className="w-full p-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/70 focus:outline-none focus:border-[#38d9a9] resize-none"
+                  />
+                  {errors.subject && <p className="text-red-400 text-sm mt-1">{errors.subject}</p>}
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full p-3 bg-gradient-to-r from-[#4b8da8] via-[#38d9a9] to-[#155dfc] text-white font-semibold rounded-lg hover:opacity-90 transition-opacity"
                 >
-                  arshsid274@gmail.com
-                </a>
-              </motion.p>
+                  Send Message
+                </button>
+              </form>
             </div>
-            
-            <div>
-              <h4 className={`text-white font-medium opacity-60 mb-2 ${
-                isMobile ? 'text-base' : 'text-lg'
-              }`}>Phone</h4>
-              <div className="flex flex-col space-y-1">
-  <motion.p
-    whileHover={isMobile ? {} : { scale: 1.05 }}
-    transition={{ duration: 0.2 }}
-  >
-    <a 
-      href="tel:+917380627426" 
-      className={`text-white hover:text-[#00d4aa] transition-colors duration-300 ${
-        isMobile ? 'text-lg' : 'text-lg md:text-xl'
-      }`}
-    >
-      +91 7380627426
-    </a>
-  </motion.p>
-  <motion.p
-    whileHover={isMobile ? {} : { scale: 1.05 }}
-    transition={{ duration: 0.2 }}
-  >
-    <a 
-      href="tel:+971XXXXXXXXX" 
-      className={`text-white hover:text-[#00d4aa] transition-colors duration-300 ${
-        isMobile ? 'text-lg' : 'text-lg md:text-xl'
-      }`}
-    >
-      +971 547172956
-    </a>
-  </motion.p>
-</div>
 
+            {/* Globe */}
+            <div className="relative h-full flex justify-end pr-6">
+              <div className="w-100 h-100 relative">
+                <Globe className="!absolute !right-0 !left-auto !mx-0" />
+              </div>
             </div>
-          </motion.div>
 
-          {/* Social Links */}
-          <motion.div 
-            className={`flex flex-col ${isMobile ? 'space-y-3' : 'space-y-4'}`}
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            viewport={{ once: true }}
-          >
-            <h4 className={`text-white font-medium opacity-60 mb-2 ${
-              isMobile ? 'text-base' : 'text-lg'
-            }`}>Social</h4>
-            {socialLinks.map((link, index) => (
-              <motion.a
-                key={index}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`text-white border-b border-gray-400 pb-1 flex items-center gap-2 hover:text-[#00d4aa] hover:border-[#00d4aa] transition-all duration-300 w-fit ${
-                  isMobile ? 'text-lg' : 'text-xl lg:text-2xl'
-                }`}
-                whileHover={isMobile ? { scale: 1.05 } : { x: 10 }}
-                whileTap={isMobile ? { scale: 0.95 } : {}}
-                transition={{ duration: 0.2 }}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                style={{ transitionDelay: `${index * 0.1}s` }}
-              >
-                {link.name} <MdArrowOutward className={isMobile ? 'text-base' : 'text-lg'} />
-              </motion.a>
-            ))}
-          </motion.div>
-
-          {/* Credits */}
-          <motion.div 
-            className={`flex flex-col ${isMobile ? 'justify-start mt-4' : 'justify-end'}`}
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <motion.h2 
-              className={`text-white font-normal mb-4 ${
-                isMobile ? 'text-base' : 'text-lg md:text-xl'
-              }`}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-              viewport={{ once: true }}
-            >
-              Designed and Developed <br /> 
-              with <span className="text-[#00d4aa]">❤</span>  by <span className="text-[#00d4aa]">Mohammad Arsh</span>
-            </motion.h2>
-            
-            <motion.h5 
-              className={`text-white font-medium flex items-center gap-2 opacity-50 ${
-                isMobile ? 'text-base' : 'text-lg'
-              }`}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 0.5 }}
-              transition={{ duration: 0.6, delay: 1 }}
-              viewport={{ once: true }}
-            >
-              <MdCopyright className={isMobile ? 'text-sm' : 'text-base'} /> 2025
-            </motion.h5>
-          </motion.div>
+          </div>
         </div>
       </div>
-    </section>
+    </BackgroundBeamsWithCollision>
   );
 };
 
