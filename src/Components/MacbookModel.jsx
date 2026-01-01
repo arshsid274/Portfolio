@@ -1,6 +1,6 @@
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls, PerspectiveCamera } from '@react-three/drei'
-import { Suspense, useState, useEffect, useRef } from 'react'
+import { Suspense, useState, useEffect } from 'react'
 import Macbook from './Macbook'
 import Lights from './Light'
 import Loader from './Loader'
@@ -9,48 +9,31 @@ import LightRays from './LightRays.jsx'
 export const MacbookModel = ({ screenImage = "/assets/images/hero.jpeg", scale = [1, 1, 1], onReady }) => {
   const [canvasKey, setCanvasKey] = useState(0);
   const [isReady, setIsReady] = useState(false);
-  const canvasRef = useRef(null);
-  const rendererRef = useRef(null);
 
   useEffect(() => {
+    // Force Canvas re-render after mount
     const timer = setTimeout(() => {
       setIsReady(true);
       setCanvasKey(prev => prev + 1);
       
+      // Report readiness after a short delay to ensure model is fully loaded
       setTimeout(() => {
         if (onReady) onReady();
       }, 500);
     }, 100);
 
+    // Handle resize to refresh Canvas
     const handleResize = () => {
       setCanvasKey(prev => prev + 1);
     };
 
-    window.addEventListener('resize', handleResize, { passive: true });
+    window.addEventListener('resize', handleResize);
     
     return () => {
       clearTimeout(timer);
       window.removeEventListener('resize', handleResize);
     };
   }, [onReady]);
-
-  // Memory cleanup
-  useEffect(() => {
-    return () => {
-      if (rendererRef.current) {
-        rendererRef.current.dispose();
-        rendererRef.current = null;
-      }
-      
-      // Force cleanup
-      if (window.requestIdleCallback) {
-        window.requestIdleCallback(() => {
-          if (window.gc) window.gc();
-        });
-      }
-    };
-  }, []);
-
   return (
     <>
     
@@ -73,16 +56,10 @@ export const MacbookModel = ({ screenImage = "/assets/images/hero.jpeg", scale =
           antialias: true, 
           powerPreference: "high-performance", 
           alpha: true,
-          preserveDrawingBuffer: false,
-          stencil: false,
-          depth: true
+          preserveDrawingBuffer: true
         }}
         dpr={[1, 2]}
-        resize={{ scroll: false, debounce: { scroll: 100, resize: 50 } }}
-        onCreated={({ gl }) => {
-          rendererRef.current = gl;
-          gl.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        }}
+        resize={{ scroll: false, debounce: { scroll: 50, resize: 0 } }}
       >
         <ambientLight intensity={0.3} />
         <PerspectiveCamera makeDefault position={[0, 0, 4]} />
