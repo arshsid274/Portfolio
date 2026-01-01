@@ -1,9 +1,25 @@
 import React, { useEffect, useState, useRef } from 'react';
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useInView } from "framer-motion";
 import WorkImage from '../src/Components/WorkImage';
 
 gsap.registerPlugin(ScrollTrigger);
+
+const LazyWorkImage = ({ image, project }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "200px" });
+
+  return (
+    <div ref={ref} className="w-full h-full">
+      {isInView ? (
+        <WorkImage image={image} project={project} />
+      ) : (
+        <div className="w-full h-full bg-gray-900/50 animate-pulse rounded-xl" />
+      )}
+    </div>
+  );
+};
 
 const workData = [
   {
@@ -160,7 +176,7 @@ const Work = () => {
     // Small delay to ensure DOM is ready
     const timer = setTimeout(() => {
       const cards = document.querySelectorAll('#work .work-card');
-      
+
       cards.forEach((card, index) => {
         // Set initial state without animation
         gsap.set(card, {
@@ -320,7 +336,7 @@ const Work = () => {
                   backgroundColor: 'transparent'
                 }}
               >
-                <WorkImage image={project.image} project={project} />
+                <LazyWorkImage image={project.image} project={project} />
               </div>
             </div>
           ))}
