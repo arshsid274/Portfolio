@@ -118,7 +118,7 @@ const Experience = () => {
               <h3>2025</h3>
             </div>
             <p>
-              Full-stack Intern at shine Infosolutions — Built responsive UIs, role-based CRUD APIs, optimized static business sites with SEO, integrated APIs, and supported team mentoring & offline Raspberry Pi deployment.
+              Full-stack Developer at shine Infosolutions — Built responsive UIs, role-based CRUD APIs, optimized static business sites with SEO, integrated APIs, and supported team mentoring & offline Raspberry Pi deployment.
             </p>
           </div>
           <div className="career-info-box" style={{ opacity: 0.8 }}>
